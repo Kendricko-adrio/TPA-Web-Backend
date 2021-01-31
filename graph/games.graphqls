@@ -1,0 +1,17 @@
+
+type Game {
+    ID: Int!
+    Name: String!
+    Description: String!
+    Price: Int!
+    Rating: Int!
+    Image: String!
+    users: [User!]!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type Query{
+    allGame : [Game!]!
+}

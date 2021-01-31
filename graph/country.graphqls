@@ -1,0 +1,9 @@
+type Country{
+    ID          : Int!
+    Name        : String!
+    Code        : String!
+}
+
+extend type Query {
+    getAllCountry : [Country!]!
+}

@@ -1,0 +1,4 @@
+type Status{
+    statusId : Int!
+    statusName: String!
+}

@@ -1,0 +1,67 @@
+scalar Time
+type User{
+    ID: Int!
+    userName: String!
+    password: String!
+    FirstName: String!
+    LastName: String!
+    AuthToken: String!
+    Email: String!
+    IdToken: String!
+    PhotoUrl: String!
+    Provider: Provider!
+    ProviderId: Int!
+    CountryId : Int!
+    Country: Country!
+    status: Status!
+    statusId: Int!
+    otp: String!
+    games: [Game!]!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+extend type Query {
+    getUsers: [User!]!
+    getUser(input: email): User!
+    getAuthUser:User!
+}
+
+input email{
+    Email: String!
+}
+
+input NewUser{
+    FirstName: String!
+    LastName: String!
+    AuthToken: String!
+    Email: String!
+    IdToken: String!
+    PhotoUrl: String!
+    ProviderId: Int!
+}
+
+input CreateAccount{
+    email : String!
+    countryId : Int!
+}
+
+input FinalizeAccount{
+    userName: String!
+    password: String!
+    otp: String!
+}
+
+input Login{
+    username: String!
+    password: String!
+}
+
+type Mutation{
+    createUser(input: NewUser!): User!
+    createAccount(input: CreateAccount!): User!
+    createFullAccount(input: FinalizeAccount!):String!
+    loginUser(input: Login!): String!
+    logoutUser(username: String!): User!
+}
