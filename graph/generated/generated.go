@@ -50,6 +50,23 @@ type ComplexityRoot struct {
 		Name func(childComplexity int) int
 	}
 
+	FriendStatus struct {
+		FriendStatusID func(childComplexity int) int
+		StatusName     func(childComplexity int) int
+	}
+
+	FriendsDetail struct {
+		CreatedAt      func(childComplexity int) int
+		DeletedAt      func(childComplexity int) int
+		FriendStatus   func(childComplexity int) int
+		FriendStatusID func(childComplexity int) int
+		UpdatedAt      func(childComplexity int) int
+		User1          func(childComplexity int) int
+		User1id        func(childComplexity int) int
+		User2          func(childComplexity int) int
+		User2id        func(childComplexity int) int
+	}
+
 	Game struct {
 		CreatedAt   func(childComplexity int) int
 		DeletedAt   func(childComplexity int) int
@@ -98,7 +115,6 @@ type ComplexityRoot struct {
 		Email      func(childComplexity int) int
 		FirstName  func(childComplexity int) int
 		Games      func(childComplexity int) int
-		ID         func(childComplexity int) int
 		IDToken    func(childComplexity int) int
 		LastName   func(childComplexity int) int
 		Otp        func(childComplexity int) int
@@ -109,6 +125,7 @@ type ComplexityRoot struct {
 		Status     func(childComplexity int) int
 		StatusID   func(childComplexity int) int
 		UpdatedAt  func(childComplexity int) int
+		UserID     func(childComplexity int) int
 		UserName   func(childComplexity int) int
 	}
 }
@@ -163,6 +180,83 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Country.Name(childComplexity), true
+
+	case "FriendStatus.friendStatusId":
+		if e.complexity.FriendStatus.FriendStatusID == nil {
+			break
+		}
+
+		return e.complexity.FriendStatus.FriendStatusID(childComplexity), true
+
+	case "FriendStatus.statusName":
+		if e.complexity.FriendStatus.StatusName == nil {
+			break
+		}
+
+		return e.complexity.FriendStatus.StatusName(childComplexity), true
+
+	case "FriendsDetail.CreatedAt":
+		if e.complexity.FriendsDetail.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.CreatedAt(childComplexity), true
+
+	case "FriendsDetail.DeletedAt":
+		if e.complexity.FriendsDetail.DeletedAt == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.DeletedAt(childComplexity), true
+
+	case "FriendsDetail.friendStatus":
+		if e.complexity.FriendsDetail.FriendStatus == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.FriendStatus(childComplexity), true
+
+	case "FriendsDetail.friendStatusId":
+		if e.complexity.FriendsDetail.FriendStatusID == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.FriendStatusID(childComplexity), true
+
+	case "FriendsDetail.UpdatedAt":
+		if e.complexity.FriendsDetail.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.UpdatedAt(childComplexity), true
+
+	case "FriendsDetail.user1":
+		if e.complexity.FriendsDetail.User1 == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.User1(childComplexity), true
+
+	case "FriendsDetail.user1ID":
+		if e.complexity.FriendsDetail.User1id == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.User1id(childComplexity), true
+
+	case "FriendsDetail.user2":
+		if e.complexity.FriendsDetail.User2 == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.User2(childComplexity), true
+
+	case "FriendsDetail.user2ID":
+		if e.complexity.FriendsDetail.User2id == nil {
+			break
+		}
+
+		return e.complexity.FriendsDetail.User2id(childComplexity), true
 
 	case "Game.CreatedAt":
 		if e.complexity.Game.CreatedAt == nil {
@@ -418,13 +512,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.Games(childComplexity), true
 
-	case "User.ID":
-		if e.complexity.User.ID == nil {
-			break
-		}
-
-		return e.complexity.User.ID(childComplexity), true
-
 	case "User.IdToken":
 		if e.complexity.User.IDToken == nil {
 			break
@@ -494,6 +581,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.UpdatedAt(childComplexity), true
+
+	case "User.userID":
+		if e.complexity.User.UserID == nil {
+			break
+		}
+
+		return e.complexity.User.UserID(childComplexity), true
 
 	case "User.userName":
 		if e.complexity.User.UserName == nil {
@@ -575,6 +669,22 @@ var sources = []*ast.Source{
 extend type Query {
     getAllCountry : [Country!]!
 }`, BuiltIn: false},
+	{Name: "graph/friends.graphqls", Input: `type FriendsDetail{
+    user1: User!
+    user1ID: Int!
+    user2: User!
+    user2ID: Int!
+    friendStatus: FriendStatus!
+    friendStatusId: Int!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type FriendStatus{
+    friendStatusId: Int!
+    statusName:String!
+}`, BuiltIn: false},
 	{Name: "graph/games.graphqls", Input: `
 type Game {
     ID: Int!
@@ -602,7 +712,7 @@ type Query{
 }`, BuiltIn: false},
 	{Name: "graph/user.graphqls", Input: `scalar Time
 type User{
-    ID: Int!
+    userID: Int!
     userName: String!
     password: String!
     FirstName: String!
@@ -920,6 +1030,388 @@ func (ec *executionContext) _Country_Code(ctx context.Context, field graphql.Col
 	res := resTmp.(string)
 	fc.Result = res
 	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendStatus_friendStatusId(ctx context.Context, field graphql.CollectedField, obj *model.FriendStatus) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendStatus",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FriendStatusID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendStatus_statusName(ctx context.Context, field graphql.CollectedField, obj *model.FriendStatus) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendStatus",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.StatusName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_user1(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User1, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_user1ID(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User1id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_user2(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User2, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_user2ID(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.User2id, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_friendStatus(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FriendStatus, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FriendStatus)
+	fc.Result = res
+	return ec.marshalNFriendStatus2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendStatus(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_friendStatusId(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.FriendStatusID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_UpdatedAt(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _FriendsDetail_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.FriendsDetail) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "FriendsDetail",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_ID(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
@@ -1872,7 +2364,7 @@ func (ec *executionContext) _Status_statusName(ctx context.Context, field graphq
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _User_ID(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+func (ec *executionContext) _User_userID(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -1890,7 +2382,7 @@ func (ec *executionContext) _User_ID(ctx context.Context, field graphql.Collecte
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.ID, nil
+		return obj.UserID, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3881,6 +4373,102 @@ func (ec *executionContext) _Country(ctx context.Context, sel ast.SelectionSet, 
 	return out
 }
 
+var friendStatusImplementors = []string{"FriendStatus"}
+
+func (ec *executionContext) _FriendStatus(ctx context.Context, sel ast.SelectionSet, obj *model.FriendStatus) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, friendStatusImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FriendStatus")
+		case "friendStatusId":
+			out.Values[i] = ec._FriendStatus_friendStatusId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "statusName":
+			out.Values[i] = ec._FriendStatus_statusName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var friendsDetailImplementors = []string{"FriendsDetail"}
+
+func (ec *executionContext) _FriendsDetail(ctx context.Context, sel ast.SelectionSet, obj *model.FriendsDetail) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, friendsDetailImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("FriendsDetail")
+		case "user1":
+			out.Values[i] = ec._FriendsDetail_user1(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "user1ID":
+			out.Values[i] = ec._FriendsDetail_user1ID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "user2":
+			out.Values[i] = ec._FriendsDetail_user2(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "user2ID":
+			out.Values[i] = ec._FriendsDetail_user2ID(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "friendStatus":
+			out.Values[i] = ec._FriendsDetail_friendStatus(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "friendStatusId":
+			out.Values[i] = ec._FriendsDetail_friendStatusId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "CreatedAt":
+			out.Values[i] = ec._FriendsDetail_CreatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdatedAt":
+			out.Values[i] = ec._FriendsDetail_UpdatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "DeletedAt":
+			out.Values[i] = ec._FriendsDetail_DeletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var gameImplementors = []string{"Game"}
 
 func (ec *executionContext) _Game(ctx context.Context, sel ast.SelectionSet, obj *model.Game) graphql.Marshaler {
@@ -4176,8 +4764,8 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("User")
-		case "ID":
-			out.Values[i] = ec._User_ID(ctx, field, obj)
+		case "userID":
+			out.Values[i] = ec._User_userID(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -4599,6 +5187,16 @@ func (ec *executionContext) unmarshalNCreateAccount2githubᚗcomᚋkendrickoᚑa
 func (ec *executionContext) unmarshalNFinalizeAccount2githubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFinalizeAccount(ctx context.Context, v interface{}) (model.FinalizeAccount, error) {
 	res, err := ec.unmarshalInputFinalizeAccount(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNFriendStatus2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendStatus(ctx context.Context, sel ast.SelectionSet, v *model.FriendStatus) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._FriendStatus(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Game) graphql.Marshaler {

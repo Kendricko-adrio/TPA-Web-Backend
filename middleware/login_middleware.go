@@ -71,7 +71,7 @@ func LoginMiddleware(next http.Handler) http.Handler {
 				next.ServeHTTP(w, r)
 				return
 			}
-			user.ID = id
+			user.UserID = id
 			// put it in context
 
 			ctx := context.WithValue(r.Context(), userCtxKey, &user)

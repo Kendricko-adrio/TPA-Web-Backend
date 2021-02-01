@@ -66,10 +66,11 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, input model.Create
 
 	otp := model.CreateOTP()
 	user := model.User{
-		Email:     input.Email,
-		CountryID: input.CountryID,
-		StatusID:  1,
-		Otp:       otp,
+		Email:      input.Email,
+		CountryID:  input.CountryID,
+		StatusID:   1,
+		Otp:        otp,
+		ProviderID: 2,
 	}
 
 	//mailjet.SendEmail(input.Email, otp)
@@ -188,7 +189,7 @@ func (r *queryResolver) GetAuthUser(ctx context.Context) (*model.User, error) {
 	}
 
 	var findUser model.User
-	db.Where("id = ?", user.ID).Preload("Games").First(&findUser)
+	db.Where("user_id = ?", user.UserID).Preload("Games").First(&findUser)
 
 	return &findUser, err
 }

@@ -1,0 +1,16 @@
+type FriendsDetail{
+    user1: User!
+    user1ID: Int!
+    user2: User!
+    user2ID: Int!
+    friendStatus: FriendStatus!
+    friendStatusId: Int!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type FriendStatus{
+    friendStatusId: Int!
+    statusName:String!
+}

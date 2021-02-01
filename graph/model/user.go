@@ -21,7 +21,7 @@ type NewUser struct {
 
 
 type User struct {
-	ID         int        `json:"ID" gorm:"primaryKey"`
+	UserID     int        `json:"userID" gorm:"primaryKey"`
 	UserName   string     `json:"userName"`
 	Password   string     `json:"password"`
 	FirstName  string     `json:"FirstName"`
@@ -30,11 +30,11 @@ type User struct {
 	Email      string     `json:"Email"`
 	IDToken    string     `json:"IdToken"`
 	PhotoURL   string     `json:"PhotoUrl"`
-	Provider   *Provider  `json:"Provider"`
-	ProviderID int        `json:"ProviderId"`
+	Provider   *Provider  `json:"Provider" gorm:"foreignKey:ProviderID"`
+	ProviderID int        `json:"ProviderId" `
 	CountryID  int        `json:"CountryId"`
 	Country    *Country   `json:"Country" gorm:"foreignKey:CountryID"`
-	Status     *Status    `json:"status gorm:"foreignKey:StatusID"`
+	Status     *Status    `json:"status" gorm:"foreignKey:StatusID"`
 	StatusID   int        `json:"statusId"`
 	Otp        string     `json:"otp"`
 	Games      []*Game    `json:"games" gorm:"many2many:users_games"`
@@ -87,7 +87,7 @@ func GetUserIdByUsername(username string) (int, error) {
 		return 0, err
 	}
 
-	return user.ID,nil
+	return user.UserID,nil
 
 }
 

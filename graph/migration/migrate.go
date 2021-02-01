@@ -12,8 +12,10 @@ func init(){
 	}
 
 	db.Exec("DROP TABLE users_games")
-	db.Migrator().DropTable(&model.User{}, &model.Country{}, &model.Game{}, &model.Provider{}, &model.Status{})
-	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{}, &model.Provider{}, &model.Status{})
+	db.Migrator().DropTable(&model.User{}, &model.Country{},
+	&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{})
+	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
+	&model.Provider{}, &model.Status{}, &model.FriendsDetail{})
 }
 
 func SeedAll(){
@@ -64,11 +66,9 @@ func SeedStatus(){
 	}
 
 	db.Create(&model.Status{
-		StatusID: 1,
 		StatusName: "Not Auth",
 	})
 	db.Create(&model.Status{
-		StatusID: 2,
 		StatusName: "Auth",
 	})
 }
@@ -80,10 +80,12 @@ func SeedProvider(){
 	}
 
 	db.Create(&model.Provider{
+		ID: 1,
 		Name: "GOOGLE",
 	})
 
 	db.Create(&model.Provider{
+		ID: 2,
 		Name: "STAEM",
 	})
 }

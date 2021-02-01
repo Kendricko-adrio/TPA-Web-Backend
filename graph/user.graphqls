@@ -1,6 +1,6 @@
 scalar Time
 type User{
-    ID: Int!
+    userID: Int!
     userName: String!
     password: String!
     FirstName: String!
