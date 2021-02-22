@@ -10,6 +10,11 @@ type FriendsDetail{
     DeletedAt: Time
 }
 
+
+extend type Mutation{
+    request(userId1:Int, userId2:Int):FriendsDetail!
+}
+
 type FriendStatus{
     friendStatusId: Int!
     statusName:String!

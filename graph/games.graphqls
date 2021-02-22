@@ -5,7 +5,10 @@ type Game {
     Description: String!
     Price: Int!
     Rating: Int!
+    imageBanner: String!
     Image: String!
+    tag: String!
+    systemRequirement: String!
     users: [User!]!
     CreatedAt: Time!
     UpdatedAt: Time!
@@ -14,4 +17,22 @@ type Game {
 
 type Query{
     allGame : [Game!]!
+    getAllGamesPaginated(page: Int!): [Game!]!
+    getGameById(id: Int!): Game!
+}
+
+input gameInput{
+    ID: Int!
+    Name: String!
+    Description: String!
+    Price: Int!
+    Rating: Int!
+    imageBanner: String!
+    Image: String!
+    tag: String!
+    systemRequirement: String!
+}
+
+extend type Mutation{
+    insertGame(game: gameInput!): Game!
 }

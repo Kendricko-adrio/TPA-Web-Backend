@@ -1,10 +1,15 @@
 scalar Time
 type User{
     userID: Int!
+    role: String!
     userName: String!
     password: String!
     FirstName: String!
     LastName: String!
+    realName: String!
+    customUrl: String!
+    hideAward: Boolean!
+    summary: String!
     AuthToken: String!
     Email: String!
     IdToken: String!
@@ -17,6 +22,7 @@ type User{
     statusId: Int!
     otp: String!
     games: [Game!]!
+    friends:[User!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -26,6 +32,8 @@ extend type Query {
     getUsers: [User!]!
     getUser(input: email): User!
     getAuthUser:User!
+    getUserByLink(customUrl: String!): User!
+    getAdmin(username: String! password: String!): User!
 }
 
 input email{
@@ -62,6 +70,8 @@ type Mutation{
     createUser(input: NewUser!): User!
     createAccount(input: CreateAccount!): User!
     createFullAccount(input: FinalizeAccount!):String!
-    loginUser(input: Login!): String!
+    loginUser(input: Login!): User!
     logoutUser(username: String!): User!
+    updateGeneral(profileName: String! realName: String! customUrl: String! countryId: Int! summary: String! hideAward: Boolean! ): User!
+    updateImage(imageUrl: String!): User!
 }

@@ -1,0 +1,8 @@
+type Admin{
+    adminId: Int!
+    adminUsername: String!
+    adminPassword: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}

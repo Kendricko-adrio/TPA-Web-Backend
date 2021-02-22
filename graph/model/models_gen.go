@@ -21,3 +21,15 @@ type Login struct {
 type Email struct {
 	Email string `json:"Email"`
 }
+
+type GameInput struct {
+	ID                int    `json:"ID"`
+	Name              string `json:"Name"`
+	Description       string `json:"Description"`
+	Price             int    `json:"Price"`
+	Rating            int    `json:"Rating"`
+	ImageBanner       string `json:"imageBanner"`
+	Image             string `json:"Image"`
+	Tag               string `json:"tag"`
+	SystemRequirement string `json:"systemRequirement"`
+}

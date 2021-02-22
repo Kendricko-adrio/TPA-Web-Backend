@@ -12,8 +12,10 @@ import (
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/generated"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/jwt"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/mailjet"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
 	"github.com/kendricko-adrio/gqlgen-todos/middleware"
+	"gorm.io/gorm/clause"
 )
 
 func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) (*model.User, error) {
@@ -73,7 +75,7 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, input model.Create
 		ProviderID: 2,
 	}
 
-	//mailjet.SendEmail(input.Email, otp)
+	mailjet.SendEmail(input.Email, otp)
 
 	db.Create(&user)
 	fmt.Println(otp)
@@ -97,6 +99,7 @@ func (r *mutationResolver) CreateFullAccount(ctx context.Context, input model.Fi
 	findUser.StatusID = 2
 	findUser.UserName = input.UserName
 	findUser.Password = pass
+	findUser.CustomURL = input.UserName
 
 	db.Save(&findUser)
 
@@ -107,11 +110,10 @@ func (r *mutationResolver) CreateFullAccount(ctx context.Context, input model.Fi
 	return token, nil
 }
 
-func (r *mutationResolver) LoginUser(ctx context.Context, input model.Login) (string, error) {
-	isValid := model.ValidateUser(input.Username, input.Password)
-
-	if isValid == false {
-		return "", nil
+func (r *mutationResolver) LoginUser(ctx context.Context, input model.Login) (*model.User, error) {
+	user, err := model.ValidateUser(input.Username, input.Password)
+	if err != nil {
+		return nil, err
 	}
 	token, _ := jwt.GenerateToken(input.Username)
 
@@ -127,7 +129,7 @@ func (r *mutationResolver) LoginUser(ctx context.Context, input model.Login) (st
 	//w.Header().Add("Set-Cookie", c.String())
 	//http.SetCookie(*w, &c)
 
-	return token, nil
+	return &user, nil
 }
 
 func (r *mutationResolver) LogoutUser(ctx context.Context, username string) (*model.User, error) {
@@ -143,9 +145,69 @@ func (r *mutationResolver) LogoutUser(ctx context.Context, username string) (*mo
 		Expires:  time.Now().Add(time.Hour * -24),
 		HttpOnly: true,
 	}
-
+	fmt.Println("test")
 	http.SetCookie(w, c)
 
+	return user, nil
+}
+
+func (r *mutationResolver) UpdateGeneral(ctx context.Context, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) (*model.User, error) {
+	//panic(fmt.Errorf("not implemented"))
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	var userFind model.User
+	test := db.Find(user).First(&userFind)
+
+	if test.RowsAffected == 0 {
+		panic(test.Error)
+	}
+
+	userFind.UserName = profileName
+	userFind.RealName = realName
+	userFind.CustomURL = customURL
+	userFind.CountryID = countryID
+	userFind.HideAward = hideAward
+	userFind.Summary = summary
+	db.Save(&userFind)
+	token, _ := jwt.GenerateToken(profileName)
+
+	c := http.Cookie{
+		Name:     "staem",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+	}
+
+	w := *middleware.ForWriter(ctx)
+	http.SetCookie(w, &c)
+	return &userFind, nil
+}
+
+func (r *mutationResolver) UpdateImage(ctx context.Context, imageURL string) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	var userFind model.User
+	test := db.Find(user).First(&userFind)
+
+	if test.RowsAffected == 0 {
+		panic(test.Error)
+	}
+
+	user.PhotoURL = imageURL
+
+	db.Save(user)
 	return user, nil
 }
 
@@ -172,7 +234,7 @@ func (r *queryResolver) GetUser(ctx context.Context, input *model.Email) (*model
 
 	var user model.User
 
-	db.Where("user_name = ?", input.Email).Preload("Games").First(&user)
+	db.Where("user_name = ?", input.Email).Preload(clause.Associations).First(&user)
 
 	return &user, nil
 }
@@ -192,6 +254,44 @@ func (r *queryResolver) GetAuthUser(ctx context.Context) (*model.User, error) {
 	db.Where("user_id = ?", user.UserID).Preload("Games").First(&findUser)
 
 	return &findUser, err
+}
+
+func (r *queryResolver) GetUserByLink(ctx context.Context, customURL string) (*model.User, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var user model.User
+
+	db.Where("custom_url = ?", customURL).Preload(clause.Associations).First(&user)
+
+	return &user, nil
+}
+
+func (r *queryResolver) GetAdmin(ctx context.Context, username string, password string) (*model.User, error) {
+	user, err := model.ValidateUser(username, password)
+	if err != nil {
+		return nil, err
+	}
+
+	if user.Role != "admin" {
+		panic("user is not admin")
+	}
+
+	token, _ := jwt.GenerateToken(username)
+
+	c := http.Cookie{
+		Name:     "staem",
+		Value:    token,
+		Expires:  time.Now().Add(time.Hour * 24),
+		HttpOnly: true,
+	}
+
+	w := *middleware.ForWriter(ctx)
+	http.SetCookie(w, &c)
+
+	return &user, nil
 }
 
 // Mutation returns generated.MutationResolver implementation.

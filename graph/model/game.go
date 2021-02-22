@@ -12,13 +12,15 @@ type Game struct {
 	Description string     `json:"Description"`
 	Price       int        `json:"Price"`
 	Rating      int        `json:"Rating"`
+	ImageBanner       string     `json:"imageBanner"`
 	Image       string     `json:"Image"`
+	Tag               string     `json:"tag"`
+	SystemRequirement string     `json:"systemRequirement"`
 	Users       []*User    `json:"users" gorm:"many2many:users_games"`
 	CreatedAt   time.Time  `json:"CreatedAt"`
 	UpdatedAt   time.Time  `json:"UpdatedAt"`
 	DeletedAt   *time.Time `json:"DeletedAt"`
 }
-
 
 func GetAllGames() ([]*Game, error){
 	db, err := database.Connect()

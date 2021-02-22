@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/gorm/clause"
+
 	//"fmt"
 	"math/rand"
 	"time"
@@ -22,10 +24,15 @@ type NewUser struct {
 
 type User struct {
 	UserID     int        `json:"userID" gorm:"primaryKey"`
+	Role       string     `json:"role"`
 	UserName   string     `json:"userName"`
 	Password   string     `json:"password"`
 	FirstName  string     `json:"FirstName"`
 	LastName   string     `json:"LastName"`
+	RealName   string     `json:"realName"`
+	CustomURL  string     `json:"customUrl"`
+	HideAward  bool       `json:"hideAward"`
+	Summary    string     `json:"summary"`
 	AuthToken  string     `json:"AuthToken"`
 	Email      string     `json:"Email"`
 	IDToken    string     `json:"IdToken"`
@@ -37,6 +44,7 @@ type User struct {
 	Status     *Status    `json:"status" gorm:"foreignKey:StatusID"`
 	StatusID   int        `json:"statusId"`
 	Otp        string     `json:"otp"`
+	Friends    []*User    `json:"friends" gorm:"many2many:friends"`
 	Games      []*Game    `json:"games" gorm:"many2many:users_games"`
 	CreatedAt  time.Time  `json:"CreatedAt"`
 	UpdatedAt  time.Time  `json:"UpdatedAt"`
@@ -91,20 +99,20 @@ func GetUserIdByUsername(username string) (int, error) {
 
 }
 
-func ValidateUser(username, password string) bool{
+func ValidateUser(username, password string) (User, error){
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
 
 	var user User
-	test :=db.Where("user_name = ?", username).First(&user)
+	test :=db.Where("user_name = ?", username).Preload(clause.Associations).First(&user)
 	if test.RowsAffected == 0{
-		return false
+		return user, test.Error
 	}else if CheckPasswordHash(password, user.Password) == false{
 		fmt.Println(CheckPasswordHash(password, user.Password))
-		return false
+		return user, test.Error
 	}
 
-	return true
+	return user, nil
 }

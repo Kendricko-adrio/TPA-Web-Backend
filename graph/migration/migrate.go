@@ -12,18 +12,58 @@ func init(){
 	}
 
 	db.Exec("DROP TABLE users_games")
+	db.Exec("DROP TABLE friends")
 	db.Migrator().DropTable(&model.User{}, &model.Country{},
-	&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{})
+	&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{}, &model.FriendStatus{}, &model.Admin{})
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
-	&model.Provider{}, &model.Status{}, &model.FriendsDetail{})
+	&model.Provider{}, &model.Status{}, &model.FriendsDetail{}, &model.FriendStatus{}, &model.Admin{})
 }
 
 func SeedAll(){
+	SeedFriendStatus()
 	SeedStatus()
 	SeedCountry()
 	SeedGames()
 	SeedProvider()
 	SeedUser()
+	SeedAdmin()
+}
+
+func SeedAdmin(){
+	db, err := database.Connect()
+	if err != nil{
+		panic(err)
+	}
+	db.Create(&model.Admin{
+		AdminID:       1,
+		AdminUsername: "admin1",
+		AdminPassword: "admin1",
+	})
+	db.Create(&model.Admin{
+		AdminID:       2,
+		AdminUsername: "admin2",
+		AdminPassword: "admin2",
+	})
+
+}
+
+func SeedFriendStatus(){
+	db, err := database.Connect()
+	if err != nil{
+		panic(err)
+	}
+	db.Create(&model.FriendStatus{
+		FriendStatusID: 1,
+		StatusName:     "Request",
+	})
+	db.Create(&model.FriendStatus{
+		FriendStatusID: 2,
+		StatusName:     "Accepted",
+	})
+	db.Create(&model.FriendStatus{
+		FriendStatusID: 3,
+		StatusName:     "Decline",
+	})
 }
 
 func SeedUser(){
@@ -34,7 +74,17 @@ func SeedUser(){
 
 	pass, _ := model.HashPassword("dummy")
 	db.Create(&model.User{
+		UserName: "admin1",
+		Password: pass,
+		Role: "admin",
+		ProviderID: 2,
+		CountryID:  1,
+		StatusID:   2,
+	})
+	db.Create(&model.User{
 		UserName:   "dummy",
+		RealName: "dummy hai kamu",
+		Summary: "kini aku percaya tiada yang mustahil bagimu",
 		Password:   pass,
 		FirstName:  "dum",
 		LastName:   "my",
@@ -46,6 +96,7 @@ func SeedUser(){
 		ProviderID: 2,
 		CountryID:  1,
 		StatusID:   2,
+		CustomURL: "dummy",
 		Games: []*model.Game{
 			{
 				ID:          1,
@@ -54,6 +105,32 @@ func SeedUser(){
 			{
 				ID:          2,
 			},
+		},
+		Otp:        "ABCDE",
+	})
+
+	db.Create(&model.User{
+		UserName:   "dummy2",
+		Password:   pass,
+		RealName: "dummy hai kamu",
+		Summary: "kini aku percaya tiada yang mustahil bagimu",
+		FirstName:  "dum",
+		LastName:   "my",
+		AuthToken:  "asdf",
+		Email:      "asdf",
+		IDToken:    "asdf",
+		PhotoURL:   "https://cdn.idntimes.com/content-images/community/2020/07/2f6d6ba28aee33bd220c6d419fd5faee-a238c2af6f14dc0f0653294961526bca_600x400.jpg",
+		Provider:   nil,
+		ProviderID: 2,
+		CountryID:  1,
+		StatusID:   2,
+		CustomURL: "dummy2",
+		Games: []*model.Game{
+			{
+				ID:          1,
+
+			},
+
 		},
 		Otp:        "ABCDE",
 	})
@@ -107,6 +184,118 @@ func SeedGames(){
 	})
 	db.Create(&model.Game{
 		Name:        "Cyber Punk2",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk3",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk4",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk5",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk6",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk7",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk8",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk9",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk10",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk11",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk12",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk13",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk14",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk15",
+		Description: "Ini game cyber",
+		Price:       100000,
+		Rating:      2,
+		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
+
+	})
+	db.Create(&model.Game{
+		Name:        "Cyber Punk16",
 		Description: "Ini game cyber",
 		Price:       100000,
 		Rating:      2,
