@@ -10,6 +10,8 @@ type Game {
     tag: String!
     systemRequirement: String!
     users: [User!]!
+    genre: Genre!
+    genreId: Int!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -19,6 +21,10 @@ type Query{
     allGame : [Game!]!
     getAllGamesPaginated(page: Int!): [Game!]!
     getGameById(id: Int!): Game!
+    searchGameByTitle(title: String!): [Game!]!
+    searchGameInfinite(title: String! page: Int!): [Game!]!
+    getTotalGame: Int!
+    getFilterGame(genre: Int!, price: Int!, title: String!): [Game!]!
 }
 
 input gameInput{
@@ -35,4 +41,5 @@ input gameInput{
 
 extend type Mutation{
     insertGame(game: gameInput!): Game!
+    updateGame(game: gameInput!): Game!
 }

@@ -19,28 +19,45 @@ func (r *mutationResolver) InsertGame(ctx context.Context, game model.GameInput)
 		panic(err)
 	}
 
-	var gameDb model.Game
-	gameDb.ID = game.ID
-	testDb := db.First(&gameDb)
-
-	// insert
-	fmt.Println("test row ", testDb.RowsAffected)
-	if testDb.RowsAffected == 0 {
-		fmt.Println("insert gan")
-		db.Create(&model.Game{
-			Name:              game.Name,
-			Description:       game.Description,
-			Price:             game.Price,
-			Rating:            game.Rating,
-			ImageBanner:       game.ImageBanner,
-			Image:             game.Image,
-			Tag:               game.Tag,
-			SystemRequirement: game.SystemRequirement,
-		})
+	insertedGame := &model.Game{
+		Name:              game.Name,
+		Description:       game.Description,
+		Price:             game.Price,
+		Rating:            game.Rating,
+		ImageBanner:       game.ImageBanner,
+		Image:             game.Image,
+		Tag:               game.Tag,
+		SystemRequirement: game.SystemRequirement,
 	}
+	fmt.Println("insert gan")
+	db.Create(insertedGame)
 	//fmt.Println(gameDb)
 
-	return &gameDb, nil
+	return insertedGame, nil
+}
+
+func (r *mutationResolver) UpdateGame(ctx context.Context, game model.GameInput) (*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var updateGame = &model.Game{ID: game.ID}
+	db.Find(updateGame)
+
+	updateGame.SystemRequirement = game.SystemRequirement
+	updateGame.Tag = game.Tag
+	updateGame.Image = game.Image
+	updateGame.ImageBanner = game.ImageBanner
+	updateGame.Rating = game.Rating
+	updateGame.Price = game.Price
+	updateGame.Description = game.Description
+	updateGame.Name = game.Name
+
+	db.Save(updateGame)
+	//fmt.Println(gameDb)
+
+	return updateGame, nil
 }
 
 func (r *queryResolver) AllGame(ctx context.Context) ([]*model.Game, error) {
@@ -62,15 +79,62 @@ func (r *queryResolver) GetAllGamesPaginated(ctx context.Context, page int) ([]*
 }
 
 func (r *queryResolver) GetGameByID(ctx context.Context, id int) (*model.Game, error) {
-	panic(fmt.Errorf("not implemented"))
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
 	game := &model.Game{ID: id}
 	db.First(game)
-
 	return game, nil
+}
+
+func (r *queryResolver) SearchGameByTitle(ctx context.Context, title string) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var games []*model.Game
+	db.Where("LOWER(name) LIKE LOWER(?) ", "%"+title+"%").Debug().Limit(5).Find(&games)
+
+	return games, nil
+}
+
+func (r *queryResolver) SearchGameInfinite(ctx context.Context, title string, page int) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var searchGame []*model.Game
+
+	//db.Where("LOWER(name) = LOWER(?)", "%" + title + "%").Limit(10 * page).Find(&searchGame)
+	db.Where("LOWER(name) LIKE LOWER(?) ", "%"+title+"%").Debug().Limit(10 * page).Find(&searchGame)
+	return searchGame, nil
+}
+
+func (r *queryResolver) GetTotalGame(ctx context.Context) (int, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var searchGame []*model.Game
+	test := db.Find(&searchGame)
+	return int(test.RowsAffected), nil
+}
+
+func (r *queryResolver) GetFilterGame(ctx context.Context, genre int, price int, title string) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var searchGame []*model.Game
+
+	db.Where("price <= ? AND LOWER(name) LIKE LOWER(?)", price, "%"+title+"%").Debug().Find(&searchGame)
+
+	return searchGame, nil
 }
 
 // Query returns generated.QueryResolver implementation.

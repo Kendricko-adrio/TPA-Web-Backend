@@ -17,6 +17,8 @@ type Game struct {
 	Tag               string     `json:"tag"`
 	SystemRequirement string     `json:"systemRequirement"`
 	Users       []*User    `json:"users" gorm:"many2many:users_games"`
+	Genre             *Genre     `json:"genre" gorm:"foreignKey:GenreID"`
+	GenreID           int        `json:"genreId"`
 	CreatedAt   time.Time  `json:"CreatedAt"`
 	UpdatedAt   time.Time  `json:"UpdatedAt"`
 	DeletedAt   *time.Time `json:"DeletedAt"`

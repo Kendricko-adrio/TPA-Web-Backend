@@ -1,0 +1,27 @@
+type Promo{
+    promoId: Int!
+    promoDiscount: Int!
+    promoDuration: Int!
+    gameId: Int!
+    game: Game!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+extend type Query{
+    getAllPromo(page: Int!): [Promo!]!
+    getPromoById(Id: Int!): Promo!
+    getTotalPromo: Int!
+}
+
+input PromoInput{
+    promoDiscount: Int!
+    promoDuration: Int!
+    gameId: Int!
+}
+
+extend type Mutation {
+    insertPromo(promo: PromoInput!): Promo!
+    updatePromo(promo: PromoInput! id: Int!): Promo!
+}

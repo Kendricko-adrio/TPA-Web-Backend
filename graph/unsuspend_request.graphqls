@@ -1,0 +1,25 @@
+type UnsuspendRequest{
+    requestId: Int!
+    suspendedUser: User!
+    suspendedUserId: Int!
+    suspendedTypeId: Int!
+    suspendedType: UnsuspendRequestType!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type UnsuspendRequestType{
+    typeId: Int!
+    typeName: String!
+}
+
+extend type Query{
+    getUnsuspendByUserId(userId: Int!): [UnsuspendRequest!]!
+}
+
+extend type Mutation {
+    deleteRequest(userId: Int!): UnsuspendRequest!
+    acceptRequest(requestId:Int!): UnsuspendRequest!
+    rejectRequest(requestId:Int!): UnsuspendRequest!
+}

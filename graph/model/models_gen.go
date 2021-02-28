@@ -13,9 +13,21 @@ type FinalizeAccount struct {
 	Otp      string `json:"otp"`
 }
 
+type InsertReport struct {
+	ReporterID        int    `json:"reporterId"`
+	ReportedID        int    `json:"reportedId"`
+	ReportDescription string `json:"reportDescription"`
+}
+
 type Login struct {
 	Username string `json:"username"`
 	Password string `json:"password"`
+}
+
+type PromoInput struct {
+	PromoDiscount int `json:"promoDiscount"`
+	PromoDuration int `json:"promoDuration"`
+	GameID        int `json:"gameId"`
 }
 
 type Email struct {

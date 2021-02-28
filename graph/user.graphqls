@@ -34,6 +34,8 @@ extend type Query {
     getAuthUser:User!
     getUserByLink(customUrl: String!): User!
     getAdmin(username: String! password: String!): User!
+    getAllUserPaginated(page: Int!): [User!]!
+    getTotalUser:Int!
 }
 
 input email{

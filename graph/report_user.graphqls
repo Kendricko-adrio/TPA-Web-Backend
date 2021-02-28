@@ -1,0 +1,23 @@
+type ReportUser{
+    reportId: Int!
+    reporterId: Int!
+    reporter: User!
+    reportedId: Int!
+    reported: User!
+    reportDescription: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+input InsertReport{
+    reporterId: Int!
+    reportedId: Int!
+    reportDescription: String!
+}
+
+extend type Query{
+    insertReport(report: InsertReport!): ReportUser!
+    getAllReport: [ReportUser!]!
+    getReportByReported(reportedId: Int!): [ReportUser!]!
+}

@@ -294,6 +294,27 @@ func (r *queryResolver) GetAdmin(ctx context.Context, username string, password 
 	return &user, nil
 }
 
+func (r *queryResolver) GetAllUserPaginated(ctx context.Context, page int) ([]*model.User, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+	var users []*model.User
+	db.Limit(10).Offset((page - 1) * 10).Find(&users)
+	return users, nil
+}
+
+func (r *queryResolver) GetTotalUser(ctx context.Context) (int, error) {
+	db, err := database.Connect()
+	if err != nil {
+		return 0, err
+	}
+	var user []*model.User
+	test := db.Find(&user)
+
+	return int(test.RowsAffected), nil
+}
+
 // Mutation returns generated.MutationResolver implementation.
 func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
