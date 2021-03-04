@@ -2,11 +2,6 @@ package model
 
 import "time"
 
-type FriendStatus struct {
-	FriendStatusID int    `json:"friendStatusId" gorm:"primaryKey"`
-	StatusName     string `json:"statusName"`
-}
-
 type FriendsDetail struct {
 	User1          *User         `json:"user1" gorm:"foreignKey:User1id"`
 	User1id        int           `json:"user1ID" gorm:"primaryKey"`

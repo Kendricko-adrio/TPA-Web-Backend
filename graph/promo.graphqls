@@ -13,6 +13,7 @@ extend type Query{
     getAllPromo(page: Int!): [Promo!]!
     getPromoById(Id: Int!): Promo!
     getTotalPromo: Int!
+    getOnSale: [Promo!]!
 }
 
 input PromoInput{

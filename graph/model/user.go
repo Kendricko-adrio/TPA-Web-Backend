@@ -22,6 +22,7 @@ type NewUser struct {
 }
 
 
+
 type User struct {
 	UserID     int        `json:"userID" gorm:"primaryKey"`
 	Role       string     `json:"role"`
@@ -32,6 +33,7 @@ type User struct {
 	RealName   string     `json:"realName"`
 	CustomURL  string     `json:"customUrl"`
 	HideAward  bool       `json:"hideAward"`
+	Money      int        `json:"money"`
 	Summary    string     `json:"summary"`
 	AuthToken  string     `json:"AuthToken"`
 	Email      string     `json:"Email"`
@@ -46,6 +48,7 @@ type User struct {
 	Otp        string     `json:"otp"`
 	Friends    []*User    `json:"friends" gorm:"many2many:friends"`
 	Games      []*Game    `json:"games" gorm:"many2many:users_games"`
+	Wishlist   []*Game    `json:"wishlist" gorm:"many2many:games_wishlist"`
 	CreatedAt  time.Time  `json:"CreatedAt"`
 	UpdatedAt  time.Time  `json:"UpdatedAt"`
 	DeletedAt  *time.Time `json:"DeletedAt"`

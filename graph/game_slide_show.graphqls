@@ -1,0 +1,5 @@
+type GameSlideShow{
+    slideShowId: Int!
+    slideShowUrl: String!
+    gameId: Int!
+}

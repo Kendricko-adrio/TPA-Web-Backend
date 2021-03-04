@@ -10,8 +10,9 @@ type Game {
     tag: String!
     systemRequirement: String!
     users: [User!]!
-    genre: Genre!
-    genreId: Int!
+    wishlist: [User!]!
+    genre: [Genre!]!
+    gameSlideShow : [GameSlideShow!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -25,6 +26,8 @@ type Query{
     searchGameInfinite(title: String! page: Int!): [Game!]!
     getTotalGame: Int!
     getFilterGame(genre: Int!, price: Int!, title: String!): [Game!]!
+    getNewGame: [Game!]!
+    getTopSeller: [Game!]!
 }
 
 input gameInput{
@@ -35,7 +38,8 @@ input gameInput{
     Rating: Int!
     imageBanner: String!
     Image: String!
-    tag: String!
+    gameSlideShow: [String!]!
+    genre: [Int!]!
     systemRequirement: String!
 }
 

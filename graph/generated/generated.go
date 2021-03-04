@@ -80,8 +80,8 @@ type ComplexityRoot struct {
 		CreatedAt         func(childComplexity int) int
 		DeletedAt         func(childComplexity int) int
 		Description       func(childComplexity int) int
+		GameSlideShow     func(childComplexity int) int
 		Genre             func(childComplexity int) int
-		GenreID           func(childComplexity int) int
 		ID                func(childComplexity int) int
 		Image             func(childComplexity int) int
 		ImageBanner       func(childComplexity int) int
@@ -92,29 +92,41 @@ type ComplexityRoot struct {
 		Tag               func(childComplexity int) int
 		UpdatedAt         func(childComplexity int) int
 		Users             func(childComplexity int) int
+		Wishlist          func(childComplexity int) int
+	}
+
+	GameSlideShow struct {
+		GameID       func(childComplexity int) int
+		SlideShowID  func(childComplexity int) int
+		SlideShowURL func(childComplexity int) int
 	}
 
 	Genre struct {
+		Game      func(childComplexity int) int
 		GenreID   func(childComplexity int) int
 		GenreName func(childComplexity int) int
 	}
 
 	Mutation struct {
-		AcceptRequest     func(childComplexity int, requestID int) int
-		CreateAccount     func(childComplexity int, input model.CreateAccount) int
-		CreateFullAccount func(childComplexity int, input model.FinalizeAccount) int
-		CreateUser        func(childComplexity int, input model.NewUser) int
-		DeleteRequest     func(childComplexity int, userID int) int
-		InsertGame        func(childComplexity int, game model.GameInput) int
-		InsertPromo       func(childComplexity int, promo model.PromoInput) int
-		LoginUser         func(childComplexity int, input model.Login) int
-		LogoutUser        func(childComplexity int, username string) int
-		RejectRequest     func(childComplexity int, requestID int) int
-		Request           func(childComplexity int, userID1 *int, userID2 *int) int
-		UpdateGame        func(childComplexity int, game model.GameInput) int
-		UpdateGeneral     func(childComplexity int, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) int
-		UpdateImage       func(childComplexity int, imageURL string) int
-		UpdatePromo       func(childComplexity int, promo model.PromoInput, id int) int
+		AcceptFriendRequest  func(childComplexity int, userID int) int
+		AcceptRequest        func(childComplexity int, requestID int) int
+		AddGameToWishlist    func(childComplexity int, gameID int) int
+		CreateAccount        func(childComplexity int, input model.CreateAccount) int
+		CreateFullAccount    func(childComplexity int, input model.FinalizeAccount) int
+		CreateUser           func(childComplexity int, input model.NewUser) int
+		DeclineFriendRequest func(childComplexity int, userID int) int
+		DeleteRequest        func(childComplexity int, userID int) int
+		DeleteWishlist       func(childComplexity int, gameID int) int
+		InsertGame           func(childComplexity int, game model.GameInput) int
+		InsertPromo          func(childComplexity int, promo model.PromoInput) int
+		LoginUser            func(childComplexity int, input model.Login) int
+		LogoutUser           func(childComplexity int, username string) int
+		RejectRequest        func(childComplexity int, requestID int) int
+		Request              func(childComplexity int, userID2 *int) int
+		UpdateGame           func(childComplexity int, game model.GameInput) int
+		UpdateGeneral        func(childComplexity int, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) int
+		UpdateImage          func(childComplexity int, imageURL string) int
+		UpdatePromo          func(childComplexity int, promo model.PromoInput, id int) int
 	}
 
 	Promo struct {
@@ -134,29 +146,34 @@ type ComplexityRoot struct {
 	}
 
 	Query struct {
-		AllGame              func(childComplexity int) int
-		GetAdmin             func(childComplexity int, username string, password string) int
-		GetAllCountry        func(childComplexity int) int
-		GetAllGamesPaginated func(childComplexity int, page int) int
-		GetAllGenre          func(childComplexity int) int
-		GetAllPromo          func(childComplexity int, page int) int
-		GetAllReport         func(childComplexity int) int
-		GetAllUserPaginated  func(childComplexity int, page int) int
-		GetAuthUser          func(childComplexity int) int
-		GetFilterGame        func(childComplexity int, genre int, price int, title string) int
-		GetGameByID          func(childComplexity int, id int) int
-		GetPromoByID         func(childComplexity int, id int) int
-		GetReportByReported  func(childComplexity int, reportedID int) int
-		GetTotalGame         func(childComplexity int) int
-		GetTotalPromo        func(childComplexity int) int
-		GetTotalUser         func(childComplexity int) int
-		GetUnsuspendByUserID func(childComplexity int, userID int) int
-		GetUser              func(childComplexity int, input *model.Email) int
-		GetUserByLink        func(childComplexity int, customURL string) int
-		GetUsers             func(childComplexity int) int
-		InsertReport         func(childComplexity int, report model.InsertReport) int
-		SearchGameByTitle    func(childComplexity int, title string) int
-		SearchGameInfinite   func(childComplexity int, title string, page int) int
+		AllGame               func(childComplexity int) int
+		GetAdmin              func(childComplexity int, username string, password string) int
+		GetAllCountry         func(childComplexity int) int
+		GetAllGamesPaginated  func(childComplexity int, page int) int
+		GetAllGenre           func(childComplexity int) int
+		GetAllPromo           func(childComplexity int, page int) int
+		GetAllReport          func(childComplexity int) int
+		GetAllRequestFriend   func(childComplexity int) int
+		GetAllUserPaginated   func(childComplexity int, page int) int
+		GetAuthUser           func(childComplexity int) int
+		GetFilterGame         func(childComplexity int, genre int, price int, title string) int
+		GetGameByID           func(childComplexity int, id int) int
+		GetNewGame            func(childComplexity int) int
+		GetOnSale             func(childComplexity int) int
+		GetPromoByID          func(childComplexity int, id int) int
+		GetReportByReported   func(childComplexity int, reportedID int) int
+		GetTopSeller          func(childComplexity int) int
+		GetTotalGame          func(childComplexity int) int
+		GetTotalPromo         func(childComplexity int) int
+		GetTotalRequestFriend func(childComplexity int) int
+		GetTotalUser          func(childComplexity int) int
+		GetUnsuspendByUserID  func(childComplexity int, userID int) int
+		GetUser               func(childComplexity int, input *model.Email) int
+		GetUserByLink         func(childComplexity int, customURL string) int
+		GetUsers              func(childComplexity int) int
+		InsertReport          func(childComplexity int, report model.InsertReport) int
+		SearchGameByTitle     func(childComplexity int, title string) int
+		SearchGameInfinite    func(childComplexity int, title string, page int) int
 	}
 
 	ReportUser struct {
@@ -206,6 +223,7 @@ type ComplexityRoot struct {
 		HideAward  func(childComplexity int) int
 		IDToken    func(childComplexity int) int
 		LastName   func(childComplexity int) int
+		Money      func(childComplexity int) int
 		Otp        func(childComplexity int) int
 		Password   func(childComplexity int) int
 		PhotoURL   func(childComplexity int) int
@@ -219,18 +237,14 @@ type ComplexityRoot struct {
 		UpdatedAt  func(childComplexity int) int
 		UserID     func(childComplexity int) int
 		UserName   func(childComplexity int) int
+		Wishlist   func(childComplexity int) int
 	}
 }
 
 type MutationResolver interface {
-	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
-	CreateAccount(ctx context.Context, input model.CreateAccount) (*model.User, error)
-	CreateFullAccount(ctx context.Context, input model.FinalizeAccount) (string, error)
-	LoginUser(ctx context.Context, input model.Login) (*model.User, error)
-	LogoutUser(ctx context.Context, username string) (*model.User, error)
-	UpdateGeneral(ctx context.Context, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) (*model.User, error)
-	UpdateImage(ctx context.Context, imageURL string) (*model.User, error)
-	Request(ctx context.Context, userID1 *int, userID2 *int) (*model.FriendsDetail, error)
+	Request(ctx context.Context, userID2 *int) (*model.FriendsDetail, error)
+	AcceptFriendRequest(ctx context.Context, userID int) (*model.FriendsDetail, error)
+	DeclineFriendRequest(ctx context.Context, userID int) (*model.FriendsDetail, error)
 	InsertGame(ctx context.Context, game model.GameInput) (*model.Game, error)
 	UpdateGame(ctx context.Context, game model.GameInput) (*model.Game, error)
 	InsertPromo(ctx context.Context, promo model.PromoInput) (*model.Promo, error)
@@ -238,6 +252,15 @@ type MutationResolver interface {
 	DeleteRequest(ctx context.Context, userID int) (*model.UnsuspendRequest, error)
 	AcceptRequest(ctx context.Context, requestID int) (*model.UnsuspendRequest, error)
 	RejectRequest(ctx context.Context, requestID int) (*model.UnsuspendRequest, error)
+	CreateUser(ctx context.Context, input model.NewUser) (*model.User, error)
+	CreateAccount(ctx context.Context, input model.CreateAccount) (*model.User, error)
+	CreateFullAccount(ctx context.Context, input model.FinalizeAccount) (string, error)
+	LoginUser(ctx context.Context, input model.Login) (*model.User, error)
+	LogoutUser(ctx context.Context, username string) (*model.User, error)
+	UpdateGeneral(ctx context.Context, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) (*model.User, error)
+	UpdateImage(ctx context.Context, imageURL string) (*model.User, error)
+	AddGameToWishlist(ctx context.Context, gameID int) (*model.User, error)
+	DeleteWishlist(ctx context.Context, gameID int) (*model.User, error)
 }
 type QueryResolver interface {
 	AllGame(ctx context.Context) ([]*model.Game, error)
@@ -247,11 +270,16 @@ type QueryResolver interface {
 	SearchGameInfinite(ctx context.Context, title string, page int) ([]*model.Game, error)
 	GetTotalGame(ctx context.Context) (int, error)
 	GetFilterGame(ctx context.Context, genre int, price int, title string) ([]*model.Game, error)
+	GetNewGame(ctx context.Context) ([]*model.Game, error)
+	GetTopSeller(ctx context.Context) ([]*model.Game, error)
 	GetAllCountry(ctx context.Context) ([]*model.Country, error)
+	GetTotalRequestFriend(ctx context.Context) (int, error)
+	GetAllRequestFriend(ctx context.Context) ([]*model.FriendsDetail, error)
 	GetAllGenre(ctx context.Context) ([]*model.Genre, error)
 	GetAllPromo(ctx context.Context, page int) ([]*model.Promo, error)
 	GetPromoByID(ctx context.Context, id int) (*model.Promo, error)
 	GetTotalPromo(ctx context.Context) (int, error)
+	GetOnSale(ctx context.Context) ([]*model.Promo, error)
 	InsertReport(ctx context.Context, report model.InsertReport) (*model.ReportUser, error)
 	GetAllReport(ctx context.Context) ([]*model.ReportUser, error)
 	GetReportByReported(ctx context.Context, reportedID int) ([]*model.ReportUser, error)
@@ -441,19 +469,19 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Game.Description(childComplexity), true
 
+	case "Game.gameSlideShow":
+		if e.complexity.Game.GameSlideShow == nil {
+			break
+		}
+
+		return e.complexity.Game.GameSlideShow(childComplexity), true
+
 	case "Game.genre":
 		if e.complexity.Game.Genre == nil {
 			break
 		}
 
 		return e.complexity.Game.Genre(childComplexity), true
-
-	case "Game.genreId":
-		if e.complexity.Game.GenreID == nil {
-			break
-		}
-
-		return e.complexity.Game.GenreID(childComplexity), true
 
 	case "Game.ID":
 		if e.complexity.Game.ID == nil {
@@ -525,6 +553,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Game.Users(childComplexity), true
 
+	case "Game.wishlist":
+		if e.complexity.Game.Wishlist == nil {
+			break
+		}
+
+		return e.complexity.Game.Wishlist(childComplexity), true
+
+	case "GameSlideShow.gameId":
+		if e.complexity.GameSlideShow.GameID == nil {
+			break
+		}
+
+		return e.complexity.GameSlideShow.GameID(childComplexity), true
+
+	case "GameSlideShow.slideShowId":
+		if e.complexity.GameSlideShow.SlideShowID == nil {
+			break
+		}
+
+		return e.complexity.GameSlideShow.SlideShowID(childComplexity), true
+
+	case "GameSlideShow.slideShowUrl":
+		if e.complexity.GameSlideShow.SlideShowURL == nil {
+			break
+		}
+
+		return e.complexity.GameSlideShow.SlideShowURL(childComplexity), true
+
+	case "Genre.game":
+		if e.complexity.Genre.Game == nil {
+			break
+		}
+
+		return e.complexity.Genre.Game(childComplexity), true
+
 	case "Genre.genreId":
 		if e.complexity.Genre.GenreID == nil {
 			break
@@ -539,6 +602,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Genre.GenreName(childComplexity), true
 
+	case "Mutation.acceptFriendRequest":
+		if e.complexity.Mutation.AcceptFriendRequest == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_acceptFriendRequest_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.AcceptFriendRequest(childComplexity, args["userId"].(int)), true
+
 	case "Mutation.acceptRequest":
 		if e.complexity.Mutation.AcceptRequest == nil {
 			break
@@ -550,6 +625,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.AcceptRequest(childComplexity, args["requestId"].(int)), true
+
+	case "Mutation.addGameToWishlist":
+		if e.complexity.Mutation.AddGameToWishlist == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_addGameToWishlist_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.AddGameToWishlist(childComplexity, args["gameId"].(int)), true
 
 	case "Mutation.createAccount":
 		if e.complexity.Mutation.CreateAccount == nil {
@@ -587,6 +674,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.CreateUser(childComplexity, args["input"].(model.NewUser)), true
 
+	case "Mutation.declineFriendRequest":
+		if e.complexity.Mutation.DeclineFriendRequest == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_declineFriendRequest_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeclineFriendRequest(childComplexity, args["userId"].(int)), true
+
 	case "Mutation.deleteRequest":
 		if e.complexity.Mutation.DeleteRequest == nil {
 			break
@@ -598,6 +697,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeleteRequest(childComplexity, args["userId"].(int)), true
+
+	case "Mutation.deleteWishlist":
+		if e.complexity.Mutation.DeleteWishlist == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deleteWishlist_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeleteWishlist(childComplexity, args["gameId"].(int)), true
 
 	case "Mutation.insertGame":
 		if e.complexity.Mutation.InsertGame == nil {
@@ -669,7 +780,7 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 			return 0, false
 		}
 
-		return e.complexity.Mutation.Request(childComplexity, args["userId1"].(*int), args["userId2"].(*int)), true
+		return e.complexity.Mutation.Request(childComplexity, args["userId2"].(*int)), true
 
 	case "Mutation.updateGame":
 		if e.complexity.Mutation.UpdateGame == nil {
@@ -853,6 +964,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetAllReport(childComplexity), true
 
+	case "Query.getAllRequestFriend":
+		if e.complexity.Query.GetAllRequestFriend == nil {
+			break
+		}
+
+		return e.complexity.Query.GetAllRequestFriend(childComplexity), true
+
 	case "Query.getAllUserPaginated":
 		if e.complexity.Query.GetAllUserPaginated == nil {
 			break
@@ -896,6 +1014,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetGameByID(childComplexity, args["id"].(int)), true
 
+	case "Query.getNewGame":
+		if e.complexity.Query.GetNewGame == nil {
+			break
+		}
+
+		return e.complexity.Query.GetNewGame(childComplexity), true
+
+	case "Query.getOnSale":
+		if e.complexity.Query.GetOnSale == nil {
+			break
+		}
+
+		return e.complexity.Query.GetOnSale(childComplexity), true
+
 	case "Query.getPromoById":
 		if e.complexity.Query.GetPromoByID == nil {
 			break
@@ -920,6 +1052,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Query.GetReportByReported(childComplexity, args["reportedId"].(int)), true
 
+	case "Query.getTopSeller":
+		if e.complexity.Query.GetTopSeller == nil {
+			break
+		}
+
+		return e.complexity.Query.GetTopSeller(childComplexity), true
+
 	case "Query.getTotalGame":
 		if e.complexity.Query.GetTotalGame == nil {
 			break
@@ -933,6 +1072,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetTotalPromo(childComplexity), true
+
+	case "Query.getTotalRequestFriend":
+		if e.complexity.Query.GetTotalRequestFriend == nil {
+			break
+		}
+
+		return e.complexity.Query.GetTotalRequestFriend(childComplexity), true
 
 	case "Query.getTotalUser":
 		if e.complexity.Query.GetTotalUser == nil {
@@ -1258,6 +1404,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.LastName(childComplexity), true
 
+	case "User.money":
+		if e.complexity.User.Money == nil {
+			break
+		}
+
+		return e.complexity.User.Money(childComplexity), true
+
 	case "User.otp":
 		if e.complexity.User.Otp == nil {
 			break
@@ -1348,6 +1501,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.UserName(childComplexity), true
+
+	case "User.wishlist":
+		if e.complexity.User.Wishlist == nil {
+			break
+		}
+
+		return e.complexity.User.Wishlist(childComplexity), true
 
 	}
 	return 0, false
@@ -1443,13 +1603,26 @@ extend type Query {
 }
 
 
-extend type Mutation{
-    request(userId1:Int, userId2:Int):FriendsDetail!
+type Mutation{
+    request(userId2:Int):FriendsDetail!
+    acceptFriendRequest(userId: Int!): FriendsDetail!
+    declineFriendRequest(userId:Int!):FriendsDetail!
+}
+
+extend type Query{
+    getTotalRequestFriend: Int!
+    getAllRequestFriend: [FriendsDetail!]!
+
 }
 
 type FriendStatus{
     friendStatusId: Int!
     statusName:String!
+}`, BuiltIn: false},
+	{Name: "graph/game_slide_show.graphqls", Input: `type GameSlideShow{
+    slideShowId: Int!
+    slideShowUrl: String!
+    gameId: Int!
 }`, BuiltIn: false},
 	{Name: "graph/games.graphqls", Input: `
 type Game {
@@ -1463,8 +1636,9 @@ type Game {
     tag: String!
     systemRequirement: String!
     users: [User!]!
-    genre: Genre!
-    genreId: Int!
+    wishlist: [User!]!
+    genre: [Genre!]!
+    gameSlideShow : [GameSlideShow!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -1478,6 +1652,8 @@ type Query{
     searchGameInfinite(title: String! page: Int!): [Game!]!
     getTotalGame: Int!
     getFilterGame(genre: Int!, price: Int!, title: String!): [Game!]!
+    getNewGame: [Game!]!
+    getTopSeller: [Game!]!
 }
 
 input gameInput{
@@ -1488,7 +1664,8 @@ input gameInput{
     Rating: Int!
     imageBanner: String!
     Image: String!
-    tag: String!
+    gameSlideShow: [String!]!
+    genre: [Int!]!
     systemRequirement: String!
 }
 
@@ -1499,6 +1676,7 @@ extend type Mutation{
 	{Name: "graph/genre.graphqls", Input: `type Genre{
     genreId: Int!
     genreName: String!
+    game: [Game!]!
 }
 
 extend type Query{
@@ -1519,6 +1697,7 @@ extend type Query{
     getAllPromo(page: Int!): [Promo!]!
     getPromoById(Id: Int!): Promo!
     getTotalPromo: Int!
+    getOnSale: [Promo!]!
 }
 
 input PromoInput{
@@ -1598,6 +1777,7 @@ type User{
     realName: String!
     customUrl: String!
     hideAward: Boolean!
+    money: Int!
     summary: String!
     AuthToken: String!
     Email: String!
@@ -1611,6 +1791,7 @@ type User{
     statusId: Int!
     otp: String!
     games: [Game!]!
+    wishlist: [Game!]!
     friends:[User!]!
     CreatedAt: Time!
     UpdatedAt: Time!
@@ -1625,6 +1806,7 @@ extend type Query {
     getAdmin(username: String! password: String!): User!
     getAllUserPaginated(page: Int!): [User!]!
     getTotalUser:Int!
+
 }
 
 input email{
@@ -1657,7 +1839,7 @@ input Login{
     password: String!
 }
 
-type Mutation{
+extend type Mutation{
     createUser(input: NewUser!): User!
     createAccount(input: CreateAccount!): User!
     createFullAccount(input: FinalizeAccount!):String!
@@ -1665,6 +1847,8 @@ type Mutation{
     logoutUser(username: String!): User!
     updateGeneral(profileName: String! realName: String! customUrl: String! countryId: Int! summary: String! hideAward: Boolean! ): User!
     updateImage(imageUrl: String!): User!
+    addGameToWishlist(gameId: Int!): User!
+    deleteWishlist(gameId: Int!): User!
 }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -1672,6 +1856,21 @@ var parsedSchema = gqlparser.MustLoadSchema(sources...)
 // endregion ************************** generated!.gotpl **************************
 
 // region    ***************************** args.gotpl *****************************
+
+func (ec *executionContext) field_Mutation_acceptFriendRequest_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["userId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["userId"] = arg0
+	return args, nil
+}
 
 func (ec *executionContext) field_Mutation_acceptRequest_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
@@ -1685,6 +1884,21 @@ func (ec *executionContext) field_Mutation_acceptRequest_args(ctx context.Contex
 		}
 	}
 	args["requestId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_addGameToWishlist_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["gameId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gameId"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["gameId"] = arg0
 	return args, nil
 }
 
@@ -1733,6 +1947,21 @@ func (ec *executionContext) field_Mutation_createUser_args(ctx context.Context, 
 	return args, nil
 }
 
+func (ec *executionContext) field_Mutation_declineFriendRequest_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["userId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["userId"] = arg0
+	return args, nil
+}
+
 func (ec *executionContext) field_Mutation_deleteRequest_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
 	var err error
 	args := map[string]interface{}{}
@@ -1745,6 +1974,21 @@ func (ec *executionContext) field_Mutation_deleteRequest_args(ctx context.Contex
 		}
 	}
 	args["userId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deleteWishlist_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["gameId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gameId"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["gameId"] = arg0
 	return args, nil
 }
 
@@ -1827,23 +2071,14 @@ func (ec *executionContext) field_Mutation_request_args(ctx context.Context, raw
 	var err error
 	args := map[string]interface{}{}
 	var arg0 *int
-	if tmp, ok := rawArgs["userId1"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId1"))
+	if tmp, ok := rawArgs["userId2"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId2"))
 		arg0, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
 		if err != nil {
 			return nil, err
 		}
 	}
-	args["userId1"] = arg0
-	var arg1 *int
-	if tmp, ok := rawArgs["userId2"]; ok {
-		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("userId2"))
-		arg1, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
-		if err != nil {
-			return nil, err
-		}
-	}
-	args["userId2"] = arg1
+	args["userId2"] = arg0
 	return args, nil
 }
 
@@ -3304,6 +3539,41 @@ func (ec *executionContext) _Game_users(ctx context.Context, field graphql.Colle
 	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Game_wishlist(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Game",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Wishlist, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Game_genre(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3334,12 +3604,12 @@ func (ec *executionContext) _Game_genre(ctx context.Context, field graphql.Colle
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.Genre)
+	res := resTmp.([]*model.Genre)
 	fc.Result = res
-	return ec.marshalNGenre2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGenre(ctx, field.Selections, res)
+	return ec.marshalNGenre2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGenreᚄ(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Game_genreId(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
+func (ec *executionContext) _Game_gameSlideShow(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -3357,7 +3627,7 @@ func (ec *executionContext) _Game_genreId(ctx context.Context, field graphql.Col
 	ctx = graphql.WithFieldContext(ctx, fc)
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.GenreID, nil
+		return obj.GameSlideShow, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3369,9 +3639,9 @@ func (ec *executionContext) _Game_genreId(ctx context.Context, field graphql.Col
 		}
 		return graphql.Null
 	}
-	res := resTmp.(int)
+	res := resTmp.([]*model.GameSlideShow)
 	fc.Result = res
-	return ec.marshalNInt2int(ctx, field.Selections, res)
+	return ec.marshalNGameSlideShow2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameSlideShowᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Game_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
@@ -3476,6 +3746,111 @@ func (ec *executionContext) _Game_DeletedAt(ctx context.Context, field graphql.C
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _GameSlideShow_slideShowId(ctx context.Context, field graphql.CollectedField, obj *model.GameSlideShow) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GameSlideShow",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SlideShowID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GameSlideShow_slideShowUrl(ctx context.Context, field graphql.CollectedField, obj *model.GameSlideShow) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GameSlideShow",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.SlideShowURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _GameSlideShow_gameId(ctx context.Context, field graphql.CollectedField, obj *model.GameSlideShow) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "GameSlideShow",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.GameID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Genre_genreId(ctx context.Context, field graphql.CollectedField, obj *model.Genre) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -3546,7 +3921,7 @@ func (ec *executionContext) _Genre_genreName(ctx context.Context, field graphql.
 	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+func (ec *executionContext) _Genre_game(ctx context.Context, field graphql.CollectedField, obj *model.Genre) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
 			ec.Error(ctx, ec.Recover(ctx, r))
@@ -3554,24 +3929,17 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		}
 	}()
 	fc := &graphql.FieldContext{
-		Object:     "Mutation",
+		Object:     "Genre",
 		Field:      field,
 		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
+		IsMethod:   false,
+		IsResolver: false,
 	}
 
 	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createUser_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateUser(rctx, args["input"].(model.NewUser))
+		return obj.Game, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -3583,261 +3951,9 @@ func (ec *executionContext) _Mutation_createUser(ctx context.Context, field grap
 		}
 		return graphql.Null
 	}
-	res := resTmp.(*model.User)
+	res := resTmp.([]*model.Game)
 	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createAccount_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateAccount(rctx, args["input"].(model.CreateAccount))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_createFullAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_createFullAccount_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().CreateFullAccount(rctx, args["input"].(model.FinalizeAccount))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(string)
-	fc.Result = res
-	return ec.marshalNString2string(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_loginUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_loginUser_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().LoginUser(rctx, args["input"].(model.Login))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_logoutUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_logoutUser_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().LogoutUser(rctx, args["username"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateGeneral(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateGeneral_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateGeneral(rctx, args["profileName"].(string), args["realName"].(string), args["customUrl"].(string), args["countryId"].(int), args["summary"].(string), args["hideAward"].(bool))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Mutation",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   true,
-		IsResolver: true,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	rawArgs := field.ArgumentMap(ec.Variables)
-	args, err := ec.field_Mutation_updateImage_args(ctx, rawArgs)
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	fc.Args = args
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().UpdateImage(rctx, args["imageUrl"].(string))
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		if !graphql.HasFieldError(ctx, fc) {
-			ec.Errorf(ctx, "must not be null")
-		}
-		return graphql.Null
-	}
-	res := resTmp.(*model.User)
-	fc.Result = res
-	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Mutation_request(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -3865,7 +3981,91 @@ func (ec *executionContext) _Mutation_request(ctx context.Context, field graphql
 	fc.Args = args
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return ec.resolvers.Mutation().Request(rctx, args["userId1"].(*int), args["userId2"].(*int))
+		return ec.resolvers.Mutation().Request(rctx, args["userId2"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FriendsDetail)
+	fc.Result = res
+	return ec.marshalNFriendsDetail2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_acceptFriendRequest(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_acceptFriendRequest_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AcceptFriendRequest(rctx, args["userId"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.FriendsDetail)
+	fc.Result = res
+	return ec.marshalNFriendsDetail2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetail(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_declineFriendRequest(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_declineFriendRequest_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeclineFriendRequest(rctx, args["userId"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4174,6 +4374,384 @@ func (ec *executionContext) _Mutation_rejectRequest(ctx context.Context, field g
 	res := resTmp.(*model.UnsuspendRequest)
 	fc.Result = res
 	return ec.marshalNUnsuspendRequest2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUnsuspendRequest(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createUser_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateUser(rctx, args["input"].(model.NewUser))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createAccount_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateAccount(rctx, args["input"].(model.CreateAccount))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_createFullAccount(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_createFullAccount_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().CreateFullAccount(rctx, args["input"].(model.FinalizeAccount))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_loginUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_loginUser_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().LoginUser(rctx, args["input"].(model.Login))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_logoutUser(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_logoutUser_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().LogoutUser(rctx, args["username"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_updateGeneral(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updateGeneral_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateGeneral(rctx, args["profileName"].(string), args["realName"].(string), args["customUrl"].(string), args["countryId"].(int), args["summary"].(string), args["hideAward"].(bool))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_updateImage(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_updateImage_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().UpdateImage(rctx, args["imageUrl"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_addGameToWishlist(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_addGameToWishlist_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().AddGameToWishlist(rctx, args["gameId"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_deleteWishlist(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_deleteWishlist_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeleteWishlist(rctx, args["gameId"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Promo_promoId(ctx context.Context, field graphql.CollectedField, obj *model.Promo) (ret graphql.Marshaler) {
@@ -4803,6 +5381,76 @@ func (ec *executionContext) _Query_getFilterGame(ctx context.Context, field grap
 	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Query_getNewGame(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetNewGame(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Game)
+	fc.Result = res
+	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getTopSeller(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetTopSeller(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Game)
+	fc.Result = res
+	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query_getAllCountry(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4836,6 +5484,76 @@ func (ec *executionContext) _Query_getAllCountry(ctx context.Context, field grap
 	res := resTmp.([]*model.Country)
 	fc.Result = res
 	return ec.marshalNCountry2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐCountryᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getTotalRequestFriend(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetTotalRequestFriend(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getAllRequestFriend(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetAllRequestFriend(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.FriendsDetail)
+	fc.Result = res
+	return ec.marshalNFriendsDetail2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetailᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getAllGenre(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -4990,6 +5708,41 @@ func (ec *executionContext) _Query_getTotalPromo(ctx context.Context, field grap
 	res := resTmp.(int)
 	fc.Result = res
 	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getOnSale(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetOnSale(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Promo)
+	fc.Result = res
+	return ec.marshalNPromo2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPromoᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_insertReport(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -6541,6 +7294,41 @@ func (ec *executionContext) _User_hideAward(ctx context.Context, field graphql.C
 	return ec.marshalNBoolean2bool(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _User_money(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Money, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _User_summary(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6980,6 +7768,41 @@ func (ec *executionContext) _User_games(ctx context.Context, field graphql.Colle
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.Games, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Game)
+	fc.Result = res
+	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_wishlist(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Wishlist, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -8534,11 +9357,19 @@ func (ec *executionContext) unmarshalInputgameInput(ctx context.Context, obj int
 			if err != nil {
 				return it, err
 			}
-		case "tag":
+		case "gameSlideShow":
 			var err error
 
-			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("tag"))
-			it.Tag, err = ec.unmarshalNString2string(ctx, v)
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("gameSlideShow"))
+			it.GameSlideShow, err = ec.unmarshalNString2ᚕstringᚄ(ctx, v)
+			if err != nil {
+				return it, err
+			}
+		case "genre":
+			var err error
+
+			ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("genre"))
+			it.Genre, err = ec.unmarshalNInt2ᚕintᚄ(ctx, v)
 			if err != nil {
 				return it, err
 			}
@@ -8807,13 +9638,18 @@ func (ec *executionContext) _Game(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "wishlist":
+			out.Values[i] = ec._Game_wishlist(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "genre":
 			out.Values[i] = ec._Game_genre(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "genreId":
-			out.Values[i] = ec._Game_genreId(ctx, field, obj)
+		case "gameSlideShow":
+			out.Values[i] = ec._Game_gameSlideShow(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -8829,6 +9665,43 @@ func (ec *executionContext) _Game(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "DeletedAt":
 			out.Values[i] = ec._Game_DeletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var gameSlideShowImplementors = []string{"GameSlideShow"}
+
+func (ec *executionContext) _GameSlideShow(ctx context.Context, sel ast.SelectionSet, obj *model.GameSlideShow) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, gameSlideShowImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("GameSlideShow")
+		case "slideShowId":
+			out.Values[i] = ec._GameSlideShow_slideShowId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "slideShowUrl":
+			out.Values[i] = ec._GameSlideShow_slideShowUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "gameId":
+			out.Values[i] = ec._GameSlideShow_gameId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8861,6 +9734,11 @@ func (ec *executionContext) _Genre(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "game":
+			out.Values[i] = ec._Genre_game(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -8887,43 +9765,18 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 		switch field.Name {
 		case "__typename":
 			out.Values[i] = graphql.MarshalString("Mutation")
-		case "createUser":
-			out.Values[i] = ec._Mutation_createUser(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createAccount":
-			out.Values[i] = ec._Mutation_createAccount(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "createFullAccount":
-			out.Values[i] = ec._Mutation_createFullAccount(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "loginUser":
-			out.Values[i] = ec._Mutation_loginUser(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "logoutUser":
-			out.Values[i] = ec._Mutation_logoutUser(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateGeneral":
-			out.Values[i] = ec._Mutation_updateGeneral(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
-		case "updateImage":
-			out.Values[i] = ec._Mutation_updateImage(ctx, field)
-			if out.Values[i] == graphql.Null {
-				invalids++
-			}
 		case "request":
 			out.Values[i] = ec._Mutation_request(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "acceptFriendRequest":
+			out.Values[i] = ec._Mutation_acceptFriendRequest(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "declineFriendRequest":
+			out.Values[i] = ec._Mutation_declineFriendRequest(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -8959,6 +9812,51 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "rejectRequest":
 			out.Values[i] = ec._Mutation_rejectRequest(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createUser":
+			out.Values[i] = ec._Mutation_createUser(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createAccount":
+			out.Values[i] = ec._Mutation_createAccount(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "createFullAccount":
+			out.Values[i] = ec._Mutation_createFullAccount(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "loginUser":
+			out.Values[i] = ec._Mutation_loginUser(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "logoutUser":
+			out.Values[i] = ec._Mutation_logoutUser(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateGeneral":
+			out.Values[i] = ec._Mutation_updateGeneral(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "updateImage":
+			out.Values[i] = ec._Mutation_updateImage(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "addGameToWishlist":
+			out.Values[i] = ec._Mutation_addGameToWishlist(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deleteWishlist":
+			out.Values[i] = ec._Mutation_deleteWishlist(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -9177,6 +10075,34 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}
 				return res
 			})
+		case "getNewGame":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getNewGame(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getTopSeller":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getTopSeller(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "getAllCountry":
 			field := field
 			out.Concurrently(i, func() (res graphql.Marshaler) {
@@ -9186,6 +10112,34 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getAllCountry(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getTotalRequestFriend":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getTotalRequestFriend(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getAllRequestFriend":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getAllRequestFriend(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -9242,6 +10196,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getTotalPromo(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getOnSale":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getOnSale(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -9659,6 +10627,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "money":
+			out.Values[i] = ec._User_money(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "summary":
 			out.Values[i] = ec._User_summary(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -9721,6 +10694,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "games":
 			out.Values[i] = ec._User_games(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "wishlist":
+			out.Values[i] = ec._User_wishlist(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -10083,6 +11061,43 @@ func (ec *executionContext) marshalNFriendsDetail2githubᚗcomᚋkendrickoᚑadr
 	return ec._FriendsDetail(ctx, sel, &v)
 }
 
+func (ec *executionContext) marshalNFriendsDetail2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetailᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.FriendsDetail) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNFriendsDetail2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetail(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
 func (ec *executionContext) marshalNFriendsDetail2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐFriendsDetail(ctx context.Context, sel ast.SelectionSet, v *model.FriendsDetail) graphql.Marshaler {
 	if v == nil {
 		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
@@ -10142,6 +11157,53 @@ func (ec *executionContext) marshalNGame2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋg
 		return graphql.Null
 	}
 	return ec._Game(ctx, sel, v)
+}
+
+func (ec *executionContext) marshalNGameSlideShow2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameSlideShowᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.GameSlideShow) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNGameSlideShow2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameSlideShow(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNGameSlideShow2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameSlideShow(ctx context.Context, sel ast.SelectionSet, v *model.GameSlideShow) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._GameSlideShow(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNGenre2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGenreᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Genre) graphql.Marshaler {
@@ -10209,6 +11271,36 @@ func (ec *executionContext) marshalNInt2int(ctx context.Context, sel ast.Selecti
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNInt2ᚕintᚄ(ctx context.Context, v interface{}) ([]int, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]int, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNInt2int(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNInt2ᚕintᚄ(ctx context.Context, sel ast.SelectionSet, v []int) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNInt2int(ctx, sel, v[i])
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalNLogin2githubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐLogin(ctx context.Context, v interface{}) (model.Login, error) {
@@ -10361,6 +11453,36 @@ func (ec *executionContext) marshalNString2string(ctx context.Context, sel ast.S
 		}
 	}
 	return res
+}
+
+func (ec *executionContext) unmarshalNString2ᚕstringᚄ(ctx context.Context, v interface{}) ([]string, error) {
+	var vSlice []interface{}
+	if v != nil {
+		if tmp1, ok := v.([]interface{}); ok {
+			vSlice = tmp1
+		} else {
+			vSlice = []interface{}{v}
+		}
+	}
+	var err error
+	res := make([]string, len(vSlice))
+	for i := range vSlice {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithIndex(i))
+		res[i], err = ec.unmarshalNString2string(ctx, vSlice[i])
+		if err != nil {
+			return nil, err
+		}
+	}
+	return res, nil
+}
+
+func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel ast.SelectionSet, v []string) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	for i := range v {
+		ret[i] = ec.marshalNString2string(ctx, sel, v[i])
+	}
+
+	return ret
 }
 
 func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v interface{}) (time.Time, error) {

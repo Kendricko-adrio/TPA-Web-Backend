@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
-	"github.com/kendricko-adrio/gqlgen-todos/graph/generated"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/jwt"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/mailjet"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
@@ -211,6 +210,57 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, imageURL string) (*m
 	return user, nil
 }
 
+func (r *mutationResolver) AddGameToWishlist(ctx context.Context, gameID int) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+
+	db.First(&user)
+
+	game := &model.Game{ID: gameID}
+
+	db.First(game)
+
+	user.Wishlist = append(user.Wishlist, game)
+
+	db.Save(user)
+
+	promo := model.Promo{}
+
+	test :=	db.Preload(clause.Associations).Where("game_id = ?", gameID).First(&promo)
+
+	if test.RowsAffected != 0{
+		//var userPromo
+		//db.First()
+		fmt.Println("masuk email", user.Email, promo.Game.Name)
+		//mailjet.OnSale(user.Email, promo.Game.Name)
+	}
+
+	return user, nil
+}
+
+func (r *mutationResolver) DeleteWishlist(ctx context.Context, gameID int) (*model.User, error) {
+	//panic(fmt.Errorf("not implemented"))
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	db.Exec("DELETE FROM games_wishlist WHERE game_id = ? AND user_user_id = ?", gameID, user.UserID)
+
+	return user,nil
+
+}
+
 func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
 	db, err := database.Connect()
 	if err != nil {
@@ -219,7 +269,7 @@ func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
 
 	var user []*model.User
 
-	db.Preload("Country").Preload("Games").Find(&user).Debug()
+	db.Preload("Country").Preload(clause.Associations).Find(&user).Debug()
 	fmt.Print(&user)
 
 	return user, err
@@ -251,7 +301,7 @@ func (r *queryResolver) GetAuthUser(ctx context.Context) (*model.User, error) {
 	}
 
 	var findUser model.User
-	db.Where("user_id = ?", user.UserID).Preload("Games").First(&findUser)
+	db.Where("user_id = ?", user.UserID).Preload(clause.Associations).First(&findUser)
 
 	return &findUser, err
 }
@@ -315,7 +365,4 @@ func (r *queryResolver) GetTotalUser(ctx context.Context) (int, error) {
 	return int(test.RowsAffected), nil
 }
 
-// Mutation returns generated.MutationResolver implementation.
-func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
 
-type mutationResolver struct{ *Resolver }

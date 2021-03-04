@@ -13,16 +13,19 @@ func init() {
 
 	db.Exec("DROP TABLE users_games")
 	db.Exec("DROP TABLE friends")
+	db.Exec("DROP TABLE game_genres")
+	db.Exec("DROP TABLE games_wishlist")
 	db.Migrator().DropTable(&model.User{}, &model.Country{},
 		&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{},
 		&model.ReportUser{}, &model.UnsuspendRequestType{}, &model.UnsuspendRequest{},
-		&model.Genre{})
+		&model.Genre{}, &model.GameSlideShow{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{}, &model.ReportUser{},
-		&model.UnsuspendRequestType{}, &model.UnsuspendRequest{}, &model.Genre{})
+		&model.UnsuspendRequestType{}, &model.UnsuspendRequest{}, &model.Genre{},
+		&model.GameSlideShow{})
 }
 
 func SeedAll() {
@@ -30,7 +33,7 @@ func SeedAll() {
 	SeedStatus()
 	SeedCountry()
 	SeedGenre()
-	SeedGames()
+	model.SeedGames()
 	SeedProvider()
 	SeedUser()
 	SeedAdmin()
@@ -38,6 +41,7 @@ func SeedAll() {
 	SeedReport()
 	SeedUnsuspendRequestType()
 	SeedUnsuspendRequest()
+	SeedFriendsDetail()
 }
 
 func SeedGenre(){
@@ -118,17 +122,17 @@ func SeedPromo() {
 		panic(err)
 	}
 	db.Create(&model.Promo{
-		PromoDiscount: 10,
+		PromoDiscount: 80,
 		PromoDuration: 10,
 		GameID:        1,
 	})
 	db.Create(&model.Promo{
-		PromoDiscount: 10,
+		PromoDiscount: 70,
 		PromoDuration: 10,
 		GameID:        2,
 	})
 	db.Create(&model.Promo{
-		PromoDiscount: 10,
+		PromoDiscount: 60,
 		PromoDuration: 10,
 		GameID:        3,
 	})
@@ -213,6 +217,28 @@ func SeedAdmin() {
 
 }
 
+func SeedFriendsDetail(){
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	db.Create(&model.FriendsDetail{
+		User1id:        3,
+		User2id:        2,
+		FriendStatusID: 1,
+	})
+	db.Create(&model.FriendsDetail{
+		User1id:        4,
+		User2id:        2,
+		FriendStatusID: 1,
+	})
+	db.Create(&model.FriendsDetail{
+		User1id:        5,
+		User2id:        2,
+		FriendStatusID: 1,
+	})
+}
+
 func SeedFriendStatus() {
 	db, err := database.Connect()
 	if err != nil {
@@ -255,7 +281,8 @@ func SeedUser() {
 		FirstName:  "dum",
 		LastName:   "my",
 		AuthToken:  "asdf",
-		Email:      "asdf",
+		Money: 1000000,
+		Email:      "kendrickoadrio134@gmail.com",
 		IDToken:    "asdf",
 		PhotoURL:   "https://cdn.idntimes.com/content-images/community/2020/07/2f6d6ba28aee33bd220c6d419fd5faee-a238c2af6f14dc0f0653294961526bca_600x400.jpg",
 		Provider:   nil,
@@ -263,6 +290,12 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy",
+		Friends: []*model.User{
+			{
+				UserID: 1,
+			},
+
+		},
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -271,6 +304,7 @@ func SeedUser() {
 				ID: 2,
 			},
 		},
+
 		Otp: "ABCDE",
 	})
 
@@ -290,6 +324,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy2",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -314,6 +349,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   3,
 		CustomURL:  "dummy3",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -337,6 +373,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   3,
 		CustomURL:  "dummy4",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -361,6 +398,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy5",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -384,6 +422,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy6",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -407,6 +446,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy7",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -430,6 +470,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy8",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -453,6 +494,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy9",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -476,6 +518,7 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy10",
+		Money: 1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
@@ -519,158 +562,6 @@ func SeedProvider() {
 	})
 }
 
-func SeedGames() {
-	db, err := database.Connect()
-	if err != nil {
-		panic(err)
-	}
-
-	db.Create(&model.Game{
-		Name:        "Cyber Punk",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk2",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 2,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk3",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 3,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk4",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk5",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 2,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk6",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 3,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk7",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 4,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk8",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk9",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk10",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk11",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 2,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk12",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk13",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk14",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk15",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-	db.Create(&model.Game{
-		Name:        "Cyber Punk16",
-		Description: "Ini game cyber",
-		Price:       100000,
-		GenreID: 1,
-		Rating:      2,
-		Image:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-		ImageBanner:       "https://6.viki.io/image/595814709c7646178ec7352870810506.jpeg?s=900x600&e=t",
-	})
-
-}
 
 func SeedCountry() {
 	db, err := database.Connect()

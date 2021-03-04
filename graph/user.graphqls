@@ -9,6 +9,7 @@ type User{
     realName: String!
     customUrl: String!
     hideAward: Boolean!
+    money: Int!
     summary: String!
     AuthToken: String!
     Email: String!
@@ -22,6 +23,7 @@ type User{
     statusId: Int!
     otp: String!
     games: [Game!]!
+    wishlist: [Game!]!
     friends:[User!]!
     CreatedAt: Time!
     UpdatedAt: Time!
@@ -36,6 +38,7 @@ extend type Query {
     getAdmin(username: String! password: String!): User!
     getAllUserPaginated(page: Int!): [User!]!
     getTotalUser:Int!
+
 }
 
 input email{
@@ -68,7 +71,7 @@ input Login{
     password: String!
 }
 
-type Mutation{
+extend type Mutation{
     createUser(input: NewUser!): User!
     createAccount(input: CreateAccount!): User!
     createFullAccount(input: FinalizeAccount!):String!
@@ -76,4 +79,6 @@ type Mutation{
     logoutUser(username: String!): User!
     updateGeneral(profileName: String! realName: String! customUrl: String! countryId: Int! summary: String! hideAward: Boolean! ): User!
     updateImage(imageUrl: String!): User!
+    addGameToWishlist(gameId: Int!): User!
+    deleteWishlist(gameId: Int!): User!
 }

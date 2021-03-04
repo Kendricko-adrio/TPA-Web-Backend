@@ -30,18 +30,21 @@ type PromoInput struct {
 	GameID        int `json:"gameId"`
 }
 
+
+
 type Email struct {
 	Email string `json:"Email"`
 }
 
 type GameInput struct {
-	ID                int    `json:"ID"`
-	Name              string `json:"Name"`
-	Description       string `json:"Description"`
-	Price             int    `json:"Price"`
-	Rating            int    `json:"Rating"`
-	ImageBanner       string `json:"imageBanner"`
-	Image             string `json:"Image"`
-	Tag               string `json:"tag"`
-	SystemRequirement string `json:"systemRequirement"`
+	ID                int      `json:"ID"`
+	Name              string   `json:"Name"`
+	Description       string   `json:"Description"`
+	Price             int      `json:"Price"`
+	Rating            int      `json:"Rating"`
+	ImageBanner       string   `json:"imageBanner"`
+	Image             string   `json:"Image"`
+	GameSlideShow     []string `json:"gameSlideShow"`
+	Genre             []int    `json:"genre"`
+	SystemRequirement string   `json:"systemRequirement"`
 }

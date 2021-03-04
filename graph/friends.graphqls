@@ -11,8 +11,16 @@ type FriendsDetail{
 }
 
 
-extend type Mutation{
-    request(userId1:Int, userId2:Int):FriendsDetail!
+type Mutation{
+    request(userId2:Int):FriendsDetail!
+    acceptFriendRequest(userId: Int!): FriendsDetail!
+    declineFriendRequest(userId:Int!):FriendsDetail!
+}
+
+extend type Query{
+    getTotalRequestFriend: Int!
+    getAllRequestFriend: [FriendsDetail!]!
+
 }
 
 type FriendStatus{

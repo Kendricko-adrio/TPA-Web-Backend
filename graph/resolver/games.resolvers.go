@@ -10,6 +10,7 @@ import (
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/generated"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
+	"gorm.io/gorm/clause"
 )
 
 func (r *mutationResolver) InsertGame(ctx context.Context, game model.GameInput) (*model.Game, error) {
@@ -18,7 +19,21 @@ func (r *mutationResolver) InsertGame(ctx context.Context, game model.GameInput)
 	if err != nil {
 		panic(err)
 	}
+	var slideArr []*model.GameSlideShow
+	var genreArr []*model.Genre
 
+	for _, x := range game.Genre {
+		genreArr = append(genreArr, &model.Genre{GenreID: x})
+	}
+
+	for _, x := range game.GameSlideShow {
+		slideArr = append(slideArr, &model.GameSlideShow{SlideShowURL: x})
+	}
+
+	fmt.Println(game.Genre)
+	fmt.Println(game.GameSlideShow)
+	//fmt.Println(game.Genre)
+	//return nil, err
 	insertedGame := &model.Game{
 		Name:              game.Name,
 		Description:       game.Description,
@@ -26,7 +41,8 @@ func (r *mutationResolver) InsertGame(ctx context.Context, game model.GameInput)
 		Rating:            game.Rating,
 		ImageBanner:       game.ImageBanner,
 		Image:             game.Image,
-		Tag:               game.Tag,
+		Genre:             genreArr,
+		GameSlideShow:     slideArr,
 		SystemRequirement: game.SystemRequirement,
 	}
 	fmt.Println("insert gan")
@@ -46,7 +62,7 @@ func (r *mutationResolver) UpdateGame(ctx context.Context, game model.GameInput)
 	db.Find(updateGame)
 
 	updateGame.SystemRequirement = game.SystemRequirement
-	updateGame.Tag = game.Tag
+	//updateGame.Tag = game.Tag
 	updateGame.Image = game.Image
 	updateGame.ImageBanner = game.ImageBanner
 	updateGame.Rating = game.Rating
@@ -84,7 +100,7 @@ func (r *queryResolver) GetGameByID(ctx context.Context, id int) (*model.Game, e
 		panic(err)
 	}
 	game := &model.Game{ID: id}
-	db.First(game)
+	db.Preload(clause.Associations).First(game)
 	return game, nil
 }
 
@@ -135,6 +151,22 @@ func (r *queryResolver) GetFilterGame(ctx context.Context, genre int, price int,
 	db.Where("price <= ? AND LOWER(name) LIKE LOWER(?)", price, "%"+title+"%").Debug().Find(&searchGame)
 
 	return searchGame, nil
+}
+
+func (r *queryResolver) GetNewGame(ctx context.Context) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+
+	var searchGame []*model.Game
+	db.Order("created_at desc").Limit(10).Preload(clause.Associations).Find(&searchGame)
+
+	return searchGame, nil
+}
+
+func (r *queryResolver) GetTopSeller(ctx context.Context) ([]*model.Game, error) {
+	panic(fmt.Errorf("not implemented"))
 }
 
 // Query returns generated.QueryResolver implementation.

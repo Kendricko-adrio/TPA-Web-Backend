@@ -1,6 +1,7 @@
 type Genre{
     genreId: Int!
     genreName: String!
+    game: [Game!]!
 }
 
 extend type Query{

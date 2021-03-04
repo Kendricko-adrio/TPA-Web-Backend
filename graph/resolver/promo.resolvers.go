@@ -82,3 +82,14 @@ func (r *queryResolver) GetTotalPromo(ctx context.Context) (int, error) {
 
 	return int(test.RowsAffected), nil
 }
+
+func (r *queryResolver) GetOnSale(ctx context.Context) ([]*model.Promo, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	var allPromo []*model.Promo
+	db.Where("promo_discount >= 50").Limit(5).Preload(clause.Associations).Find(&allPromo)
+
+	return allPromo, nil
+}
