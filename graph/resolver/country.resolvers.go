@@ -16,6 +16,8 @@ func (r *queryResolver) GetAllCountry(ctx context.Context) ([]*model.Country, er
 		panic(err)
 	}
 
+	close, err := db.DB()
+	defer close.Close()
 	var countries []*model.Country
 
 	db.Find(&countries)

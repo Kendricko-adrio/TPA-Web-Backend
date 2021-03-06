@@ -30,8 +30,6 @@ type PromoInput struct {
 	GameID        int `json:"gameId"`
 }
 
-
-
 type Email struct {
 	Email string `json:"Email"`
 }

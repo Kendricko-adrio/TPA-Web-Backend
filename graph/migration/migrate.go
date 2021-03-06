@@ -10,22 +10,30 @@ func init() {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Exec("DROP TABLE users_games")
 	db.Exec("DROP TABLE friends")
 	db.Exec("DROP TABLE game_genres")
 	db.Exec("DROP TABLE games_wishlist")
+	db.Exec("DROP TABLE users_badge")
+	db.Exec("DROP TABLE users_mini_bg")
+	db.Exec("DROP TABLE users_theme")
+	db.Exec("DROP TABLE users_profile_bg")
 	db.Migrator().DropTable(&model.User{}, &model.Country{},
 		&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{},
 		&model.ReportUser{}, &model.UnsuspendRequestType{}, &model.UnsuspendRequest{},
-		&model.Genre{}, &model.GameSlideShow{})
+		&model.Genre{}, &model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
+		&model.Theme{}, &model.ProfileBackground{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{}, &model.ReportUser{},
 		&model.UnsuspendRequestType{}, &model.UnsuspendRequest{}, &model.Genre{},
-		&model.GameSlideShow{})
+		&model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
+		&model.Theme{}, &model.ProfileBackground{})
+
 }
 
 func SeedAll() {
@@ -33,7 +41,11 @@ func SeedAll() {
 	SeedStatus()
 	SeedCountry()
 	SeedGenre()
+	model.SeedTheme()
+	model.SeedBadge()
 	model.SeedGames()
+	model.SeedProfileBackground()
+	model.SeedMiniBackground()
 	SeedProvider()
 	SeedUser()
 	SeedAdmin()
@@ -44,12 +56,13 @@ func SeedAll() {
 	SeedFriendsDetail()
 }
 
-func SeedGenre(){
+func SeedGenre() {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.Genre{
 		GenreName: "Horror",
 	})
@@ -65,22 +78,26 @@ func SeedGenre(){
 
 }
 
-func SeedUnsuspendRequest(){
+func SeedUnsuspendRequest() {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.UnsuspendRequest{
 		SuspendedUserID: 4,
 		SuspendedTypeID: 1,
 	})
 }
 
-func SeedUnsuspendRequestType(){
+func SeedUnsuspendRequestType() {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.UnsuspendRequestType{
 		TypeID:   1,
 		TypeName: "Request",
@@ -100,6 +117,8 @@ func SeedReport() {
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.ReportUser{
 		ReporterID:        1,
 		ReportedID:        2,
@@ -121,6 +140,8 @@ func SeedPromo() {
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.Promo{
 		PromoDiscount: 80,
 		PromoDuration: 10,
@@ -204,6 +225,8 @@ func SeedAdmin() {
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.Admin{
 		AdminID:       1,
 		AdminUsername: "admin1",
@@ -217,11 +240,13 @@ func SeedAdmin() {
 
 }
 
-func SeedFriendsDetail(){
+func SeedFriendsDetail() {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.FriendsDetail{
 		User1id:        3,
 		User2id:        2,
@@ -244,6 +269,8 @@ func SeedFriendStatus() {
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.FriendStatus{
 		FriendStatusID: 1,
 		StatusName:     "Request",
@@ -263,7 +290,8 @@ func SeedUser() {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	pass, _ := model.HashPassword("dummy")
 	db.Create(&model.User{
 		UserName:   "admin1",
@@ -272,6 +300,30 @@ func SeedUser() {
 		ProviderID: 2,
 		CountryID:  1,
 		StatusID:   2,
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy",
@@ -281,7 +333,7 @@ func SeedUser() {
 		FirstName:  "dum",
 		LastName:   "my",
 		AuthToken:  "asdf",
-		Money: 1000000,
+		Money:      1000000,
 		Email:      "kendrickoadrio134@gmail.com",
 		IDToken:    "asdf",
 		PhotoURL:   "https://cdn.idntimes.com/content-images/community/2020/07/2f6d6ba28aee33bd220c6d419fd5faee-a238c2af6f14dc0f0653294961526bca_600x400.jpg",
@@ -304,8 +356,49 @@ func SeedUser() {
 				ID: 2,
 			},
 		},
-
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		OwnMiniBg: []*model.MiniBackground{
+			{
+				MiniID: 1,
+			},
+			{
+				MiniID: 2,
+			},
+			{
+				MiniID: 3,
+			},
+		},
+		CurrMiniBgImg: "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v462-n-130-textureidea_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=9465282a2b0a375f4f5b120d7bbad882",
+		Otp:           "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+			{
+				ThemeID: 2,
+			},
+			{
+				ThemeID: 3,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 
 	db.Create(&model.User{
@@ -324,13 +417,50 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy2",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		OwnMiniBg: []*model.MiniBackground{
+			{
+				MiniID: 1,
+			},
+			{
+				MiniID: 2,
+			},
+			{
+				MiniID: 3,
+			},
+		},
+		CurrMiniBgImg: "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v462-n-130-textureidea_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=9465282a2b0a375f4f5b120d7bbad882",
+
 		Otp: "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 
 	db.Create(&model.User{
@@ -349,13 +479,49 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   3,
 		CustomURL:  "dummy3",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnMiniBg: []*model.MiniBackground{
+			{
+				MiniID: 1,
+			},
+			{
+				MiniID: 2,
+			},
+			{
+				MiniID: 3,
+			},
+		},
+		CurrMiniBgImg: "https://img.rawpixel.com/s3fs-private/rawpixel_images/website_content/v462-n-130-textureidea_1.jpg?w=800&dpr=1&fit=default&crop=default&q=65&vib=3&con=3&usm=15&bg=F4F4F3&ixlib=js-2.2.1&s=9465282a2b0a375f4f5b120d7bbad882",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy4",
@@ -373,13 +539,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   3,
 		CustomURL:  "dummy4",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 
 	db.Create(&model.User{
@@ -398,13 +588,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy5",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy6",
@@ -422,13 +636,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy6",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy7",
@@ -446,13 +684,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy7",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy8",
@@ -470,13 +732,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy8",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy9",
@@ -494,13 +780,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy9",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 	db.Create(&model.User{
 		UserName:   "dummy10",
@@ -518,13 +828,37 @@ func SeedUser() {
 		CountryID:  1,
 		StatusID:   2,
 		CustomURL:  "dummy10",
-		Money: 1000000,
+		Money:      1000000,
 		Games: []*model.Game{
 			{
 				ID: 1,
 			},
 		},
-		Otp: "ABCDE",
+		OwnBadge: []*model.Badge{
+			{
+				BadgeID: 1,
+			},
+			{
+				BadgeID: 2,
+			},
+		},
+		CurrBadgeID: 1,
+		Otp:         "ABCDE",
+		OwnTheme: []*model.Theme{
+			{
+				ThemeID: 1,
+			},
+		},
+		CurrThemeID: 1,
+		OwnProfileBackground: []*model.ProfileBackground{
+			{
+				BackgroundID:  1,
+			},
+			{
+				BackgroundID:  2,
+			},
+		},
+		CurrProfileBackgroundID: 1,
 	})
 }
 
@@ -533,7 +867,8 @@ func SeedStatus() {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.Status{
 		StatusName: "Not Auth",
 	})
@@ -562,13 +897,13 @@ func SeedProvider() {
 	})
 }
 
-
 func SeedCountry() {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&model.Country{
 		Name: "Indonesia",
 		Code: "ID",

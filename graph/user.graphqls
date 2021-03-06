@@ -10,6 +10,7 @@ type User{
     customUrl: String!
     hideAward: Boolean!
     money: Int!
+    level: Int!
     summary: String!
     AuthToken: String!
     Email: String!
@@ -25,6 +26,17 @@ type User{
     games: [Game!]!
     wishlist: [Game!]!
     friends:[User!]!
+    ownBadge: [Badge!]!
+    currBadge: Badge!
+    currBadgeId: Int!
+    ownMiniBg: [MiniBackground!]!
+    currMiniBgImg: String!
+    ownTheme: [Theme!]!
+    currTheme: Theme!
+    currThemeId: Int!
+    ownProfileBackground: [ProfileBackground!]!
+    currProfileBackground: ProfileBackground!
+    currProfileBackgroundId: Int!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -38,7 +50,7 @@ extend type Query {
     getAdmin(username: String! password: String!): User!
     getAllUserPaginated(page: Int!): [User!]!
     getTotalUser:Int!
-
+    getAllBadge: [Badge!]!
 }
 
 input email{
@@ -81,4 +93,8 @@ extend type Mutation{
     updateImage(imageUrl: String!): User!
     addGameToWishlist(gameId: Int!): User!
     deleteWishlist(gameId: Int!): User!
+    setCurrBadge(badgeId: Int!): User!
+    setCurrMiniBg(imageUrl: String): User!
+    setCurrTheme(themeId: Int): User!
+    setCurrProfileBackground(backgroundIt: Int!): User!
 }

@@ -1,0 +1,8 @@
+type Badge{
+    badgeId: Int!
+    badgeName: String!
+    badgeUrl: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}

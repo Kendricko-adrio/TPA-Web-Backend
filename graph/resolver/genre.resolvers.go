@@ -15,6 +15,8 @@ func (r *queryResolver) GetAllGenre(ctx context.Context) ([]*model.Genre, error)
 	if err != nil {
 		return nil, err
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var genre []*model.Genre
 	db.Find(&genre)
 	return genre, nil

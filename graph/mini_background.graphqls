@@ -1,0 +1,7 @@
+type MiniBackground{
+    miniId: Int!
+    miniUrl: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}

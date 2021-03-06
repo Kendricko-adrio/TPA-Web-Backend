@@ -22,6 +22,8 @@ func (r *mutationResolver) AcceptRequest(ctx context.Context, requestID int) (*m
 	if err != nil {
 		return nil, err
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var request = &model.UnsuspendRequest{RequestID: requestID}
 	db.First(request)
 
@@ -39,6 +41,8 @@ func (r *mutationResolver) RejectRequest(ctx context.Context, requestID int) (*m
 	if err != nil {
 		return nil, err
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var request = &model.UnsuspendRequest{RequestID: requestID}
 	db.First(request)
 	db.Delete(request)
@@ -50,7 +54,8 @@ func (r *queryResolver) GetUnsuspendByUserID(ctx context.Context, userID int) ([
 	if err != nil {
 		return nil, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user []*model.UnsuspendRequest
 
 	db.Where("suspended_user_id = ?", userID).Preload(clause.Associations).First(&user)

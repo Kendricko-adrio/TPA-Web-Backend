@@ -22,7 +22,8 @@ func (r *mutationResolver) CreateUser(ctx context.Context, input model.NewUser) 
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	//print("test")
 
 	var checkUser model.User
@@ -56,7 +57,8 @@ func (r *mutationResolver) CreateAccount(ctx context.Context, input model.Create
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var checkUser model.User
 
 	test := db.Where("email = ?", input.Email).First(&checkUser)
@@ -86,7 +88,8 @@ func (r *mutationResolver) CreateFullAccount(ctx context.Context, input model.Fi
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	fmt.Println("test")
 	var findUser model.User
 	test := db.Where("otp = ? AND status_id = ?", input.Otp, 1).First(&findUser)
@@ -160,6 +163,8 @@ func (r *mutationResolver) UpdateGeneral(ctx context.Context, profileName string
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var userFind model.User
 	test := db.Find(user).First(&userFind)
 
@@ -197,6 +202,8 @@ func (r *mutationResolver) UpdateImage(ctx context.Context, imageURL string) (*m
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var userFind model.User
 	test := db.Find(user).First(&userFind)
 
@@ -219,7 +226,8 @@ func (r *mutationResolver) AddGameToWishlist(ctx context.Context, gameID int) (*
 	if err != nil {
 		return nil, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.First(&user)
 
 	game := &model.Game{ID: gameID}
@@ -232,9 +240,9 @@ func (r *mutationResolver) AddGameToWishlist(ctx context.Context, gameID int) (*
 
 	promo := model.Promo{}
 
-	test :=	db.Preload(clause.Associations).Where("game_id = ?", gameID).First(&promo)
+	test := db.Preload(clause.Associations).Where("game_id = ?", gameID).First(&promo)
 
-	if test.RowsAffected != 0{
+	if test.RowsAffected != 0 {
 		//var userPromo
 		//db.First()
 		fmt.Println("masuk email", user.Email, promo.Game.Name)
@@ -254,11 +262,87 @@ func (r *mutationResolver) DeleteWishlist(ctx context.Context, gameID int) (*mod
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Exec("DELETE FROM games_wishlist WHERE game_id = ? AND user_user_id = ?", gameID, user.UserID)
 
-	return user,nil
+	return user, nil
+}
 
+func (r *mutationResolver) SetCurrBadge(ctx context.Context, badgeID int) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		return nil, err
+	}
+	close, err := db.DB()
+	defer close.Close()
+	db.First(&user)
+
+	user.CurrBadgeID = badgeID
+	db.Save(&user)
+
+	return user, err
+}
+
+func (r *mutationResolver) SetCurrMiniBg(ctx context.Context, imageURL *string) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+	db.First(&user)
+
+	user.CurrMiniBgImg = *imageURL
+
+	db.Save(&user)
+	return user, nil
+}
+
+func (r *mutationResolver) SetCurrTheme(ctx context.Context, themeID *int) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	db.Find(&user)
+
+	user.CurrThemeID = *themeID
+	db.Save(&user)
+
+	return user, nil
+}
+
+func (r *mutationResolver) SetCurrProfileBackground(ctx context.Context, backgroundIt int) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	db.First(&user)
+	user.CurrProfileBackgroundID = backgroundIt
+	db.Save(&user)
+	return user, nil
 }
 
 func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
@@ -266,7 +350,8 @@ func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user []*model.User
 
 	db.Preload("Country").Preload(clause.Associations).Find(&user).Debug()
@@ -281,7 +366,8 @@ func (r *queryResolver) GetUser(ctx context.Context, input *model.Email) (*model
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user model.User
 
 	db.Where("user_name = ?", input.Email).Preload(clause.Associations).First(&user)
@@ -294,7 +380,8 @@ func (r *queryResolver) GetAuthUser(ctx context.Context) (*model.User, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	user := middleware.ForContext(ctx)
 	if user == nil {
 		return &model.User{}, fmt.Errorf("access denied")
@@ -311,10 +398,11 @@ func (r *queryResolver) GetUserByLink(ctx context.Context, customURL string) (*m
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user model.User
 
-	db.Where("custom_url = ?", customURL).Preload(clause.Associations).First(&user)
+	db.Where("custom_url = ?", customURL).Preload("CurrTheme").Preload("Friends.OwnBadge").Preload("Friends.CurrBadge").Preload("Games").Preload("OwnBadge").First(&user)
 
 	return &user, nil
 }
@@ -349,6 +437,8 @@ func (r *queryResolver) GetAllUserPaginated(ctx context.Context, page int) ([]*m
 	if err != nil {
 		return nil, err
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var users []*model.User
 	db.Limit(10).Offset((page - 1) * 10).Find(&users)
 	return users, nil
@@ -361,8 +451,11 @@ func (r *queryResolver) GetTotalUser(ctx context.Context) (int, error) {
 	}
 	var user []*model.User
 	test := db.Find(&user)
-
+	close, err := db.DB()
+	defer close.Close()
 	return int(test.RowsAffected), nil
 }
 
-
+func (r *queryResolver) GetAllBadge(ctx context.Context) ([]*model.Badge, error) {
+	panic(fmt.Errorf("not implemented"))
+}

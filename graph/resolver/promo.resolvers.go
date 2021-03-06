@@ -5,6 +5,7 @@ package resolver
 
 import (
 	"context"
+	"fmt"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
@@ -16,7 +17,8 @@ func (r *mutationResolver) InsertPromo(ctx context.Context, promo model.PromoInp
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var promoInsert = &model.Promo{}
 	promoInsert.GameID = promo.GameID
 	promoInsert.PromoDiscount = promo.PromoDiscount
@@ -31,7 +33,8 @@ func (r *mutationResolver) UpdatePromo(ctx context.Context, promo model.PromoInp
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var promoInsert = &model.Promo{PromoID: id}
 
 	db.First(&promoInsert)
@@ -44,12 +47,17 @@ func (r *mutationResolver) UpdatePromo(ctx context.Context, promo model.PromoInp
 	return promoInsert, nil
 }
 
+func (r *mutationResolver) DeletePromo(ctx context.Context, id int) (*model.Promo, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) GetAllPromo(ctx context.Context, page int) ([]*model.Promo, error) {
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var allPromo []*model.Promo
 
 	db.Preload(clause.Associations).Limit(10).Offset((page - 1) * 10).Find(&allPromo)
@@ -62,7 +70,8 @@ func (r *queryResolver) GetPromoByID(ctx context.Context, id int) (*model.Promo,
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var promo = &model.Promo{PromoID: id}
 
 	db.Find(promo)
@@ -75,7 +84,8 @@ func (r *queryResolver) GetTotalPromo(ctx context.Context) (int, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var allPromo []*model.Promo
 
 	var test = db.Find(&allPromo)
@@ -88,6 +98,8 @@ func (r *queryResolver) GetOnSale(ctx context.Context) ([]*model.Promo, error) {
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var allPromo []*model.Promo
 	db.Where("promo_discount >= 50").Limit(5).Preload(clause.Associations).Find(&allPromo)
 

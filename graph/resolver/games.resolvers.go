@@ -19,6 +19,8 @@ func (r *mutationResolver) InsertGame(ctx context.Context, game model.GameInput)
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	var slideArr []*model.GameSlideShow
 	var genreArr []*model.Genre
 
@@ -57,7 +59,8 @@ func (r *mutationResolver) UpdateGame(ctx context.Context, game model.GameInput)
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var updateGame = &model.Game{ID: game.ID}
 	db.Find(updateGame)
 
@@ -87,7 +90,8 @@ func (r *queryResolver) GetAllGamesPaginated(ctx context.Context, page int) ([]*
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var games []*model.Game
 
 	db.Offset((page - 1) * 10).Limit(10).Find(&games)
@@ -99,6 +103,8 @@ func (r *queryResolver) GetGameByID(ctx context.Context, id int) (*model.Game, e
 	if err != nil {
 		panic(err)
 	}
+	close, err := db.DB()
+	defer close.Close()
 	game := &model.Game{ID: id}
 	db.Preload(clause.Associations).First(game)
 	return game, nil
@@ -109,7 +115,8 @@ func (r *queryResolver) SearchGameByTitle(ctx context.Context, title string) ([]
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var games []*model.Game
 	db.Where("LOWER(name) LIKE LOWER(?) ", "%"+title+"%").Debug().Limit(5).Find(&games)
 
@@ -121,7 +128,8 @@ func (r *queryResolver) SearchGameInfinite(ctx context.Context, title string, pa
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var searchGame []*model.Game
 
 	//db.Where("LOWER(name) = LOWER(?)", "%" + title + "%").Limit(10 * page).Find(&searchGame)
@@ -134,7 +142,8 @@ func (r *queryResolver) GetTotalGame(ctx context.Context) (int, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var searchGame []*model.Game
 	test := db.Find(&searchGame)
 	return int(test.RowsAffected), nil
@@ -145,7 +154,8 @@ func (r *queryResolver) GetFilterGame(ctx context.Context, genre int, price int,
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var searchGame []*model.Game
 
 	db.Where("price <= ? AND LOWER(name) LIKE LOWER(?)", price, "%"+title+"%").Debug().Find(&searchGame)
@@ -158,7 +168,8 @@ func (r *queryResolver) GetNewGame(ctx context.Context) ([]*model.Game, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var searchGame []*model.Game
 	db.Order("created_at desc").Limit(10).Preload(clause.Associations).Find(&searchGame)
 

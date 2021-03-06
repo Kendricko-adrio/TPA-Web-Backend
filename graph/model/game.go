@@ -30,7 +30,8 @@ func GetAllGames() ([]*Game, error){
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var games []*Game
 
 	db.Find(&games)
@@ -43,7 +44,8 @@ func SeedGames() {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	db.Create(&Game{
 		Name:        "Dota",
 		Description: "Ini game Dota loh",

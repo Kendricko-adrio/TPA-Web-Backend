@@ -24,7 +24,8 @@ func (r *mutationResolver) Request(ctx context.Context, userID2 *int) (*model.Fr
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	friend := model.FriendsDetail{
 		User1id:        user.UserID,
 		User2id:        *userID2,
@@ -46,6 +47,8 @@ func (r *mutationResolver) AcceptFriendRequest(ctx context.Context, userID int) 
 	if err != nil {
 		return nil, err
 	}
+	close, err := db.DB()
+	defer close.Close()
 
 	var request model.FriendsDetail
 	user1 := model.User{UserID: userID}
@@ -77,7 +80,8 @@ func (r *mutationResolver) DeclineFriendRequest(ctx context.Context, userID int)
 	if err != nil {
 		return nil, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var request model.FriendsDetail
 	db.Where("user1id = ? AND user2id = ?", userID, user.UserID).First(&request)
 	request.FriendStatusID = 3
@@ -96,7 +100,8 @@ func (r *queryResolver) GetTotalRequestFriend(ctx context.Context) (int, error) 
 	if err != nil {
 		return 0, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var request []*model.FriendsDetail
 
 	test := db.Where("user2id = ? AND friend_status_id = 1", user.UserID).Debug().Find(&request)
@@ -113,7 +118,8 @@ func (r *queryResolver) GetAllRequestFriend(ctx context.Context) ([]*model.Frien
 	if err != nil {
 		return nil, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var request []*model.FriendsDetail
 
 	db.Where("user2id = ? AND friend_status_id = 1", user.UserID).Preload(clause.Associations).Debug().Find(&request)

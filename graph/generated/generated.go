@@ -53,6 +53,15 @@ type ComplexityRoot struct {
 		UpdatedAt     func(childComplexity int) int
 	}
 
+	Badge struct {
+		BadgeID   func(childComplexity int) int
+		BadgeName func(childComplexity int) int
+		BadgeURL  func(childComplexity int) int
+		CreatedAt func(childComplexity int) int
+		DeletedAt func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
+	}
+
 	Country struct {
 		Code func(childComplexity int) int
 		ID   func(childComplexity int) int
@@ -107,26 +116,44 @@ type ComplexityRoot struct {
 		GenreName func(childComplexity int) int
 	}
 
+	MiniBackground struct {
+		CreatedAt func(childComplexity int) int
+		DeletedAt func(childComplexity int) int
+		MiniID    func(childComplexity int) int
+		MiniURL   func(childComplexity int) int
+		UpdatedAt func(childComplexity int) int
+	}
+
 	Mutation struct {
-		AcceptFriendRequest  func(childComplexity int, userID int) int
-		AcceptRequest        func(childComplexity int, requestID int) int
-		AddGameToWishlist    func(childComplexity int, gameID int) int
-		CreateAccount        func(childComplexity int, input model.CreateAccount) int
-		CreateFullAccount    func(childComplexity int, input model.FinalizeAccount) int
-		CreateUser           func(childComplexity int, input model.NewUser) int
-		DeclineFriendRequest func(childComplexity int, userID int) int
-		DeleteRequest        func(childComplexity int, userID int) int
-		DeleteWishlist       func(childComplexity int, gameID int) int
-		InsertGame           func(childComplexity int, game model.GameInput) int
-		InsertPromo          func(childComplexity int, promo model.PromoInput) int
-		LoginUser            func(childComplexity int, input model.Login) int
-		LogoutUser           func(childComplexity int, username string) int
-		RejectRequest        func(childComplexity int, requestID int) int
-		Request              func(childComplexity int, userID2 *int) int
-		UpdateGame           func(childComplexity int, game model.GameInput) int
-		UpdateGeneral        func(childComplexity int, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) int
-		UpdateImage          func(childComplexity int, imageURL string) int
-		UpdatePromo          func(childComplexity int, promo model.PromoInput, id int) int
+		AcceptFriendRequest      func(childComplexity int, userID int) int
+		AcceptRequest            func(childComplexity int, requestID int) int
+		AddGameToWishlist        func(childComplexity int, gameID int) int
+		CreateAccount            func(childComplexity int, input model.CreateAccount) int
+		CreateFullAccount        func(childComplexity int, input model.FinalizeAccount) int
+		CreateUser               func(childComplexity int, input model.NewUser) int
+		DeclineFriendRequest     func(childComplexity int, userID int) int
+		DeletePromo              func(childComplexity int, id int) int
+		DeleteRequest            func(childComplexity int, userID int) int
+		DeleteWishlist           func(childComplexity int, gameID int) int
+		InsertGame               func(childComplexity int, game model.GameInput) int
+		InsertPromo              func(childComplexity int, promo model.PromoInput) int
+		LoginUser                func(childComplexity int, input model.Login) int
+		LogoutUser               func(childComplexity int, username string) int
+		RejectRequest            func(childComplexity int, requestID int) int
+		Request                  func(childComplexity int, userID2 *int) int
+		SetCurrBadge             func(childComplexity int, badgeID int) int
+		SetCurrMiniBg            func(childComplexity int, imageURL *string) int
+		SetCurrProfileBackground func(childComplexity int, backgroundIt int) int
+		SetCurrTheme             func(childComplexity int, themeID *int) int
+		UpdateGame               func(childComplexity int, game model.GameInput) int
+		UpdateGeneral            func(childComplexity int, profileName string, realName string, customURL string, countryID int, summary string, hideAward bool) int
+		UpdateImage              func(childComplexity int, imageURL string) int
+		UpdatePromo              func(childComplexity int, promo model.PromoInput, id int) int
+	}
+
+	ProfileBackground struct {
+		BackgroundID  func(childComplexity int) int
+		BackgroundURL func(childComplexity int) int
 	}
 
 	Promo struct {
@@ -148,6 +175,7 @@ type ComplexityRoot struct {
 	Query struct {
 		AllGame               func(childComplexity int) int
 		GetAdmin              func(childComplexity int, username string, password string) int
+		GetAllBadge           func(childComplexity int) int
 		GetAllCountry         func(childComplexity int) int
 		GetAllGamesPaginated  func(childComplexity int, page int) int
 		GetAllGenre           func(childComplexity int) int
@@ -193,6 +221,11 @@ type ComplexityRoot struct {
 		StatusName func(childComplexity int) int
 	}
 
+	Theme struct {
+		ThemeID   func(childComplexity int) int
+		ThemeName func(childComplexity int) int
+	}
+
 	UnsuspendRequest struct {
 		CreatedAt       func(childComplexity int) int
 		DeletedAt       func(childComplexity int) int
@@ -210,34 +243,46 @@ type ComplexityRoot struct {
 	}
 
 	User struct {
-		AuthToken  func(childComplexity int) int
-		Country    func(childComplexity int) int
-		CountryID  func(childComplexity int) int
-		CreatedAt  func(childComplexity int) int
-		CustomURL  func(childComplexity int) int
-		DeletedAt  func(childComplexity int) int
-		Email      func(childComplexity int) int
-		FirstName  func(childComplexity int) int
-		Friends    func(childComplexity int) int
-		Games      func(childComplexity int) int
-		HideAward  func(childComplexity int) int
-		IDToken    func(childComplexity int) int
-		LastName   func(childComplexity int) int
-		Money      func(childComplexity int) int
-		Otp        func(childComplexity int) int
-		Password   func(childComplexity int) int
-		PhotoURL   func(childComplexity int) int
-		Provider   func(childComplexity int) int
-		ProviderID func(childComplexity int) int
-		RealName   func(childComplexity int) int
-		Role       func(childComplexity int) int
-		Status     func(childComplexity int) int
-		StatusID   func(childComplexity int) int
-		Summary    func(childComplexity int) int
-		UpdatedAt  func(childComplexity int) int
-		UserID     func(childComplexity int) int
-		UserName   func(childComplexity int) int
-		Wishlist   func(childComplexity int) int
+		AuthToken               func(childComplexity int) int
+		Country                 func(childComplexity int) int
+		CountryID               func(childComplexity int) int
+		CreatedAt               func(childComplexity int) int
+		CurrBadge               func(childComplexity int) int
+		CurrBadgeID             func(childComplexity int) int
+		CurrMiniBgImg           func(childComplexity int) int
+		CurrProfileBackground   func(childComplexity int) int
+		CurrProfileBackgroundID func(childComplexity int) int
+		CurrTheme               func(childComplexity int) int
+		CurrThemeID             func(childComplexity int) int
+		CustomURL               func(childComplexity int) int
+		DeletedAt               func(childComplexity int) int
+		Email                   func(childComplexity int) int
+		FirstName               func(childComplexity int) int
+		Friends                 func(childComplexity int) int
+		Games                   func(childComplexity int) int
+		HideAward               func(childComplexity int) int
+		IDToken                 func(childComplexity int) int
+		LastName                func(childComplexity int) int
+		Level                   func(childComplexity int) int
+		Money                   func(childComplexity int) int
+		Otp                     func(childComplexity int) int
+		OwnBadge                func(childComplexity int) int
+		OwnMiniBg               func(childComplexity int) int
+		OwnProfileBackground    func(childComplexity int) int
+		OwnTheme                func(childComplexity int) int
+		Password                func(childComplexity int) int
+		PhotoURL                func(childComplexity int) int
+		Provider                func(childComplexity int) int
+		ProviderID              func(childComplexity int) int
+		RealName                func(childComplexity int) int
+		Role                    func(childComplexity int) int
+		Status                  func(childComplexity int) int
+		StatusID                func(childComplexity int) int
+		Summary                 func(childComplexity int) int
+		UpdatedAt               func(childComplexity int) int
+		UserID                  func(childComplexity int) int
+		UserName                func(childComplexity int) int
+		Wishlist                func(childComplexity int) int
 	}
 }
 
@@ -249,6 +294,7 @@ type MutationResolver interface {
 	UpdateGame(ctx context.Context, game model.GameInput) (*model.Game, error)
 	InsertPromo(ctx context.Context, promo model.PromoInput) (*model.Promo, error)
 	UpdatePromo(ctx context.Context, promo model.PromoInput, id int) (*model.Promo, error)
+	DeletePromo(ctx context.Context, id int) (*model.Promo, error)
 	DeleteRequest(ctx context.Context, userID int) (*model.UnsuspendRequest, error)
 	AcceptRequest(ctx context.Context, requestID int) (*model.UnsuspendRequest, error)
 	RejectRequest(ctx context.Context, requestID int) (*model.UnsuspendRequest, error)
@@ -261,6 +307,10 @@ type MutationResolver interface {
 	UpdateImage(ctx context.Context, imageURL string) (*model.User, error)
 	AddGameToWishlist(ctx context.Context, gameID int) (*model.User, error)
 	DeleteWishlist(ctx context.Context, gameID int) (*model.User, error)
+	SetCurrBadge(ctx context.Context, badgeID int) (*model.User, error)
+	SetCurrMiniBg(ctx context.Context, imageURL *string) (*model.User, error)
+	SetCurrTheme(ctx context.Context, themeID *int) (*model.User, error)
+	SetCurrProfileBackground(ctx context.Context, backgroundIt int) (*model.User, error)
 }
 type QueryResolver interface {
 	AllGame(ctx context.Context) ([]*model.Game, error)
@@ -291,6 +341,7 @@ type QueryResolver interface {
 	GetAdmin(ctx context.Context, username string, password string) (*model.User, error)
 	GetAllUserPaginated(ctx context.Context, page int) ([]*model.User, error)
 	GetTotalUser(ctx context.Context) (int, error)
+	GetAllBadge(ctx context.Context) ([]*model.Badge, error)
 }
 
 type executableSchema struct {
@@ -349,6 +400,48 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Admin.UpdatedAt(childComplexity), true
+
+	case "Badge.badgeId":
+		if e.complexity.Badge.BadgeID == nil {
+			break
+		}
+
+		return e.complexity.Badge.BadgeID(childComplexity), true
+
+	case "Badge.badgeName":
+		if e.complexity.Badge.BadgeName == nil {
+			break
+		}
+
+		return e.complexity.Badge.BadgeName(childComplexity), true
+
+	case "Badge.badgeUrl":
+		if e.complexity.Badge.BadgeURL == nil {
+			break
+		}
+
+		return e.complexity.Badge.BadgeURL(childComplexity), true
+
+	case "Badge.CreatedAt":
+		if e.complexity.Badge.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.Badge.CreatedAt(childComplexity), true
+
+	case "Badge.DeletedAt":
+		if e.complexity.Badge.DeletedAt == nil {
+			break
+		}
+
+		return e.complexity.Badge.DeletedAt(childComplexity), true
+
+	case "Badge.UpdatedAt":
+		if e.complexity.Badge.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.Badge.UpdatedAt(childComplexity), true
 
 	case "Country.Code":
 		if e.complexity.Country.Code == nil {
@@ -602,6 +695,41 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Genre.GenreName(childComplexity), true
 
+	case "MiniBackground.CreatedAt":
+		if e.complexity.MiniBackground.CreatedAt == nil {
+			break
+		}
+
+		return e.complexity.MiniBackground.CreatedAt(childComplexity), true
+
+	case "MiniBackground.DeletedAt":
+		if e.complexity.MiniBackground.DeletedAt == nil {
+			break
+		}
+
+		return e.complexity.MiniBackground.DeletedAt(childComplexity), true
+
+	case "MiniBackground.miniId":
+		if e.complexity.MiniBackground.MiniID == nil {
+			break
+		}
+
+		return e.complexity.MiniBackground.MiniID(childComplexity), true
+
+	case "MiniBackground.miniUrl":
+		if e.complexity.MiniBackground.MiniURL == nil {
+			break
+		}
+
+		return e.complexity.MiniBackground.MiniURL(childComplexity), true
+
+	case "MiniBackground.UpdatedAt":
+		if e.complexity.MiniBackground.UpdatedAt == nil {
+			break
+		}
+
+		return e.complexity.MiniBackground.UpdatedAt(childComplexity), true
+
 	case "Mutation.acceptFriendRequest":
 		if e.complexity.Mutation.AcceptFriendRequest == nil {
 			break
@@ -685,6 +813,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.DeclineFriendRequest(childComplexity, args["userId"].(int)), true
+
+	case "Mutation.deletePromo":
+		if e.complexity.Mutation.DeletePromo == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_deletePromo_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.DeletePromo(childComplexity, args["id"].(int)), true
 
 	case "Mutation.deleteRequest":
 		if e.complexity.Mutation.DeleteRequest == nil {
@@ -782,6 +922,54 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.Request(childComplexity, args["userId2"].(*int)), true
 
+	case "Mutation.setCurrBadge":
+		if e.complexity.Mutation.SetCurrBadge == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setCurrBadge_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetCurrBadge(childComplexity, args["badgeId"].(int)), true
+
+	case "Mutation.setCurrMiniBg":
+		if e.complexity.Mutation.SetCurrMiniBg == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setCurrMiniBg_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetCurrMiniBg(childComplexity, args["imageUrl"].(*string)), true
+
+	case "Mutation.setCurrProfileBackground":
+		if e.complexity.Mutation.SetCurrProfileBackground == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setCurrProfileBackground_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetCurrProfileBackground(childComplexity, args["backgroundIt"].(int)), true
+
+	case "Mutation.setCurrTheme":
+		if e.complexity.Mutation.SetCurrTheme == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_setCurrTheme_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.SetCurrTheme(childComplexity, args["themeId"].(*int)), true
+
 	case "Mutation.updateGame":
 		if e.complexity.Mutation.UpdateGame == nil {
 			break
@@ -829,6 +1017,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Mutation.UpdatePromo(childComplexity, args["promo"].(model.PromoInput), args["id"].(int)), true
+
+	case "ProfileBackground.backgroundId":
+		if e.complexity.ProfileBackground.BackgroundID == nil {
+			break
+		}
+
+		return e.complexity.ProfileBackground.BackgroundID(childComplexity), true
+
+	case "ProfileBackground.backgroundUrl":
+		if e.complexity.ProfileBackground.BackgroundURL == nil {
+			break
+		}
+
+		return e.complexity.ProfileBackground.BackgroundURL(childComplexity), true
 
 	case "Promo.CreatedAt":
 		if e.complexity.Promo.CreatedAt == nil {
@@ -918,6 +1120,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetAdmin(childComplexity, args["username"].(string), args["password"].(string)), true
+
+	case "Query.getAllBadge":
+		if e.complexity.Query.GetAllBadge == nil {
+			break
+		}
+
+		return e.complexity.Query.GetAllBadge(childComplexity), true
 
 	case "Query.getAllCountry":
 		if e.complexity.Query.GetAllCountry == nil {
@@ -1243,6 +1452,20 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Status.StatusName(childComplexity), true
 
+	case "Theme.themeId":
+		if e.complexity.Theme.ThemeID == nil {
+			break
+		}
+
+		return e.complexity.Theme.ThemeID(childComplexity), true
+
+	case "Theme.themeName":
+		if e.complexity.Theme.ThemeName == nil {
+			break
+		}
+
+		return e.complexity.Theme.ThemeName(childComplexity), true
+
 	case "UnsuspendRequest.CreatedAt":
 		if e.complexity.UnsuspendRequest.CreatedAt == nil {
 			break
@@ -1341,6 +1564,55 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.CreatedAt(childComplexity), true
 
+	case "User.currBadge":
+		if e.complexity.User.CurrBadge == nil {
+			break
+		}
+
+		return e.complexity.User.CurrBadge(childComplexity), true
+
+	case "User.currBadgeId":
+		if e.complexity.User.CurrBadgeID == nil {
+			break
+		}
+
+		return e.complexity.User.CurrBadgeID(childComplexity), true
+
+	case "User.currMiniBgImg":
+		if e.complexity.User.CurrMiniBgImg == nil {
+			break
+		}
+
+		return e.complexity.User.CurrMiniBgImg(childComplexity), true
+
+	case "User.currProfileBackground":
+		if e.complexity.User.CurrProfileBackground == nil {
+			break
+		}
+
+		return e.complexity.User.CurrProfileBackground(childComplexity), true
+
+	case "User.currProfileBackgroundId":
+		if e.complexity.User.CurrProfileBackgroundID == nil {
+			break
+		}
+
+		return e.complexity.User.CurrProfileBackgroundID(childComplexity), true
+
+	case "User.currTheme":
+		if e.complexity.User.CurrTheme == nil {
+			break
+		}
+
+		return e.complexity.User.CurrTheme(childComplexity), true
+
+	case "User.currThemeId":
+		if e.complexity.User.CurrThemeID == nil {
+			break
+		}
+
+		return e.complexity.User.CurrThemeID(childComplexity), true
+
 	case "User.customUrl":
 		if e.complexity.User.CustomURL == nil {
 			break
@@ -1404,6 +1676,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.LastName(childComplexity), true
 
+	case "User.level":
+		if e.complexity.User.Level == nil {
+			break
+		}
+
+		return e.complexity.User.Level(childComplexity), true
+
 	case "User.money":
 		if e.complexity.User.Money == nil {
 			break
@@ -1417,6 +1696,34 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Otp(childComplexity), true
+
+	case "User.ownBadge":
+		if e.complexity.User.OwnBadge == nil {
+			break
+		}
+
+		return e.complexity.User.OwnBadge(childComplexity), true
+
+	case "User.ownMiniBg":
+		if e.complexity.User.OwnMiniBg == nil {
+			break
+		}
+
+		return e.complexity.User.OwnMiniBg(childComplexity), true
+
+	case "User.ownProfileBackground":
+		if e.complexity.User.OwnProfileBackground == nil {
+			break
+		}
+
+		return e.complexity.User.OwnProfileBackground(childComplexity), true
+
+	case "User.ownTheme":
+		if e.complexity.User.OwnTheme == nil {
+			break
+		}
+
+		return e.complexity.User.OwnTheme(childComplexity), true
 
 	case "User.password":
 		if e.complexity.User.Password == nil {
@@ -1581,6 +1888,14 @@ var sources = []*ast.Source{
     UpdatedAt: Time!
     DeletedAt: Time
 }`, BuiltIn: false},
+	{Name: "graph/badge.graphqls", Input: `type Badge{
+    badgeId: Int!
+    badgeName: String!
+    badgeUrl: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}`, BuiltIn: false},
 	{Name: "graph/country.graphqls", Input: `type Country{
     ID          : Int!
     Name        : String!
@@ -1682,6 +1997,17 @@ extend type Mutation{
 extend type Query{
     getAllGenre: [Genre!]!
 }`, BuiltIn: false},
+	{Name: "graph/mini_background.graphqls", Input: `type MiniBackground{
+    miniId: Int!
+    miniUrl: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}`, BuiltIn: false},
+	{Name: "graph/profile_background.graphqls", Input: `type ProfileBackground{
+    backgroundId: Int!
+    backgroundUrl: String!
+}`, BuiltIn: false},
 	{Name: "graph/promo.graphqls", Input: `type Promo{
     promoId: Int!
     promoDiscount: Int!
@@ -1709,6 +2035,7 @@ input PromoInput{
 extend type Mutation {
     insertPromo(promo: PromoInput!): Promo!
     updatePromo(promo: PromoInput! id: Int!): Promo!
+    deletePromo(id: Int!): Promo!
 }`, BuiltIn: false},
 	{Name: "graph/provider.graphqls", Input: `type Provider{
     ID      :   Int!
@@ -1740,6 +2067,10 @@ extend type Query{
 	{Name: "graph/status.graphqls", Input: `type Status{
     statusId : Int!
     statusName: String!
+}`, BuiltIn: false},
+	{Name: "graph/theme.graphqls", Input: `type Theme{
+    themeId: Int!
+    themeName: String!
 }`, BuiltIn: false},
 	{Name: "graph/unsuspend_request.graphqls", Input: `type UnsuspendRequest{
     requestId: Int!
@@ -1778,6 +2109,7 @@ type User{
     customUrl: String!
     hideAward: Boolean!
     money: Int!
+    level: Int!
     summary: String!
     AuthToken: String!
     Email: String!
@@ -1793,6 +2125,17 @@ type User{
     games: [Game!]!
     wishlist: [Game!]!
     friends:[User!]!
+    ownBadge: [Badge!]!
+    currBadge: Badge!
+    currBadgeId: Int!
+    ownMiniBg: [MiniBackground!]!
+    currMiniBgImg: String!
+    ownTheme: [Theme!]!
+    currTheme: Theme!
+    currThemeId: Int!
+    ownProfileBackground: [ProfileBackground!]!
+    currProfileBackground: ProfileBackground!
+    currProfileBackgroundId: Int!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -1806,7 +2149,7 @@ extend type Query {
     getAdmin(username: String! password: String!): User!
     getAllUserPaginated(page: Int!): [User!]!
     getTotalUser:Int!
-
+    getAllBadge: [Badge!]!
 }
 
 input email{
@@ -1849,6 +2192,10 @@ extend type Mutation{
     updateImage(imageUrl: String!): User!
     addGameToWishlist(gameId: Int!): User!
     deleteWishlist(gameId: Int!): User!
+    setCurrBadge(badgeId: Int!): User!
+    setCurrMiniBg(imageUrl: String): User!
+    setCurrTheme(themeId: Int): User!
+    setCurrProfileBackground(backgroundIt: Int!): User!
 }`, BuiltIn: false},
 }
 var parsedSchema = gqlparser.MustLoadSchema(sources...)
@@ -1959,6 +2306,21 @@ func (ec *executionContext) field_Mutation_declineFriendRequest_args(ctx context
 		}
 	}
 	args["userId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_deletePromo_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["id"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("id"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["id"] = arg0
 	return args, nil
 }
 
@@ -2079,6 +2441,66 @@ func (ec *executionContext) field_Mutation_request_args(ctx context.Context, raw
 		}
 	}
 	args["userId2"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_setCurrBadge_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["badgeId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("badgeId"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["badgeId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_setCurrMiniBg_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *string
+	if tmp, ok := rawArgs["imageUrl"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("imageUrl"))
+		arg0, err = ec.unmarshalOString2ᚖstring(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["imageUrl"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_setCurrProfileBackground_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 int
+	if tmp, ok := rawArgs["backgroundIt"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("backgroundIt"))
+		arg0, err = ec.unmarshalNInt2int(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["backgroundIt"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_setCurrTheme_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 *int
+	if tmp, ok := rawArgs["themeId"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("themeId"))
+		arg0, err = ec.unmarshalOInt2ᚖint(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["themeId"] = arg0
 	return args, nil
 }
 
@@ -2679,6 +3101,213 @@ func (ec *executionContext) _Admin_DeletedAt(ctx context.Context, field graphql.
 	}()
 	fc := &graphql.FieldContext{
 		Object:     "Admin",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_badgeId(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BadgeID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_badgeName(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BadgeName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_badgeUrl(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BadgeURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_UpdatedAt(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Badge_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Badge) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Badge",
 		Field:      field,
 		Args:       nil,
 		IsMethod:   false,
@@ -3956,6 +4585,178 @@ func (ec *executionContext) _Genre_game(ctx context.Context, field graphql.Colle
 	return ec.marshalNGame2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐGameᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _MiniBackground_miniId(ctx context.Context, field graphql.CollectedField, obj *model.MiniBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "MiniBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MiniID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _MiniBackground_miniUrl(ctx context.Context, field graphql.CollectedField, obj *model.MiniBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "MiniBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.MiniURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _MiniBackground_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MiniBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "MiniBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CreatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _MiniBackground_UpdatedAt(ctx context.Context, field graphql.CollectedField, obj *model.MiniBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "MiniBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UpdatedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(time.Time)
+	fc.Result = res
+	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _MiniBackground_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.MiniBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "MiniBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.DeletedAt, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		return graphql.Null
+	}
+	res := resTmp.(*time.Time)
+	fc.Result = res
+	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Mutation_request(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -4234,6 +5035,48 @@ func (ec *executionContext) _Mutation_updatePromo(ctx context.Context, field gra
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return ec.resolvers.Mutation().UpdatePromo(rctx, args["promo"].(model.PromoInput), args["id"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Promo)
+	fc.Result = res
+	return ec.marshalNPromo2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPromo(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_deletePromo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_deletePromo_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().DeletePromo(rctx, args["id"].(int))
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -4752,6 +5595,244 @@ func (ec *executionContext) _Mutation_deleteWishlist(ctx context.Context, field 
 	res := resTmp.(*model.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_setCurrBadge(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_setCurrBadge_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetCurrBadge(rctx, args["badgeId"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_setCurrMiniBg(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_setCurrMiniBg_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetCurrMiniBg(rctx, args["imageUrl"].(*string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_setCurrTheme(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_setCurrTheme_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetCurrTheme(rctx, args["themeId"].(*int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Mutation_setCurrProfileBackground(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_setCurrProfileBackground_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().SetCurrProfileBackground(rctx, args["backgroundIt"].(int))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.User)
+	fc.Result = res
+	return ec.marshalNUser2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUser(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ProfileBackground_backgroundId(ctx context.Context, field graphql.CollectedField, obj *model.ProfileBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "ProfileBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BackgroundID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _ProfileBackground_backgroundUrl(ctx context.Context, field graphql.CollectedField, obj *model.ProfileBackground) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "ProfileBackground",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.BackgroundURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Promo_promoId(ctx context.Context, field graphql.CollectedField, obj *model.Promo) (ret graphql.Marshaler) {
@@ -6179,6 +7260,41 @@ func (ec *executionContext) _Query_getTotalUser(ctx context.Context, field graph
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Query_getAllBadge(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetAllBadge(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Badge)
+	fc.Result = res
+	return ec.marshalNBadge2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadgeᚄ(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Query___type(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -6616,6 +7732,76 @@ func (ec *executionContext) _Status_statusName(ctx context.Context, field graphq
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
 		return obj.StatusName, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Theme_themeId(ctx context.Context, field graphql.CollectedField, obj *model.Theme) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Theme",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ThemeID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Theme_themeName(ctx context.Context, field graphql.CollectedField, obj *model.Theme) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Theme",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.ThemeName, nil
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -7329,6 +8515,41 @@ func (ec *executionContext) _User_money(ctx context.Context, field graphql.Colle
 	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _User_level(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.Level, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _User_summary(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -7852,6 +9073,391 @@ func (ec *executionContext) _User_friends(ctx context.Context, field graphql.Col
 	res := resTmp.([]*model.User)
 	fc.Result = res
 	return ec.marshalNUser2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐUserᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_ownBadge(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnBadge, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Badge)
+	fc.Result = res
+	return ec.marshalNBadge2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadgeᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currBadge(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrBadge, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Badge)
+	fc.Result = res
+	return ec.marshalNBadge2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadge(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currBadgeId(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrBadgeID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_ownMiniBg(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnMiniBg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.MiniBackground)
+	fc.Result = res
+	return ec.marshalNMiniBackground2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMiniBackgroundᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currMiniBgImg(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrMiniBgImg, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_ownTheme(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnTheme, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Theme)
+	fc.Result = res
+	return ec.marshalNTheme2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐThemeᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currTheme(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrTheme, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Theme)
+	fc.Result = res
+	return ec.marshalNTheme2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTheme(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currThemeId(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrThemeID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_ownProfileBackground(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnProfileBackground, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.ProfileBackground)
+	fc.Result = res
+	return ec.marshalNProfileBackground2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐProfileBackgroundᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currProfileBackground(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrProfileBackground, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.ProfileBackground)
+	fc.Result = res
+	return ec.marshalNProfileBackground2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐProfileBackground(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currProfileBackgroundId(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrProfileBackgroundID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _User_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
@@ -9444,6 +11050,55 @@ func (ec *executionContext) _Admin(ctx context.Context, sel ast.SelectionSet, ob
 	return out
 }
 
+var badgeImplementors = []string{"Badge"}
+
+func (ec *executionContext) _Badge(ctx context.Context, sel ast.SelectionSet, obj *model.Badge) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, badgeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Badge")
+		case "badgeId":
+			out.Values[i] = ec._Badge_badgeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "badgeName":
+			out.Values[i] = ec._Badge_badgeName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "badgeUrl":
+			out.Values[i] = ec._Badge_badgeUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "CreatedAt":
+			out.Values[i] = ec._Badge_CreatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdatedAt":
+			out.Values[i] = ec._Badge_UpdatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "DeletedAt":
+			out.Values[i] = ec._Badge_DeletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var countryImplementors = []string{"Country"}
 
 func (ec *executionContext) _Country(ctx context.Context, sel ast.SelectionSet, obj *model.Country) graphql.Marshaler {
@@ -9750,6 +11405,50 @@ func (ec *executionContext) _Genre(ctx context.Context, sel ast.SelectionSet, ob
 	return out
 }
 
+var miniBackgroundImplementors = []string{"MiniBackground"}
+
+func (ec *executionContext) _MiniBackground(ctx context.Context, sel ast.SelectionSet, obj *model.MiniBackground) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, miniBackgroundImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("MiniBackground")
+		case "miniId":
+			out.Values[i] = ec._MiniBackground_miniId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "miniUrl":
+			out.Values[i] = ec._MiniBackground_miniUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "CreatedAt":
+			out.Values[i] = ec._MiniBackground_CreatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "UpdatedAt":
+			out.Values[i] = ec._MiniBackground_UpdatedAt(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "DeletedAt":
+			out.Values[i] = ec._MiniBackground_DeletedAt(ctx, field, obj)
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var mutationImplementors = []string{"Mutation"}
 
 func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet) graphql.Marshaler {
@@ -9797,6 +11496,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "updatePromo":
 			out.Values[i] = ec._Mutation_updatePromo(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "deletePromo":
+			out.Values[i] = ec._Mutation_deletePromo(ctx, field)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -9857,6 +11561,58 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			}
 		case "deleteWishlist":
 			out.Values[i] = ec._Mutation_deleteWishlist(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "setCurrBadge":
+			out.Values[i] = ec._Mutation_setCurrBadge(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "setCurrMiniBg":
+			out.Values[i] = ec._Mutation_setCurrMiniBg(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "setCurrTheme":
+			out.Values[i] = ec._Mutation_setCurrTheme(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "setCurrProfileBackground":
+			out.Values[i] = ec._Mutation_setCurrProfileBackground(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var profileBackgroundImplementors = []string{"ProfileBackground"}
+
+func (ec *executionContext) _ProfileBackground(ctx context.Context, sel ast.SelectionSet, obj *model.ProfileBackground) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, profileBackgroundImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("ProfileBackground")
+		case "backgroundId":
+			out.Values[i] = ec._ProfileBackground_backgroundId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "backgroundUrl":
+			out.Values[i] = ec._ProfileBackground_backgroundUrl(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -10369,6 +12125,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 				}
 				return res
 			})
+		case "getAllBadge":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getAllBadge(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
 		case "__type":
 			out.Values[i] = ec._Query___type(ctx, field)
 		case "__schema":
@@ -10466,6 +12236,38 @@ func (ec *executionContext) _Status(ctx context.Context, sel ast.SelectionSet, o
 			}
 		case "statusName":
 			out.Values[i] = ec._Status_statusName(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
+var themeImplementors = []string{"Theme"}
+
+func (ec *executionContext) _Theme(ctx context.Context, sel ast.SelectionSet, obj *model.Theme) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, themeImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Theme")
+		case "themeId":
+			out.Values[i] = ec._Theme_themeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "themeName":
+			out.Values[i] = ec._Theme_themeName(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -10632,6 +12434,11 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "level":
+			out.Values[i] = ec._User_level(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "summary":
 			out.Values[i] = ec._User_summary(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -10704,6 +12511,61 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			}
 		case "friends":
 			out.Values[i] = ec._User_friends(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ownBadge":
+			out.Values[i] = ec._User_ownBadge(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currBadge":
+			out.Values[i] = ec._User_currBadge(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currBadgeId":
+			out.Values[i] = ec._User_currBadgeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ownMiniBg":
+			out.Values[i] = ec._User_ownMiniBg(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currMiniBgImg":
+			out.Values[i] = ec._User_currMiniBgImg(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ownTheme":
+			out.Values[i] = ec._User_ownTheme(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currTheme":
+			out.Values[i] = ec._User_currTheme(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currThemeId":
+			out.Values[i] = ec._User_currThemeId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "ownProfileBackground":
+			out.Values[i] = ec._User_ownProfileBackground(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currProfileBackground":
+			out.Values[i] = ec._User_currProfileBackground(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currProfileBackgroundId":
+			out.Values[i] = ec._User_currProfileBackgroundId(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
@@ -10974,6 +12836,53 @@ func (ec *executionContext) ___Type(ctx context.Context, sel ast.SelectionSet, o
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) marshalNBadge2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadgeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Badge) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNBadge2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadge(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNBadge2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐBadge(ctx context.Context, sel ast.SelectionSet, v *model.Badge) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Badge(ctx, sel, v)
+}
 
 func (ec *executionContext) unmarshalNBoolean2bool(ctx context.Context, v interface{}) (bool, error) {
 	res, err := graphql.UnmarshalBoolean(v)
@@ -11308,9 +13217,103 @@ func (ec *executionContext) unmarshalNLogin2githubᚗcomᚋkendrickoᚑadrioᚋg
 	return res, graphql.ErrorOnPath(ctx, err)
 }
 
+func (ec *executionContext) marshalNMiniBackground2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMiniBackgroundᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.MiniBackground) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNMiniBackground2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMiniBackground(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNMiniBackground2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMiniBackground(ctx context.Context, sel ast.SelectionSet, v *model.MiniBackground) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._MiniBackground(ctx, sel, v)
+}
+
 func (ec *executionContext) unmarshalNNewUser2githubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐNewUser(ctx context.Context, v interface{}) (model.NewUser, error) {
 	res, err := ec.unmarshalInputNewUser(ctx, v)
 	return res, graphql.ErrorOnPath(ctx, err)
+}
+
+func (ec *executionContext) marshalNProfileBackground2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐProfileBackgroundᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.ProfileBackground) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNProfileBackground2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐProfileBackground(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNProfileBackground2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐProfileBackground(ctx context.Context, sel ast.SelectionSet, v *model.ProfileBackground) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._ProfileBackground(ctx, sel, v)
 }
 
 func (ec *executionContext) marshalNPromo2githubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPromo(ctx context.Context, sel ast.SelectionSet, v model.Promo) graphql.Marshaler {
@@ -11483,6 +13486,53 @@ func (ec *executionContext) marshalNString2ᚕstringᚄ(ctx context.Context, sel
 	}
 
 	return ret
+}
+
+func (ec *executionContext) marshalNTheme2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐThemeᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Theme) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNTheme2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTheme(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNTheme2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTheme(ctx context.Context, sel ast.SelectionSet, v *model.Theme) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Theme(ctx, sel, v)
 }
 
 func (ec *executionContext) unmarshalNTime2timeᚐTime(ctx context.Context, v interface{}) (time.Time, error) {

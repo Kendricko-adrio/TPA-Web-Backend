@@ -25,4 +25,5 @@ input PromoInput{
 extend type Mutation {
     insertPromo(promo: PromoInput!): Promo!
     updatePromo(promo: PromoInput! id: Int!): Promo!
+    deletePromo(id: Int!): Promo!
 }

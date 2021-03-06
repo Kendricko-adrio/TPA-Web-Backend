@@ -26,7 +26,8 @@ func (r *queryResolver) GetReportByReported(ctx context.Context, reportedID int)
 	if err != nil {
 		return nil, err
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var report []*model.ReportUser
 
 	db.Where("reported_id = ?", reportedID).Preload(clause.Associations).Find(&report)
