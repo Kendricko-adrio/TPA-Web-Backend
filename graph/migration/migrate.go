@@ -25,15 +25,16 @@ func init() {
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{},
 		&model.ReportUser{}, &model.UnsuspendRequestType{}, &model.UnsuspendRequest{},
 		&model.Genre{}, &model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
-		&model.Theme{}, &model.ProfileBackground{})
+		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
+		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{}, &model.ReportUser{},
 		&model.UnsuspendRequestType{}, &model.UnsuspendRequest{}, &model.Genre{},
 		&model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
-		&model.Theme{}, &model.ProfileBackground{})
-
+		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
+		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{})
 }
 
 func SeedAll() {
@@ -41,6 +42,7 @@ func SeedAll() {
 	SeedStatus()
 	SeedCountry()
 	SeedGenre()
+	model.SeedPostType()
 	model.SeedTheme()
 	model.SeedBadge()
 	model.SeedGames()
@@ -48,6 +50,9 @@ func SeedAll() {
 	model.SeedMiniBackground()
 	SeedProvider()
 	SeedUser()
+	model.SeedPost()
+	model.SeedLikeDetail()
+	model.SeedCommandDetail()
 	SeedAdmin()
 	SeedPromo()
 	SeedReport()
@@ -317,10 +322,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -346,7 +351,6 @@ func SeedUser() {
 			{
 				UserID: 1,
 			},
-
 		},
 		Games: []*model.Game{
 			{
@@ -392,10 +396,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -454,10 +458,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -515,10 +519,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -563,10 +567,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -612,10 +616,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -660,10 +664,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -708,10 +712,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -756,10 +760,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -804,10 +808,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,
@@ -852,10 +856,10 @@ func SeedUser() {
 		CurrThemeID: 1,
 		OwnProfileBackground: []*model.ProfileBackground{
 			{
-				BackgroundID:  1,
+				BackgroundID: 1,
 			},
 			{
-				BackgroundID:  2,
+				BackgroundID: 2,
 			},
 		},
 		CurrProfileBackgroundID: 1,

@@ -1,0 +1,16 @@
+type CommandDetail{
+    postId: Int!
+    userId: Int!
+    command: String!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+extend type Query{
+    getCommandPaginate(postId:Int! page: Int!): [CommandDetail!]!
+}
+
+extend type Mutation{
+    insertCommand(postId: Int! command: String!): CommandDetail!
+}

@@ -13,6 +13,7 @@ type Game {
     wishlist: [User!]!
     genre: [Genre!]!
     gameSlideShow : [GameSlideShow!]!
+    post: [Post!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -46,4 +47,5 @@ input gameInput{
 extend type Mutation{
     insertGame(game: gameInput!): Game!
     updateGame(game: gameInput!): Game!
+    deleteGame(id: Int!): Int!
 }

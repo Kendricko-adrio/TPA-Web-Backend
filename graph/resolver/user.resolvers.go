@@ -360,6 +360,20 @@ func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
 	return user, err
 }
 
+func (r *queryResolver) GetUserByID(ctx context.Context, userID int) (*model.User, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	user := model.User{UserID: userID}
+	db.Preload(clause.Associations).First(&user)
+
+	return &user, nil
+}
+
 func (r *queryResolver) GetUser(ctx context.Context, input *model.Email) (*model.User, error) {
 	// not email sebenernya, ngetest username
 	db, err := database.Connect()

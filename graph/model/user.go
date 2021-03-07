@@ -49,6 +49,9 @@ type User struct {
 	OwnProfileBackground    []*ProfileBackground `json:"ownProfileBackground" gorm:"many2many:users_profile_bg"`
 	CurrProfileBackground   *ProfileBackground   `json:"currProfileBackground" gorm:"foreignKey:CurrProfileBackgroundID"`
 	CurrProfileBackgroundID int                  `json:"currProfileBackgroundId"`
+	Post                    []*Post              `json:"post" gorm:"foreignKey:UserID"`
+	LikeDetail              []*LikeDetail        `json:"likeDetail" gorm:"foreignKey:UserID"`
+	CommandDetail           []*CommandDetail     `json:"commandDetail" gorm:"foreignKey:UserID"`
 	CreatedAt               time.Time            `json:"CreatedAt"`
 	UpdatedAt               time.Time            `json:"UpdatedAt"`
 	DeletedAt               *time.Time           `json:"DeletedAt"`
@@ -101,7 +104,8 @@ func GetUserIdByUsername(username string) (int, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user User
 	test := db.Where("user_name = ?", username).First(&user)
 	if test.RowsAffected == 0 {
@@ -117,7 +121,8 @@ func ValidateUser(username, password string) (User, error) {
 	if err != nil {
 		panic(err)
 	}
-
+	close, err := db.DB()
+	defer close.Close()
 	var user User
 	test := db.Where("user_name = ?", username).Preload(clause.Associations).First(&user)
 	if test.RowsAffected == 0 {

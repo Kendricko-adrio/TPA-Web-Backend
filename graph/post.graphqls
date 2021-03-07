@@ -1,0 +1,28 @@
+type Post{
+    postId: Int!
+    userId: Int!
+    gameId: Int!
+    postType: PostType
+    postTypeId: Int
+    postHelpful: Boolean!
+    postAsset: String!
+    postDescription: String!
+    totalLike: Int!
+    totalDislike: Int!
+    likeDetail: [LikeDetail!]!
+    commandDetail: [CommandDetail!]!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+
+type PostType{
+    postTypeId: Int!
+    postTypeName: String!
+}
+
+extend type Query{
+    getAllPost: [Post!]!
+    getPost(postId: Int!): Post!
+}

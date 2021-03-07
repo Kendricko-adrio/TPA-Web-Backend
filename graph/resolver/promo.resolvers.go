@@ -5,7 +5,6 @@ package resolver
 
 import (
 	"context"
-	"fmt"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
@@ -48,7 +47,19 @@ func (r *mutationResolver) UpdatePromo(ctx context.Context, promo model.PromoInp
 }
 
 func (r *mutationResolver) DeletePromo(ctx context.Context, id int) (*model.Promo, error) {
-	panic(fmt.Errorf("not implemented"))
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	promo := &model.Promo{PromoID: id}
+
+	db.First(&promo)
+	db.Delete(&promo)
+
+	return promo, nil
 }
 
 func (r *queryResolver) GetAllPromo(ctx context.Context, page int) ([]*model.Promo, error) {

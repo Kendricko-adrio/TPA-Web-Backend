@@ -104,7 +104,7 @@ func (r *queryResolver) GetTotalRequestFriend(ctx context.Context) (int, error) 
 	defer close.Close()
 	var request []*model.FriendsDetail
 
-	test := db.Where("user2id = ? AND friend_status_id = 1", user.UserID).Debug().Find(&request)
+	test := db.Where("user2id = ? AND friend_status_id = 1", user.UserID).Find(&request)
 	return int(test.RowsAffected), nil
 }
 

@@ -37,6 +37,9 @@ type User{
     ownProfileBackground: [ProfileBackground!]!
     currProfileBackground: ProfileBackground!
     currProfileBackgroundId: Int!
+    post: [Post!]!
+    likeDetail: [LikeDetail!]!
+    commandDetail: [CommandDetail!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -44,6 +47,7 @@ type User{
 
 extend type Query {
     getUsers: [User!]!
+    getUserById(userId: Int!): User!
     getUser(input: email): User!
     getAuthUser:User!
     getUserByLink(customUrl: String!): User!

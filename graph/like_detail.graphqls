@@ -1,0 +1,13 @@
+type LikeDetail{
+    postId: Int!
+    userId: Int!
+    like: Boolean!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+extend type Mutation {
+    insertLike(postId: Int!): LikeDetail!
+    insertDislike(postId: Int!): LikeDetail!
+}

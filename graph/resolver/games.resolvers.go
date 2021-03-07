@@ -79,6 +79,27 @@ func (r *mutationResolver) UpdateGame(ctx context.Context, game model.GameInput)
 	return updateGame, nil
 }
 
+func (r *mutationResolver) DeleteGame(ctx context.Context, id int) (int, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	game := &model.Game{ID: id}
+
+	db.Find(&game)
+	db.Exec("DELETE FROM users_games WHERE game_id = ?", id)
+	db.Exec("DELETE FROM game_genres WHERE game_id = ?", id)
+	db.Exec("DELETE FROM promos WHERE game_id = ?", id)
+	db.Exec("DELETE FROM game_slide_shows WHERE game_id = ?", id)
+
+	db.Delete(&game)
+
+	return 1, nil
+}
+
 func (r *queryResolver) AllGame(ctx context.Context) ([]*model.Game, error) {
 	games, err := model.GetAllGames()
 
