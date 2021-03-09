@@ -13,6 +13,7 @@ type Post struct {
 	PostTypeID      int              `json:"postTypeId"`
 	PostHelpful     bool             `json:"postHelpful"`
 	PostDescription string           `json:"postDescription"`
+	PostTitle       string           `json:"postTitle"`
 	PostAsset       string           `json:"postAsset"`
 	TotalLike       int              `json:"totalLike"`
 	TotalDislike    int              `json:"totalDislike"`
@@ -72,6 +73,14 @@ func SeedPost() {
 		UserID:          2,
 		GameID:          1,
 		PostTypeID:      2,
+		TotalLike: 100,
+		PostHelpful:     true,
+		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
+		UserID:          2,
+		GameID:          1,
+		PostTypeID:      2,
 		PostHelpful:     true,
 		PostDescription: "Hai kamu harus bener ya",
 	})
@@ -80,6 +89,47 @@ func SeedPost() {
 		GameID:          1,
 		PostTypeID:      2,
 		PostHelpful:     false,
+		PostTitle: "ini adalah title hayo",
 		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
+		UserID:          3,
+		GameID:          1,
+		PostTypeID:      3,
+		PostHelpful:     false,
+		PostTitle: "ini adalah title kamu makannya apa",
+		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
+		UserID:          4,
+		GameID:          1,
+		PostTypeID:      3,
+		PostHelpful:     false,
+		PostTitle: "ini adalah contoh",
+		PostDescription: "Kamu makannya apa",
+	})
+	db.Create(&Post{
+		UserID:          4,
+		GameID:          1,
+		PostTypeID:      3,
+		PostHelpful:     false,
+		PostTitle: "kamu adalah mahluk Tuhan yang paling skesi",
+		PostDescription: "Saya juru masaknya",
+	})
+	db.Create(&Post{
+		UserID:          3,
+		GameID:          2,
+		PostTypeID:      3,
+		PostHelpful:     false,
+		PostTitle: "ini adalah title",
+		PostDescription: "APA INI HAHAHAHHA",
+	})
+	db.Create(&Post{
+		UserID:          3,
+		GameID:          2,
+		PostTypeID:      3,
+		PostHelpful:     false,
+		PostTitle: "HHHHHHHAAAAAAAAAAAAAAAAAHHHHHHHHH????",
+		PostDescription: "Masa iya sih",
 	})
 }

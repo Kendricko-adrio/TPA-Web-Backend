@@ -179,7 +179,7 @@ func (r *queryResolver) GetFilterGame(ctx context.Context, genre int, price int,
 	defer close.Close()
 	var searchGame []*model.Game
 
-	db.Where("price <= ? AND LOWER(name) LIKE LOWER(?)", price, "%"+title+"%").Debug().Find(&searchGame)
+	db.Joins("JOIN game_genres ON game_genres.game_id = games.id").Where("price <= ? AND LOWER(name) LIKE LOWER(?) AND ? IN (game_genres.genre_genre_id)", price, "%"+title+"%", genre).Debug().Find(&searchGame)
 
 	return searchGame, nil
 }
@@ -199,6 +199,21 @@ func (r *queryResolver) GetNewGame(ctx context.Context) ([]*model.Game, error) {
 
 func (r *queryResolver) GetTopSeller(ctx context.Context) ([]*model.Game, error) {
 	panic(fmt.Errorf("not implemented"))
+}
+
+func (r *queryResolver) GetGameInDiscussion(ctx context.Context) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	var games []*model.Game
+
+	db.Distinct().Joins("JOIN posts ON posts.game_id = games.id").Where("posts.post_type_id = 3").Preload("Post", "post_type_id = 3").Find(&games)
+	//db.Preload("Post", "post_type_id = 3").Find(&games)
+	return games, nil
 }
 
 // Query returns generated.QueryResolver implementation.

@@ -6,6 +6,7 @@ package resolver
 import (
 	"context"
 	"fmt"
+
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
 	"github.com/kendricko-adrio/gqlgen-todos/middleware"
@@ -24,9 +25,9 @@ func (r *mutationResolver) InsertCommand(ctx context.Context, postID int, comman
 	defer close.Close()
 
 	insertCommand := model.CommandDetail{
-		PostID:    postID,
-		UserID:    user.UserID,
-		Command:   command,
+		PostID:  postID,
+		UserID:  user.UserID,
+		Command: command,
 	}
 
 	db.Create(&insertCommand)

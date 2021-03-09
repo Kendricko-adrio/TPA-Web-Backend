@@ -50,7 +50,7 @@ func SeedGames() {
 	db.Create(&Game{
 		Name:        "Dota",
 		Description: "Ini game Dota loh",
-		Price:       100000,
+		Price:       1000000,
 		Rating:      2,
 		Genre: []*Genre{
 			{
@@ -71,6 +71,9 @@ func SeedGames() {
 			},
 			{
 				SlideShowURL: "https://cdn.akamai.steamstatic.com/steam/apps/570/ss_e0a92f15a6631a8186df79182d0fe28b5e37d8cb.600x338.jpg?t=1612665823",
+			},
+			{
+				SlideShowURL: "https://firebasestorage.googleapis.com/v0/b/staem-a0b09.appspot.com/o/ocirdameyo.mp4?alt=media&token=677a2835-d142-416d-ab0e-bac8d1e9bdeb",
 			},
 		},
 	})

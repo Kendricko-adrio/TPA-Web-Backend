@@ -7,6 +7,7 @@ type Post{
     postHelpful: Boolean!
     postAsset: String!
     postDescription: String!
+    postTitle: String!
     totalLike: Int!
     totalDislike: Int!
     likeDetail: [LikeDetail!]!
@@ -25,4 +26,6 @@ type PostType{
 extend type Query{
     getAllPost: [Post!]!
     getPost(postId: Int!): Post!
+    getReviewByGameRecent(gameId: Int!): [Post!]!
+    getReviewByGameUpvoted(gameId: Int!): [Post!]!
 }

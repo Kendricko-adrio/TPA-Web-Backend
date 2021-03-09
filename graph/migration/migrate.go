@@ -26,7 +26,9 @@ func init() {
 		&model.ReportUser{}, &model.UnsuspendRequestType{}, &model.UnsuspendRequest{},
 		&model.Genre{}, &model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
 		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
-		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{})
+		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{},
+		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
+		&model.TransactionHeader{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
@@ -34,7 +36,9 @@ func init() {
 		&model.UnsuspendRequestType{}, &model.UnsuspendRequest{}, &model.Genre{},
 		&model.GameSlideShow{}, &model.Badge{}, &model.MiniBackground{},
 		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
-		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{})
+		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{},
+		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
+		&model.TransactionHeader{})
 }
 
 func SeedAll() {
@@ -42,6 +46,7 @@ func SeedAll() {
 	SeedStatus()
 	SeedCountry()
 	SeedGenre()
+	model.SeedPaymentType()
 	model.SeedPostType()
 	model.SeedTheme()
 	model.SeedBadge()
@@ -149,77 +154,77 @@ func SeedPromo() {
 	defer close.Close()
 	db.Create(&model.Promo{
 		PromoDiscount: 80,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        1,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 70,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        2,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 60,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 	db.Create(&model.Promo{
 		PromoDiscount: 10,
-		PromoDuration: 10,
+		PromoDuration: 1615334400,
 		GameID:        3,
 	})
 

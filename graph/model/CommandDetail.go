@@ -137,4 +137,14 @@ func SeedCommandDetail(){
 		UserID:    2,
 		Command:   "Ngetest boss",
 	})
+	db.Create(&CommandDetail{
+		PostID:    7,
+		UserID:    2,
+		Command:   "Ngetest boss",
+	})
+	db.Create(&CommandDetail{
+		PostID:    7,
+		UserID:    2,
+		Command:   "Ngetest boss",
+	})
 }

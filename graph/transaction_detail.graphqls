@@ -1,0 +1,34 @@
+type TransactionHeader{
+    transactionId: Int!
+    User: User!
+    UserId: Int!
+    Recepient: User!
+    RecepientId: Int!
+    TotalPayment: Int!
+    PaymentType: PaymentType!
+    PaymentTypeId: Int!
+    transactionDetail: [TransactionDetail!]!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type PaymentType{
+    typeId: Int!
+    typeName: String!
+}
+
+type TransactionDetail{
+    TransactionId: Int!
+    GameId: Int!
+    Game: Game!
+}
+
+extend type Query{
+    getAllPaymentType: [PaymentType!]!
+}
+
+extend type Mutation {
+    insertTransaction(userId: Int! recepientId: Int! total: Int! paymentTypeId: Int! transactionDetail: [Int!]!): TransactionHeader!
+    getAllTransaction: [TransactionHeader!]!
+}

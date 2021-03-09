@@ -29,6 +29,7 @@ type Query{
     getFilterGame(genre: Int!, price: Int!, title: String!): [Game!]!
     getNewGame: [Game!]!
     getTopSeller: [Game!]!
+    getGameInDiscussion: [Game!]!
 }
 
 input gameInput{

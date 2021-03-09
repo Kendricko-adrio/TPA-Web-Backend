@@ -38,3 +38,29 @@ func (r *queryResolver) GetPost(ctx context.Context, postID int) (*model.Post, e
 
 	return &posts, nil
 }
+
+func (r *queryResolver) GetReviewByGameRecent(ctx context.Context, gameID int) ([]*model.Post, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+	var posts []*model.Post
+	db.Where("game_id = ? AND post_type_id = 2", gameID).Order("created_at DESC").Find(&posts)
+
+	return posts, nil
+}
+
+func (r *queryResolver) GetReviewByGameUpvoted(ctx context.Context, gameID int) ([]*model.Post, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+	var posts []*model.Post
+	db.Where("game_id = ? AND post_type_id = 2 AND (updated_at BETWEEN (now() - '1 month'::interval) AND now())", gameID).Order("total_like DESC").Find(&posts)
+
+	return posts, nil
+}
