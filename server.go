@@ -8,9 +8,8 @@ import (
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/kendricko-adrio/gqlgen-todos/graph/resolver"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/generated"
-	"github.com/kendricko-adrio/gqlgen-todos/graph/migration"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/resolver"
 )
 
 const defaultPort = "2000"
@@ -20,7 +19,7 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	migration.SeedAll()
+	//migration.SeedAll()
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{} }))
 
