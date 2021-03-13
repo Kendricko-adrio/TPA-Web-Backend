@@ -124,6 +124,8 @@ func (r *mutationResolver) LoginUser(ctx context.Context, input model.Login) (*m
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
+		Secure: true,
+		SameSite: http.SameSiteNoneMode,
 	}
 
 	w := *middleware.ForWriter(ctx)
