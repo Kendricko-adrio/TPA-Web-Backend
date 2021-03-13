@@ -5,7 +5,7 @@ go 1.15
 require (
 	github.com/99designs/gqlgen v0.13.0
 	github.com/dgrijalva/jwt-go v3.2.0+incompatible
-	github.com/jackc/pgproto3/v2 v2.0.7 // indirect
+	//github.com/jackc/pgproto3/v2 v2.0.7 // indirect
 	github.com/jinzhu/gorm v1.9.16
 	github.com/mailjet/mailjet-apiv3-go v0.0.0-20201009050126-c24bc15a9394
 	github.com/mattn/go-sqlite3 v1.14.6 // indirect
