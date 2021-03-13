@@ -6,6 +6,7 @@ package resolver
 import (
 	"context"
 	"fmt"
+
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
 	"github.com/kendricko-adrio/gqlgen-todos/middleware"

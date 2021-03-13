@@ -109,7 +109,6 @@ type ComplexityRoot struct {
 
 	Game struct {
 		CreatedAt         func(childComplexity int) int
-		DeletedAt         func(childComplexity int) int
 		Description       func(childComplexity int) int
 		GameSlideShow     func(childComplexity int) int
 		Genre             func(childComplexity int) int
@@ -882,13 +881,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Game.CreatedAt(childComplexity), true
-
-	case "Game.DeletedAt":
-		if e.complexity.Game.DeletedAt == nil {
-			break
-		}
-
-		return e.complexity.Game.DeletedAt(childComplexity), true
 
 	case "Game.Description":
 		if e.complexity.Game.Description == nil {
@@ -3473,7 +3465,8 @@ type Game {
     items: [Item!]!
     CreatedAt: Time!
     UpdatedAt: Time!
-    DeletedAt: Time
+#    DeletedAt: Time
+
 }
 
 type gameAggregatePost{
@@ -7117,38 +7110,6 @@ func (ec *executionContext) _Game_UpdatedAt(ctx context.Context, field graphql.C
 	res := resTmp.(time.Time)
 	fc.Result = res
 	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
-}
-
-func (ec *executionContext) _Game_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Game) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Game",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _GameSlideShow_slideShowId(ctx context.Context, field graphql.CollectedField, obj *model.GameSlideShow) (ret graphql.Marshaler) {
@@ -19329,8 +19290,6 @@ func (ec *executionContext) _Game(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "DeletedAt":
-			out.Values[i] = ec._Game_DeletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

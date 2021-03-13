@@ -95,7 +95,6 @@ func (r *mutationResolver) DeleteGame(ctx context.Context, id int) (int, error) 
 	//db.Exec("DELETE FROM promos WHERE game_id = ?", id)
 	//db.Exec("DELETE FROM game_slide_shows WHERE game_id = ?", id)
 	//db.Exec("DELETE FROM items WHERE game_id = ?", id)
-
 	db.Delete(&game)
 
 	return 1, nil

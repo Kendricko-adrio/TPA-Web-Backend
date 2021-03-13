@@ -17,7 +17,8 @@ type Game {
     items: [Item!]!
     CreatedAt: Time!
     UpdatedAt: Time!
-    DeletedAt: Time
+#    DeletedAt: Time
+
 }
 
 type gameAggregatePost{

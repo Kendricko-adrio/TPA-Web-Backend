@@ -3,6 +3,7 @@ package model
 import (
 	"fmt"
 	"github.com/kendricko-adrio/gqlgen-todos/database"
+	"gorm.io/gorm"
 	"time"
 )
 
@@ -24,7 +25,7 @@ type Game struct {
 	Items             []*Item          `json:"items" gorm:"foreignKey:GameID" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	CreatedAt         time.Time        `json:"CreatedAt"`
 	UpdatedAt         time.Time        `json:"UpdatedAt"`
-	DeletedAt         *time.Time       `json:"DeletedAt"`
+	gorm.DeletedAt
 }
 
 func GetAllGames() ([]*Game, error) {
