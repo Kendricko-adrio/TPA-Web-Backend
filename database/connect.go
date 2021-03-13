@@ -12,8 +12,8 @@ import(
 
 func Connect()(*gorm.DB, error){
 
-	//dbUrl := "postgres://rygwkpxrxcijxh:ecb82283e1aecae02b2e2d5b704f56bbbe6ea8ad1cb9aa7187ac60640565ca14@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d900abdh65ie89"
-	dbUrl := ""
+	dbUrl := "postgres://rygwkpxrxcijxh:ecb82283e1aecae02b2e2d5b704f56bbbe6ea8ad1cb9aa7187ac60640565ca14@ec2-54-164-22-242.compute-1.amazonaws.com:5432/d900abdh65ie89"
+	//dbUrl := ""
 	if dbUrl != "" {
 		return gorm.Open(postgres.Open(dbUrl), &gorm.Config{
 			PrepareStmt: true,
