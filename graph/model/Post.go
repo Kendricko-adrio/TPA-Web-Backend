@@ -85,6 +85,27 @@ func SeedPost() {
 		PostDescription: "Hai kamu harus bener ya",
 	})
 	db.Create(&Post{
+		UserID:          2,
+		GameID:          2,
+		PostTypeID:      2,
+		PostHelpful:     true,
+		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
+		UserID:          2,
+		GameID:          2,
+		PostTypeID:      2,
+		PostHelpful:     true,
+		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
+		UserID:          2,
+		GameID:          2,
+		PostTypeID:      2,
+		PostHelpful:     true,
+		PostDescription: "Hai kamu harus bener ya",
+	})
+	db.Create(&Post{
 		UserID:          3,
 		GameID:          1,
 		PostTypeID:      2,

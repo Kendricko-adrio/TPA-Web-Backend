@@ -1,4 +1,9 @@
 type ProfileBackground{
     backgroundId: Int!
     backgroundUrl: String!
+    backgroundPoint: Int!
+}
+
+extend type Query{
+    getPurchasableBg: [ProfileBackground!]!
 }

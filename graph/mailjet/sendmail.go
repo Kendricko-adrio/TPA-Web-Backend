@@ -62,6 +62,109 @@ func OnSale(toEmail, game string) {
 	fmt.Printf("Data: %+v\n", res)
 }
 
+func OnBuyItem(toEmail, game string , price int) {
+	mailjetClient := mailjet.NewMailjetClient("ede341987c435df63f74d5ed23686b6d", "f53c24ff587dc8b1e44352de917250e5")
+	msg := "<!DOCTYPE html>\n" +
+		"<html lang=\"en\">\n" +
+		"<head>\n    " +
+		"<meta charset=\"UTF-8\">\n    " +
+		"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    " +
+		"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    " +
+		"<title>Document</title>\n    " +
+		"<style>\n        " +
+		".card{\n            " +
+		"padding: 20px;\n            " +
+		"width: 300px;\n            " +
+		"height: 100%;\n            " +
+		"background-color: gray;\n        " +
+		"}\n    " +
+		"</style>\n" +
+		"</head>\n" +
+		"<body>\n    " +
+		"<div class=\"card\">\n       " +
+		" <div>Hey Kamu! Thank you for purchasing our product</div>\n        " +
+		game + " | " + strconv.Itoa(price) +
+		"</div>\n" +
+		"</body>\n" +
+		"</html>"
+
+	messagesInfo := []mailjet.InfoMessagesV31{
+		mailjet.InfoMessagesV31{
+			From: &mailjet.RecipientV31{
+				Email: "kendrickoadrio314@gmail.com",
+				Name:  "Kendricko",
+			},
+			To: &mailjet.RecipientsV31{
+				mailjet.RecipientV31{
+					Email: toEmail,
+				},
+			},
+			Subject:  "Staem OTP",
+			TextPart: "My first Mailjet email",
+			HTMLPart: msg,
+			CustomID: "AppGettingStartedTest",
+		},
+	}
+	messages := mailjet.MessagesV31{Info: messagesInfo}
+	res, err := mailjetClient.SendMailV31(&messages)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Data: %+v\n", res)
+}
+
+
+func OnSellItem(toEmail, game string , price int) {
+	mailjetClient := mailjet.NewMailjetClient("ede341987c435df63f74d5ed23686b6d", "f53c24ff587dc8b1e44352de917250e5")
+	msg := "<!DOCTYPE html>\n" +
+		"<html lang=\"en\">\n" +
+		"<head>\n    " +
+		"<meta charset=\"UTF-8\">\n    " +
+		"<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    " +
+		"<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">\n    " +
+		"<title>Document</title>\n    " +
+		"<style>\n        " +
+		".card{\n            " +
+		"padding: 20px;\n            " +
+		"width: 300px;\n            " +
+		"height: 100%;\n            " +
+		"background-color: gray;\n        " +
+		"}\n    " +
+		"</style>\n" +
+		"</head>\n" +
+		"<body>\n    " +
+		"<div class=\"card\">\n       " +
+		" <div>Hey Kamu! Thank you for buying our product</div>\n        " +
+		game + " | " + strconv.Itoa(price) +
+		"</div>\n" +
+		"</body>\n" +
+		"</html>"
+
+	messagesInfo := []mailjet.InfoMessagesV31{
+		mailjet.InfoMessagesV31{
+			From: &mailjet.RecipientV31{
+				Email: "kendrickoadrio314@gmail.com",
+				Name:  "Kendricko",
+			},
+			To: &mailjet.RecipientsV31{
+				mailjet.RecipientV31{
+					Email: toEmail,
+				},
+			},
+			Subject:  "Staem OTP",
+			TextPart: "My first Mailjet email",
+			HTMLPart: msg,
+			CustomID: "AppGettingStartedTest",
+		},
+	}
+	messages := mailjet.MessagesV31{Info: messagesInfo}
+	res, err := mailjetClient.SendMailV31(&messages)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("Data: %+v\n", res)
+}
+
 func Transaction(toEmail string, detail []*model.Game) {
 	mailjetClient := mailjet.NewMailjetClient("ede341987c435df63f74d5ed23686b6d", "f53c24ff587dc8b1e44352de917250e5")
 

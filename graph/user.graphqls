@@ -40,6 +40,13 @@ type User{
     post: [Post!]!
     likeDetail: [LikeDetail!]!
     commandDetail: [CommandDetail!]!
+    items: [Item!]!
+    sellItem: [ItemTransaction!]!
+    buyItem: [ItemTransaction!]!
+    ownFrame: [AvatarFrame!]!
+    currFrame: String!
+    point: Int!
+    myItem: [MyItem!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -101,4 +108,7 @@ extend type Mutation{
     setCurrMiniBg(imageUrl: String): User!
     setCurrTheme(themeId: Int): User!
     setCurrProfileBackground(backgroundIt: Int!): User!
+    setCurrFrame(frameUrl: String!): User!
+    getUserGame(userId: Int!): [Game!]!
+
 }

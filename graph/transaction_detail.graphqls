@@ -22,6 +22,9 @@ type TransactionDetail{
     TransactionId: Int!
     GameId: Int!
     Game: Game!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
 }
 
 extend type Query{

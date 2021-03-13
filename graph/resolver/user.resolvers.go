@@ -345,6 +345,35 @@ func (r *mutationResolver) SetCurrProfileBackground(ctx context.Context, backgro
 	return user, nil
 }
 
+func (r *mutationResolver) SetCurrFrame(ctx context.Context, frameURL string) (*model.User, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return &model.User{}, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	db.First(&user)
+
+	//frame := model.AvatarFrame{FrameID: frameID}
+	//
+	//db.First(&frame)
+
+	user.CurrFrame = frameURL
+
+	db.Save(&user)
+
+	return user, nil
+}
+
+func (r *mutationResolver) GetUserGame(ctx context.Context, userID int) ([]*model.Game, error) {
+	panic(fmt.Errorf("not implemented"))
+}
+
 func (r *queryResolver) GetUsers(ctx context.Context) ([]*model.User, error) {
 	db, err := database.Connect()
 	if err != nil {
@@ -416,7 +445,7 @@ func (r *queryResolver) GetUserByLink(ctx context.Context, customURL string) (*m
 	defer close.Close()
 	var user model.User
 
-	db.Where("custom_url = ?", customURL).Preload("CurrTheme").Preload("Friends.OwnBadge").Preload("Friends.CurrBadge").Preload("Games").Preload("OwnBadge").First(&user)
+	db.Where("custom_url = ?", customURL).Preload("Items").Preload("CurrTheme").Preload("Friends.OwnBadge").Preload("Friends.CurrBadge").Preload("Games").Preload("OwnBadge").First(&user)
 
 	return &user, nil
 }

@@ -1,0 +1,16 @@
+type TopUpWallet{
+    walletId:Int!
+    walletCode:String!
+    walletMoney: Int!
+    topUpTypeId: Int!
+    topUpType: TopUpType!
+}
+
+type TopUpType{
+    topUpTypeId: Int!
+    topUpTypeIdName: String!
+}
+
+extend type Mutation {
+    insertWallet(walletCode:String!): User!
+}

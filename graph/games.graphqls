@@ -14,9 +14,23 @@ type Game {
     genre: [Genre!]!
     gameSlideShow : [GameSlideShow!]!
     post: [Post!]!
+    items: [Item!]!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
+}
+
+type gameAggregatePost{
+    game: Game!
+    count: Int!
+}
+
+type topSeller{
+    gameid: Int!
+    gamename: String!
+    gameprice: Int!
+    imagebanner: String!
+    counts: Int!
 }
 
 type Query{
@@ -28,9 +42,13 @@ type Query{
     getTotalGame: Int!
     getFilterGame(genre: Int!, price: Int!, title: String!): [Game!]!
     getNewGame: [Game!]!
-    getTopSeller: [Game!]!
     getGameInDiscussion: [Game!]!
+    getMostPositifReview: [Game!]!
+    getMostPositifReview2: [gameAggregatePost!]!
+    getTopSeller: [topSeller!]!
 }
+
+
 
 input gameInput{
     ID: Int!

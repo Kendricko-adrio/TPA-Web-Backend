@@ -34,6 +34,11 @@ type Email struct {
 	Email string `json:"Email"`
 }
 
+type GameAggregatePost struct {
+	Game  *Game `json:"game"`
+	Count int   `json:"count"`
+}
+
 type GameInput struct {
 	ID                int      `json:"ID"`
 	Name              string   `json:"Name"`
@@ -45,4 +50,12 @@ type GameInput struct {
 	GameSlideShow     []string `json:"gameSlideShow"`
 	Genre             []int    `json:"genre"`
 	SystemRequirement string   `json:"systemRequirement"`
+}
+
+type TopSeller struct {
+	Gameid      int    `json:"gameid"`
+	Gamename    string `json:"gamename"`
+	Gameprice   int    `json:"gameprice"`
+	Imagebanner string `json:"imagebanner"`
+	Counts      int    `json:"counts"`
 }

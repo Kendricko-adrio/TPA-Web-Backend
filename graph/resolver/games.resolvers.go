@@ -90,10 +90,11 @@ func (r *mutationResolver) DeleteGame(ctx context.Context, id int) (int, error) 
 	game := &model.Game{ID: id}
 
 	db.Find(&game)
-	db.Exec("DELETE FROM users_games WHERE game_id = ?", id)
-	db.Exec("DELETE FROM game_genres WHERE game_id = ?", id)
-	db.Exec("DELETE FROM promos WHERE game_id = ?", id)
-	db.Exec("DELETE FROM game_slide_shows WHERE game_id = ?", id)
+	//db.Exec("DELETE FROM users_games WHERE game_id = ?", id)
+	//db.Exec("DELETE FROM game_genres WHERE game_id = ?", id)
+	//db.Exec("DELETE FROM promos WHERE game_id = ?", id)
+	//db.Exec("DELETE FROM game_slide_shows WHERE game_id = ?", id)
+	//db.Exec("DELETE FROM items WHERE game_id = ?", id)
 
 	db.Delete(&game)
 
@@ -197,10 +198,6 @@ func (r *queryResolver) GetNewGame(ctx context.Context) ([]*model.Game, error) {
 	return searchGame, nil
 }
 
-func (r *queryResolver) GetTopSeller(ctx context.Context) ([]*model.Game, error) {
-	panic(fmt.Errorf("not implemented"))
-}
-
 func (r *queryResolver) GetGameInDiscussion(ctx context.Context) ([]*model.Game, error) {
 	db, err := database.Connect()
 	if err != nil {
@@ -214,6 +211,57 @@ func (r *queryResolver) GetGameInDiscussion(ctx context.Context) ([]*model.Game,
 	db.Distinct().Joins("JOIN posts ON posts.game_id = games.id").Where("posts.post_type_id = 3").Preload("Post", "post_type_id = 3").Find(&games)
 	//db.Preload("Post", "post_type_id = 3").Find(&games)
 	return games, nil
+}
+
+func (r *queryResolver) GetMostPositifReview(ctx context.Context) ([]*model.Game, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	var games []*model.Game
+
+	db.Raw("SELECT games.* \nFROM games\nJOIN posts\nON games.id = posts.game_id\nWHERE posts.post_helpful = true AND posts.post_type_id = 2\nGROUP BY games.id\nORDER BY COUNT(posts.post_helpful) DESC").Find(&games)
+
+	return games, nil
+}
+
+func (r *queryResolver) GetMostPositifReview2(ctx context.Context) ([]*model.GameAggregatePost, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	var games []*model.GameAggregatePost
+
+	db.Raw("SELECT games.* , COUNT(posts.post_helpful) AS \"count\" \nFROM games\nJOIN posts\nON games.id = posts.game_id\nWHERE posts.post_helpful = true AND posts.post_type_id = 2\nGROUP BY games.id\nORDER BY COUNT(posts.post_helpful) DESC").Scan(&games)
+
+	return games, nil
+}
+
+func (r *queryResolver) GetTopSeller(ctx context.Context) ([]*model.TopSeller, error) {
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	var top []*model.TopSeller
+	db.Raw("select ga.id AS gameId, ga.\"name\" AS gameName, ga.price AS gamePrice " +
+		", ga.image_banner AS imageBanner ,COUNT(td.transaction_id) AS counts " +
+		"from games as ga " +
+		"JOIN transaction_details as td " +
+		"ON ga.id = td.game_id " +
+		"WHERE td.updated_at BETWEEN (now() - '1 week'::interval) AND now() " +
+		"GROUP BY ga.id " +
+		"ORDER BY COUNT(td.transaction_id) DESC").Scan(&top)
+
+	return top, nil
 }
 
 // Query returns generated.QueryResolver implementation.

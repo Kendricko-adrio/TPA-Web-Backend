@@ -52,6 +52,13 @@ type User struct {
 	Post                    []*Post              `json:"post" gorm:"foreignKey:UserID"`
 	LikeDetail              []*LikeDetail        `json:"likeDetail" gorm:"foreignKey:UserID"`
 	CommandDetail           []*CommandDetail     `json:"commandDetail" gorm:"foreignKey:UserID"`
+	Items                   []*Item              `json:"items" gorm:"many2many:users_item"`
+	SellItem                []*ItemTransaction   `json:"sellItem" gorm:"foreignKey:UserSellerID"`
+	BuyItem                 []*ItemTransaction   `json:"buyItem" gorm:"foreignKey:UserBuyerID"`
+	OwnFrame                []*AvatarFrame       `json:"ownFrame" gorm:"many2many:users_frame"`
+	CurrFrame               string               `json:"currFrame"`
+	Point                   int                  `json:"point"`
+	MyItem                  []*MyItem            `json:"myItem" gorm:"foreignKey:UserID"`
 	CreatedAt               time.Time            `json:"CreatedAt"`
 	UpdatedAt               time.Time            `json:"UpdatedAt"`
 	DeletedAt               *time.Time           `json:"DeletedAt"`
@@ -113,7 +120,6 @@ func GetUserIdByUsername(username string) (int, error) {
 	}
 
 	return user.UserID, nil
-
 }
 
 func ValidateUser(username, password string) (User, error) {

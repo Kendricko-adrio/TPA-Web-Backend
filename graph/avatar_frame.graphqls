@@ -1,0 +1,13 @@
+type AvatarFrame{
+    frameId: Int!
+    frameUrl: String!
+    framePoint: Int!
+}
+
+extend type Query{
+    getPurchasableFrame: [AvatarFrame!]!
+}
+
+extend type Mutation {
+    insertFrame(frameId: Int!): AvatarFrame!
+}

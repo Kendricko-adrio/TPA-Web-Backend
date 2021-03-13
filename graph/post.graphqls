@@ -29,3 +29,7 @@ extend type Query{
     getReviewByGameRecent(gameId: Int!): [Post!]!
     getReviewByGameUpvoted(gameId: Int!): [Post!]!
 }
+
+extend type Mutation {
+    insertReview(review: String! helpful: Boolean! gameId: Int!): Post!
+}

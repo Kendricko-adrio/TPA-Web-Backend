@@ -112,7 +112,7 @@ func (r *queryResolver) GetOnSale(ctx context.Context) ([]*model.Promo, error) {
 	close, err := db.DB()
 	defer close.Close()
 	var allPromo []*model.Promo
-	db.Where("promo_discount >= 50").Limit(5).Preload(clause.Associations).Find(&allPromo)
+	db.Limit(5).Preload(clause.Associations).Find(&allPromo)
 
 	return allPromo, nil
 }

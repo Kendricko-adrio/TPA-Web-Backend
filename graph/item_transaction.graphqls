@@ -1,0 +1,33 @@
+type ItemTransaction{
+    transactionId: Int!
+    userSellerId: Int!
+    sellerGet: Int!
+    buyerPay: Int!
+    userBuyerId: Int!
+    itemId: Int!
+    item: Item!
+    transactionType: ItemTransactionType!
+    transactionTypeId: Int!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+type ItemTransactionType{
+    typeId: Int!
+    typeName: String!
+}
+
+extend type Query {
+    getTransactionByItem(itemId: Int!): [ItemTransaction!]!
+    getRequestTransaction(page: Int!): [Item!]!
+    getSell(itemId: Int!): [ItemTransaction!]!
+    getBuy(itemId: Int!): [ItemTransaction!]!
+    getMyBuy(itemId: Int!):[ItemTransaction!]!
+    getMySell(itemId: Int!):[ItemTransaction!]!
+}
+
+extend type Mutation {
+    buyItem(itemId:Int! price: Int!): ItemTransaction!
+    sellItem(itemId:Int! price: Int!): ItemTransaction!
+}

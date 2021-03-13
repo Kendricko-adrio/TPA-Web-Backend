@@ -20,6 +20,9 @@ func init() {
 	db.Exec("DROP TABLE users_mini_bg")
 	db.Exec("DROP TABLE users_theme")
 	db.Exec("DROP TABLE users_profile_bg")
+	db.Exec("DROP TABLE users_item")
+	db.Exec("DROP TABLE users_frame")
+
 	db.Migrator().DropTable(&model.User{}, &model.Country{},
 		&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{},
 		&model.FriendStatus{}, &model.Admin{}, &model.Promo{},
@@ -28,7 +31,9 @@ func init() {
 		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
 		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{},
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
-		&model.TransactionHeader{})
+		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
+		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
+		&model.TopUpWallet{}, &model.MyItem{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
@@ -38,7 +43,9 @@ func init() {
 		&model.Theme{}, &model.ProfileBackground{}, &model.Post{},
 		&model.PostType{}, &model.LikeDetail{}, &model.CommandDetail{},
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
-		&model.TransactionHeader{})
+		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
+		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
+		&model.TopUpWallet{}, &model.MyItem{})
 }
 
 func SeedAll() {
@@ -46,18 +53,26 @@ func SeedAll() {
 	SeedStatus()
 	SeedCountry()
 	SeedGenre()
+	model.SeedTopUpType()
+	model.SeedTopUpWallet()
 	model.SeedPaymentType()
+	model.SeedItemTransactionType()
 	model.SeedPostType()
 	model.SeedTheme()
 	model.SeedBadge()
+	model.SeedAvatarFrame()
 	model.SeedGames()
 	model.SeedProfileBackground()
 	model.SeedMiniBackground()
 	SeedProvider()
+	model.SeedItems()
 	SeedUser()
 	model.SeedPost()
 	model.SeedLikeDetail()
 	model.SeedCommandDetail()
+	model.SeedItemTransaction()
+	model.SeedTransaction()
+	model.SeedMyItem()
 	SeedAdmin()
 	SeedPromo()
 	SeedReport()
@@ -408,6 +423,54 @@ func SeedUser() {
 			},
 		},
 		CurrProfileBackgroundID: 1,
+		Items: []*model.Item{
+			{
+				ItemsID: 2,
+			},
+			{
+				ItemsID: 3,
+			},
+			{
+				ItemsID: 4,
+			},
+			{
+				ItemsID: 5,
+			},
+			{
+				ItemsID: 6,
+			},
+			{
+				ItemsID: 7,
+			},
+			{
+				ItemsID: 8,
+			},
+			{
+				ItemsID: 9,
+			},
+			{
+				ItemsID: 10,
+			},
+			{
+				ItemsID: 11,
+			},
+			{
+				ItemsID: 12,
+			},
+			{
+				ItemsID: 13,
+			},
+		},
+		OwnFrame: []*model.AvatarFrame{
+			{
+				FrameID:  1,
+			},
+			{
+				FrameID:  2,
+			},
+		},
+		CurrFrame: "https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/322330/46461aaea39b18a4a3da2e6d3cf253006f2d6193.png",
+		Point: 500,
 	})
 
 	db.Create(&model.User{
@@ -470,6 +533,11 @@ func SeedUser() {
 			},
 		},
 		CurrProfileBackgroundID: 1,
+		Items: []*model.Item{
+			{
+				ItemsID: 1,
+			},
+		},
 	})
 
 	db.Create(&model.User{

@@ -1,0 +1,19 @@
+type Item{
+    itemsId: Int!
+    gameId: Int!
+    game: Game!
+    users: [User!]!
+    itemName: String!
+    itemDescription: String!
+    itemPhoto: String!
+    itemTransaction: [ItemTransaction!]!
+    myItem: [MyItem!]!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}
+
+extend type Query {
+    getUserItemsByGamePaginate(gameId:Int! userId: Int! page:Int! search: String): [Item!]!
+    getItem(itemId: Int!): Item!
+}

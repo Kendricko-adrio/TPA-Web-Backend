@@ -1,0 +1,10 @@
+type MyItem{
+    myItemId: Int!
+    userId: Int!
+    user: User!
+    itemId: Int!
+    item: Item!
+    CreatedAt: Time!
+    UpdatedAt: Time!
+    DeletedAt: Time
+}

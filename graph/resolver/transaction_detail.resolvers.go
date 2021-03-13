@@ -6,9 +6,9 @@ package resolver
 import (
 	"context"
 	"fmt"
-	"github.com/kendricko-adrio/gqlgen-todos/graph/mailjet"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/mailjet"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
 )
 
@@ -20,25 +20,25 @@ func (r *mutationResolver) InsertTransaction(ctx context.Context, userID int, re
 	close, err := db.DB()
 	defer close.Close()
 
-	for _, element := range transactionDetail{
+	for _, element := range transactionDetail {
 		db.Exec("DELETE FROM carts WHERE user_id = ? AND game_id = ?", userID, element).Debug()
 	}
 
 	transaction := model.TransactionHeader{
-		UserID:            userID,
-		RecepientID:       recepientID,
-		TotalPayment:      total,
-		PaymentTypeID:     paymentTypeID,
+		UserID:        userID,
+		RecepientID:   recepientID,
+		TotalPayment:  total,
+		PaymentTypeID: paymentTypeID,
 	}
 
 	db.Create(&transaction)
 
-	for _, element := range transactionDetail{
+	for _, element := range transactionDetail {
 		db.Exec("INSERT INTO transaction_details(transaction_id, game_id) VALUES (?,?)", transaction.TransactionID, element).Debug()
 		db.Exec("INSERT INTO users_games(game_id, user_user_id) VALUES (?,?)", element, recepientID).Debug()
 	}
 
-	if paymentTypeID == 1{
+	if paymentTypeID == 1 {
 		user := model.User{UserID: userID}
 		db.First(&user)
 		user.Money = user.Money - total

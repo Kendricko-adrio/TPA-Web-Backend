@@ -1,7 +1,12 @@
 type MiniBackground{
     miniId: Int!
     miniUrl: String!
+    miniPoint: Int!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
+}
+
+extend type Query{
+    getPurchasableMini: [MiniBackground!]!
 }
