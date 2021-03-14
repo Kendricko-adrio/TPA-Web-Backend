@@ -5,6 +5,7 @@ import (
 	"github.com/99designs/gqlgen/graphql/handler/extension"
 	"github.com/99designs/gqlgen/graphql/handler/transport"
 	"github.com/gorilla/websocket"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/migration"
 	"github.com/kendricko-adrio/gqlgen-todos/middleware"
 	"log"
 	"net/http"
@@ -24,7 +25,7 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
-	//migration.SeedAll()
+	migration.SeedAll()
 
 	//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{} }))
 
