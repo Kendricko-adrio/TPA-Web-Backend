@@ -2,6 +2,8 @@
 
 package model
 
+
+
 type CreateAccount struct {
 	Email     string `json:"email"`
 	CountryID int    `json:"countryId"`

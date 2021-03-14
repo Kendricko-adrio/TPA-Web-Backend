@@ -34,7 +34,7 @@ func init() {
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
 		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
 		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
-		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{})
+		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{}, &model.Chat{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
@@ -46,7 +46,7 @@ func init() {
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
 		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
 		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
-		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{})
+		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{}, &model.Chat{})
 }
 
 func SeedAll() {

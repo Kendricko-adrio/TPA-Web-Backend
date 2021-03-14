@@ -1,10 +1,15 @@
 package main
 
 import (
+	"github.com/99designs/gqlgen/graphql/handler/apollotracing"
+	"github.com/99designs/gqlgen/graphql/handler/extension"
+	"github.com/99designs/gqlgen/graphql/handler/transport"
+	"github.com/gorilla/websocket"
 	"github.com/kendricko-adrio/gqlgen-todos/middleware"
 	"log"
 	"net/http"
 	"os"
+	"time"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
@@ -21,8 +26,25 @@ func main() {
 	}
 	//migration.SeedAll()
 
-	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{} }))
+	//srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &resolver.Resolver{} }))
 
+	srv := handler.New(generated.NewExecutableSchema(generated.Config{
+		Resolvers: resolver.NewResolver(),
+	}))
+
+	srv.AddTransport(transport.POST{})
+	srv.AddTransport(transport.Options{})
+	srv.AddTransport(transport.MultipartForm{})
+	srv.AddTransport(transport.Websocket{
+		KeepAlivePingInterval: 10 * time.Second,
+		Upgrader: websocket.Upgrader{
+			CheckOrigin: func(r *http.Request) bool {
+				return true
+			},
+		},
+	})
+	srv.Use(extension.Introspection{})
+	srv.Use(apollotracing.Tracer{})
 
 	wrapped := middleware.CorsMiddleware(srv)
 	wrapped2 := middleware.LoginMiddleware(wrapped)

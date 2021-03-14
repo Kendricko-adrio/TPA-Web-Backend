@@ -6,14 +6,14 @@ package resolver
 import (
 	"context"
 	"fmt"
-	"github.com/kendricko-adrio/gqlgen-todos/graph/myredis"
-	"github.com/kendricko-adrio/gqlgen-todos/middleware"
 	"log"
 	"strconv"
 	"time"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/myredis"
+	"github.com/kendricko-adrio/gqlgen-todos/middleware"
 	"gorm.io/gorm/clause"
 )
 
@@ -113,13 +113,13 @@ func (r *queryResolver) GetTotalPromo(ctx context.Context) (int, error) {
 
 	if err == nil {
 		fmt.Println("Masuk sini")
-		hasilnya,_ := strconv.Atoi(cached)
+		hasilnya, _ := strconv.Atoi(cached)
 		return hasilnya, nil
 	}
 
 	var test = db.Find(&allPromo)
 
-	if err := myredis.UseCache().Set(ctx, strconv.Itoa(user.UserID),int(test.RowsAffected) , 10*time.Second).Err(); err != nil {
+	if err := myredis.UseCache().Set(ctx, strconv.Itoa(user.UserID), int(test.RowsAffected), 10*time.Second).Err(); err != nil {
 		log.Fatal(err)
 	}
 
