@@ -22,6 +22,7 @@ func init() {
 	db.Exec("DROP TABLE users_profile_bg")
 	db.Exec("DROP TABLE users_item")
 	db.Exec("DROP TABLE users_frame")
+	db.Exec("DROP TABLE users_avatar")
 
 	db.Migrator().DropTable(&model.User{}, &model.Country{},
 		&model.Game{}, &model.Provider{}, &model.Status{}, &model.FriendsDetail{},
@@ -33,7 +34,7 @@ func init() {
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
 		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
 		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
-		&model.TopUpWallet{}, &model.MyItem{})
+		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{})
 
 	db.AutoMigrate(&model.User{}, &model.Country{}, &model.Game{},
 		&model.Provider{}, &model.Status{}, &model.FriendsDetail{},
@@ -45,7 +46,7 @@ func init() {
 		&model.Cart{}, &model.PaymentType{}, &model.TransactionDetail{},
 		&model.TransactionHeader{}, &model.Item{}, &model.ItemTransaction{},
 		&model.ItemTransactionType{}, &model.AvatarFrame{}, &model.TopUpType{},
-		&model.TopUpWallet{}, &model.MyItem{})
+		&model.TopUpWallet{}, &model.MyItem{}, &model.Avatar{})
 }
 
 func SeedAll() {
@@ -54,6 +55,7 @@ func SeedAll() {
 	SeedCountry()
 	SeedGenre()
 	model.SeedTopUpType()
+	model.SeedAvatar()
 	model.SeedTopUpWallet()
 	model.SeedPaymentType()
 	model.SeedItemTransactionType()
@@ -481,7 +483,7 @@ func SeedUser() {
 		FirstName:  "dum",
 		LastName:   "my",
 		AuthToken:  "asdf",
-		Email:      "asdf",
+		Email:      "kendrickoadrio134@gmail.com",
 		IDToken:    "asdf",
 		PhotoURL:   "https://cdn.idntimes.com/content-images/community/2020/07/2f6d6ba28aee33bd220c6d419fd5faee-a238c2af6f14dc0f0653294961526bca_600x400.jpg",
 		Provider:   nil,

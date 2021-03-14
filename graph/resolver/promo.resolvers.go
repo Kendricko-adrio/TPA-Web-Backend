@@ -5,6 +5,12 @@ package resolver
 
 import (
 	"context"
+	"fmt"
+	"github.com/kendricko-adrio/gqlgen-todos/graph/myredis"
+	"github.com/kendricko-adrio/gqlgen-todos/middleware"
+	"log"
+	"strconv"
+	"time"
 
 	"github.com/kendricko-adrio/gqlgen-todos/database"
 	"github.com/kendricko-adrio/gqlgen-todos/graph/model"
@@ -71,7 +77,7 @@ func (r *queryResolver) GetAllPromo(ctx context.Context, page int) ([]*model.Pro
 	defer close.Close()
 	var allPromo []*model.Promo
 
-	db.Preload(clause.Associations).Limit(10).Offset((page - 1) * 10).Find(&allPromo)
+	db.Preload(clause.Associations).Limit(10).Offset((page - 1) * 10).Debug().Find(&allPromo)
 
 	return allPromo, nil
 }
@@ -91,15 +97,31 @@ func (r *queryResolver) GetPromoByID(ctx context.Context, id int) (*model.Promo,
 }
 
 func (r *queryResolver) GetTotalPromo(ctx context.Context) (int, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return 0, fmt.Errorf("access denied")
+	}
 	db, err := database.Connect()
 	if err != nil {
 		panic(err)
 	}
 	close, err := db.DB()
 	defer close.Close()
+
 	var allPromo []*model.Promo
+	cached, err := myredis.UseCache().Get(ctx, strconv.Itoa(user.UserID)).Result()
+
+	if err == nil {
+		fmt.Println("Masuk sini")
+		hasilnya,_ := strconv.Atoi(cached)
+		return hasilnya, nil
+	}
 
 	var test = db.Find(&allPromo)
+
+	if err := myredis.UseCache().Set(ctx, strconv.Itoa(user.UserID),int(test.RowsAffected) , 10*time.Second).Err(); err != nil {
+		log.Fatal(err)
+	}
 
 	return int(test.RowsAffected), nil
 }
@@ -112,7 +134,7 @@ func (r *queryResolver) GetOnSale(ctx context.Context) ([]*model.Promo, error) {
 	close, err := db.DB()
 	defer close.Close()
 	var allPromo []*model.Promo
-	db.Limit(5).Preload(clause.Associations).Find(&allPromo)
+	db.Unscoped().Debug().Limit(5).Preload(clause.Associations).Find(&allPromo)
 
 	return allPromo, nil
 }

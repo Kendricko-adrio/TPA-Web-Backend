@@ -124,7 +124,7 @@ func (r *mutationResolver) LoginUser(ctx context.Context, input model.Login) (*m
 		Value:    token,
 		Expires:  time.Now().Add(time.Hour * 24),
 		HttpOnly: true,
-		Secure: true,
+		Secure:   true,
 		SameSite: http.SameSiteNoneMode,
 	}
 
@@ -248,7 +248,7 @@ func (r *mutationResolver) AddGameToWishlist(ctx context.Context, gameID int) (*
 		//var userPromo
 		//db.First()
 		fmt.Println("masuk email", user.Email, promo.Game.Name)
-		//mailjet.OnSale(user.Email, promo.Game.Name)
+		mailjet.OnSale(user.Email, promo.Game.Name)
 	}
 
 	return user, nil

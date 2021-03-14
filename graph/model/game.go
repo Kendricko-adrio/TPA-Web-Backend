@@ -25,7 +25,7 @@ type Game struct {
 	Items             []*Item          `json:"items" gorm:"foreignKey:GameID" gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
 	CreatedAt         time.Time        `json:"CreatedAt"`
 	UpdatedAt         time.Time        `json:"UpdatedAt"`
-	gorm.DeletedAt
+	DeletedAt		 gorm.DeletedAt
 }
 
 func GetAllGames() ([]*Game, error) {

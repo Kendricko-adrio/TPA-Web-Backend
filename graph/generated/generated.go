@@ -53,6 +53,12 @@ type ComplexityRoot struct {
 		UpdatedAt     func(childComplexity int) int
 	}
 
+	Avatar struct {
+		AvatarID    func(childComplexity int) int
+		AvatarPoint func(childComplexity int) int
+		AvatarURL   func(childComplexity int) int
+	}
+
 	AvatarFrame struct {
 		FrameID    func(childComplexity int) int
 		FramePoint func(childComplexity int) int
@@ -214,6 +220,7 @@ type ComplexityRoot struct {
 		InsertFrame              func(childComplexity int, frameID int) int
 		InsertGame               func(childComplexity int, game model.GameInput) int
 		InsertLike               func(childComplexity int, postID int) int
+		InsertPost               func(childComplexity int, desc string, postAsset string) int
 		InsertPromo              func(childComplexity int, promo model.PromoInput) int
 		InsertReview             func(childComplexity int, review string, helpful bool, gameID int) int
 		InsertTransaction        func(childComplexity int, userID int, recepientID int, total int, paymentTypeID int, transactionDetail []int) int
@@ -282,7 +289,6 @@ type ComplexityRoot struct {
 
 	Promo struct {
 		CreatedAt     func(childComplexity int) int
-		DeletedAt     func(childComplexity int) int
 		Game          func(childComplexity int) int
 		GameID        func(childComplexity int) int
 		PromoDiscount func(childComplexity int) int
@@ -324,6 +330,7 @@ type ComplexityRoot struct {
 		GetOnSale                  func(childComplexity int) int
 		GetPost                    func(childComplexity int, postID int) int
 		GetPromoByID               func(childComplexity int, id int) int
+		GetPurchasableAvatar       func(childComplexity int) int
 		GetPurchasableBg           func(childComplexity int) int
 		GetPurchasableFrame        func(childComplexity int) int
 		GetPurchasableMini         func(childComplexity int) int
@@ -432,6 +439,7 @@ type ComplexityRoot struct {
 		Country                 func(childComplexity int) int
 		CountryID               func(childComplexity int) int
 		CreatedAt               func(childComplexity int) int
+		CurrAvatar              func(childComplexity int) int
 		CurrBadge               func(childComplexity int) int
 		CurrBadgeID             func(childComplexity int) int
 		CurrFrame               func(childComplexity int) int
@@ -455,6 +463,7 @@ type ComplexityRoot struct {
 		Money                   func(childComplexity int) int
 		MyItem                  func(childComplexity int) int
 		Otp                     func(childComplexity int) int
+		OwnAvatar               func(childComplexity int) int
 		OwnBadge                func(childComplexity int) int
 		OwnFrame                func(childComplexity int) int
 		OwnMiniBg               func(childComplexity int) int
@@ -508,6 +517,7 @@ type MutationResolver interface {
 	InsertLike(ctx context.Context, postID int) (*model.LikeDetail, error)
 	InsertDislike(ctx context.Context, postID int) (*model.LikeDetail, error)
 	InsertReview(ctx context.Context, review string, helpful bool, gameID int) (*model.Post, error)
+	InsertPost(ctx context.Context, desc string, postAsset string) (*model.Post, error)
 	InsertPromo(ctx context.Context, promo model.PromoInput) (*model.Promo, error)
 	UpdatePromo(ctx context.Context, promo model.PromoInput, id int) (*model.Promo, error)
 	DeletePromo(ctx context.Context, id int) (*model.Promo, error)
@@ -546,6 +556,7 @@ type QueryResolver interface {
 	GetMostPositifReview(ctx context.Context) ([]*model.Game, error)
 	GetMostPositifReview2(ctx context.Context) ([]*model.GameAggregatePost, error)
 	GetTopSeller(ctx context.Context) ([]*model.TopSeller, error)
+	GetPurchasableAvatar(ctx context.Context) ([]*model.Avatar, error)
 	GetPurchasableFrame(ctx context.Context) ([]*model.AvatarFrame, error)
 	GetUserCart(ctx context.Context) ([]*model.Cart, error)
 	GetCommandPaginate(ctx context.Context, postID int, page int) ([]*model.CommandDetail, error)
@@ -643,6 +654,27 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Admin.UpdatedAt(childComplexity), true
+
+	case "Avatar.avatarId":
+		if e.complexity.Avatar.AvatarID == nil {
+			break
+		}
+
+		return e.complexity.Avatar.AvatarID(childComplexity), true
+
+	case "Avatar.avatarPoint":
+		if e.complexity.Avatar.AvatarPoint == nil {
+			break
+		}
+
+		return e.complexity.Avatar.AvatarPoint(childComplexity), true
+
+	case "Avatar.avatarUrl":
+		if e.complexity.Avatar.AvatarURL == nil {
+			break
+		}
+
+		return e.complexity.Avatar.AvatarURL(childComplexity), true
 
 	case "AvatarFrame.frameId":
 		if e.complexity.AvatarFrame.FrameID == nil {
@@ -1549,6 +1581,18 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Mutation.InsertLike(childComplexity, args["postId"].(int)), true
 
+	case "Mutation.insertPost":
+		if e.complexity.Mutation.InsertPost == nil {
+			break
+		}
+
+		args, err := ec.field_Mutation_insertPost_args(context.TODO(), rawArgs)
+		if err != nil {
+			return 0, false
+		}
+
+		return e.complexity.Mutation.InsertPost(childComplexity, args["desc"].(string), args["postAsset"].(string)), true
+
 	case "Mutation.insertPromo":
 		if e.complexity.Mutation.InsertPromo == nil {
 			break
@@ -1989,13 +2033,6 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Promo.CreatedAt(childComplexity), true
 
-	case "Promo.DeletedAt":
-		if e.complexity.Promo.DeletedAt == nil {
-			break
-		}
-
-		return e.complexity.Promo.DeletedAt(childComplexity), true
-
 	case "Promo.game":
 		if e.complexity.Promo.Game == nil {
 			break
@@ -2305,6 +2342,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.Query.GetPromoByID(childComplexity, args["Id"].(int)), true
+
+	case "Query.getPurchasableAvatar":
+		if e.complexity.Query.GetPurchasableAvatar == nil {
+			break
+		}
+
+		return e.complexity.Query.GetPurchasableAvatar(childComplexity), true
 
 	case "Query.getPurchasableBg":
 		if e.complexity.Query.GetPurchasableBg == nil {
@@ -2922,6 +2966,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.User.CreatedAt(childComplexity), true
 
+	case "User.currAvatar":
+		if e.complexity.User.CurrAvatar == nil {
+			break
+		}
+
+		return e.complexity.User.CurrAvatar(childComplexity), true
+
 	case "User.currBadge":
 		if e.complexity.User.CurrBadge == nil {
 			break
@@ -3082,6 +3133,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 		}
 
 		return e.complexity.User.Otp(childComplexity), true
+
+	case "User.ownAvatar":
+		if e.complexity.User.OwnAvatar == nil {
+			break
+		}
+
+		return e.complexity.User.OwnAvatar(childComplexity), true
 
 	case "User.ownBadge":
 		if e.complexity.User.OwnBadge == nil {
@@ -3350,6 +3408,15 @@ var sources = []*ast.Source{
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
+}`, BuiltIn: false},
+	{Name: "graph/avatar.graphqls", Input: `type Avatar{
+    avatarId: Int!
+    avatarUrl: String!
+    avatarPoint: String!
+}
+
+extend type Query{
+    getPurchasableAvatar: [Avatar!]!
 }`, BuiltIn: false},
 	{Name: "graph/avatar_frame.graphqls", Input: `type AvatarFrame{
     frameId: Int!
@@ -3647,6 +3714,7 @@ extend type Query{
 
 extend type Mutation {
     insertReview(review: String! helpful: Boolean! gameId: Int!): Post!
+    insertPost(desc: String! postAsset: String!): Post!
 }`, BuiltIn: false},
 	{Name: "graph/profile_background.graphqls", Input: `type ProfileBackground{
     backgroundId: Int!
@@ -3665,7 +3733,7 @@ extend type Query{
     game: Game!
     CreatedAt: Time!
     UpdatedAt: Time!
-    DeletedAt: Time
+#    DeletedAt: Time
 }
 
 extend type Query{
@@ -3848,6 +3916,8 @@ type User{
     currFrame: String!
     point: Int!
     myItem: [MyItem!]!
+    ownAvatar: [Avatar!]!
+    currAvatar: String!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time
@@ -4244,6 +4314,30 @@ func (ec *executionContext) field_Mutation_insertLike_args(ctx context.Context, 
 		}
 	}
 	args["postId"] = arg0
+	return args, nil
+}
+
+func (ec *executionContext) field_Mutation_insertPost_args(ctx context.Context, rawArgs map[string]interface{}) (map[string]interface{}, error) {
+	var err error
+	args := map[string]interface{}{}
+	var arg0 string
+	if tmp, ok := rawArgs["desc"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("desc"))
+		arg0, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["desc"] = arg0
+	var arg1 string
+	if tmp, ok := rawArgs["postAsset"]; ok {
+		ctx := graphql.WithPathContext(ctx, graphql.NewPathWithField("postAsset"))
+		arg1, err = ec.unmarshalNString2string(ctx, tmp)
+		if err != nil {
+			return nil, err
+		}
+	}
+	args["postAsset"] = arg1
 	return args, nil
 }
 
@@ -5369,6 +5463,111 @@ func (ec *executionContext) _Admin_DeletedAt(ctx context.Context, field graphql.
 	res := resTmp.(*time.Time)
 	fc.Result = res
 	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Avatar_avatarId(ctx context.Context, field graphql.CollectedField, obj *model.Avatar) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Avatar",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNInt2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Avatar_avatarUrl(ctx context.Context, field graphql.CollectedField, obj *model.Avatar) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Avatar",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarURL, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Avatar_avatarPoint(ctx context.Context, field graphql.CollectedField, obj *model.Avatar) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Avatar",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.AvatarPoint, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _AvatarFrame_frameId(ctx context.Context, field graphql.CollectedField, obj *model.AvatarFrame) (ret graphql.Marshaler) {
@@ -9270,6 +9469,48 @@ func (ec *executionContext) _Mutation_insertReview(ctx context.Context, field gr
 	return ec.marshalNPost2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _Mutation_insertPost(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Mutation",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	rawArgs := field.ArgumentMap(ec.Variables)
+	args, err := ec.field_Mutation_insertPost_args(ctx, rawArgs)
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	fc.Args = args
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Mutation().InsertPost(rctx, args["desc"].(string), args["postAsset"].(string))
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(*model.Post)
+	fc.Result = res
+	return ec.marshalNPost2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐPost(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _Mutation_insertPromo(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -11589,38 +11830,6 @@ func (ec *executionContext) _Promo_UpdatedAt(ctx context.Context, field graphql.
 	return ec.marshalNTime2timeᚐTime(ctx, field.Selections, res)
 }
 
-func (ec *executionContext) _Promo_DeletedAt(ctx context.Context, field graphql.CollectedField, obj *model.Promo) (ret graphql.Marshaler) {
-	defer func() {
-		if r := recover(); r != nil {
-			ec.Error(ctx, ec.Recover(ctx, r))
-			ret = graphql.Null
-		}
-	}()
-	fc := &graphql.FieldContext{
-		Object:     "Promo",
-		Field:      field,
-		Args:       nil,
-		IsMethod:   false,
-		IsResolver: false,
-	}
-
-	ctx = graphql.WithFieldContext(ctx, fc)
-	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
-		ctx = rctx // use context from middleware stack in children
-		return obj.DeletedAt, nil
-	})
-	if err != nil {
-		ec.Error(ctx, err)
-		return graphql.Null
-	}
-	if resTmp == nil {
-		return graphql.Null
-	}
-	res := resTmp.(*time.Time)
-	fc.Result = res
-	return ec.marshalOTime2ᚖtimeᚐTime(ctx, field.Selections, res)
-}
-
 func (ec *executionContext) _Provider_ID(ctx context.Context, field graphql.CollectedField, obj *model.Provider) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -12144,6 +12353,41 @@ func (ec *executionContext) _Query_getTopSeller(ctx context.Context, field graph
 	res := resTmp.([]*model.TopSeller)
 	fc.Result = res
 	return ec.marshalNtopSeller2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐTopSellerᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _Query_getPurchasableAvatar(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "Query",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   true,
+		IsResolver: true,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return ec.resolvers.Query().GetPurchasableAvatar(rctx)
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Avatar)
+	fc.Result = res
+	return ec.marshalNAvatar2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatarᚄ(ctx, field.Selections, res)
 }
 
 func (ec *executionContext) _Query_getPurchasableFrame(ctx context.Context, field graphql.CollectedField) (ret graphql.Marshaler) {
@@ -17049,6 +17293,76 @@ func (ec *executionContext) _User_myItem(ctx context.Context, field graphql.Coll
 	return ec.marshalNMyItem2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐMyItemᚄ(ctx, field.Selections, res)
 }
 
+func (ec *executionContext) _User_ownAvatar(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.OwnAvatar, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.([]*model.Avatar)
+	fc.Result = res
+	return ec.marshalNAvatar2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatarᚄ(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) _User_currAvatar(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	fc := &graphql.FieldContext{
+		Object:     "User",
+		Field:      field,
+		Args:       nil,
+		IsMethod:   false,
+		IsResolver: false,
+	}
+
+	ctx = graphql.WithFieldContext(ctx, fc)
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.CurrAvatar, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(string)
+	fc.Result = res
+	return ec.marshalNString2string(ctx, field.Selections, res)
+}
+
 func (ec *executionContext) _User_CreatedAt(ctx context.Context, field graphql.CollectedField, obj *model.User) (ret graphql.Marshaler) {
 	defer func() {
 		if r := recover(); r != nil {
@@ -18884,6 +19198,43 @@ func (ec *executionContext) _Admin(ctx context.Context, sel ast.SelectionSet, ob
 	return out
 }
 
+var avatarImplementors = []string{"Avatar"}
+
+func (ec *executionContext) _Avatar(ctx context.Context, sel ast.SelectionSet, obj *model.Avatar) graphql.Marshaler {
+	fields := graphql.CollectFields(ec.OperationContext, sel, avatarImplementors)
+
+	out := graphql.NewFieldSet(fields)
+	var invalids uint32
+	for i, field := range fields {
+		switch field.Name {
+		case "__typename":
+			out.Values[i] = graphql.MarshalString("Avatar")
+		case "avatarId":
+			out.Values[i] = ec._Avatar_avatarId(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "avatarUrl":
+			out.Values[i] = ec._Avatar_avatarUrl(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "avatarPoint":
+			out.Values[i] = ec._Avatar_avatarPoint(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		default:
+			panic("unknown field " + strconv.Quote(field.Name))
+		}
+	}
+	out.Dispatch()
+	if invalids > 0 {
+		return graphql.Null
+	}
+	return out
+}
+
 var avatarFrameImplementors = []string{"AvatarFrame"}
 
 func (ec *executionContext) _AvatarFrame(ctx context.Context, sel ast.SelectionSet, obj *model.AvatarFrame) graphql.Marshaler {
@@ -19753,6 +20104,11 @@ func (ec *executionContext) _Mutation(ctx context.Context, sel ast.SelectionSet)
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "insertPost":
+			out.Values[i] = ec._Mutation_insertPost(ctx, field)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "insertPromo":
 			out.Values[i] = ec._Mutation_insertPromo(ctx, field)
 			if out.Values[i] == graphql.Null {
@@ -20183,8 +20539,6 @@ func (ec *executionContext) _Promo(ctx context.Context, sel ast.SelectionSet, ob
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
-		case "DeletedAt":
-			out.Values[i] = ec._Promo_DeletedAt(ctx, field, obj)
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}
@@ -20406,6 +20760,20 @@ func (ec *executionContext) _Query(ctx context.Context, sel ast.SelectionSet) gr
 					}
 				}()
 				res = ec._Query_getTopSeller(ctx, field)
+				if res == graphql.Null {
+					atomic.AddUint32(&invalids, 1)
+				}
+				return res
+			})
+		case "getPurchasableAvatar":
+			field := field
+			out.Concurrently(i, func() (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Query_getPurchasableAvatar(ctx, field)
 				if res == graphql.Null {
 					atomic.AddUint32(&invalids, 1)
 				}
@@ -21644,6 +22012,16 @@ func (ec *executionContext) _User(ctx context.Context, sel ast.SelectionSet, obj
 			if out.Values[i] == graphql.Null {
 				invalids++
 			}
+		case "ownAvatar":
+			out.Values[i] = ec._User_ownAvatar(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
+		case "currAvatar":
+			out.Values[i] = ec._User_currAvatar(ctx, field, obj)
+			if out.Values[i] == graphql.Null {
+				invalids++
+			}
 		case "CreatedAt":
 			out.Values[i] = ec._User_CreatedAt(ctx, field, obj)
 			if out.Values[i] == graphql.Null {
@@ -21990,6 +22368,53 @@ func (ec *executionContext) _topSeller(ctx context.Context, sel ast.SelectionSet
 // endregion **************************** object.gotpl ****************************
 
 // region    ***************************** type.gotpl *****************************
+
+func (ec *executionContext) marshalNAvatar2ᚕᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatarᚄ(ctx context.Context, sel ast.SelectionSet, v []*model.Avatar) graphql.Marshaler {
+	ret := make(graphql.Array, len(v))
+	var wg sync.WaitGroup
+	isLen1 := len(v) == 1
+	if !isLen1 {
+		wg.Add(len(v))
+	}
+	for i := range v {
+		i := i
+		fc := &graphql.FieldContext{
+			Index:  &i,
+			Result: &v[i],
+		}
+		ctx := graphql.WithFieldContext(ctx, fc)
+		f := func(i int) {
+			defer func() {
+				if r := recover(); r != nil {
+					ec.Error(ctx, ec.Recover(ctx, r))
+					ret = nil
+				}
+			}()
+			if !isLen1 {
+				defer wg.Done()
+			}
+			ret[i] = ec.marshalNAvatar2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatar(ctx, sel, v[i])
+		}
+		if isLen1 {
+			f(i)
+		} else {
+			go f(i)
+		}
+
+	}
+	wg.Wait()
+	return ret
+}
+
+func (ec *executionContext) marshalNAvatar2ᚖgithubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatar(ctx context.Context, sel ast.SelectionSet, v *model.Avatar) graphql.Marshaler {
+	if v == nil {
+		if !graphql.HasFieldError(ctx, graphql.GetFieldContext(ctx)) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	return ec._Avatar(ctx, sel, v)
+}
 
 func (ec *executionContext) marshalNAvatarFrame2githubᚗcomᚋkendrickoᚑadrioᚋgqlgenᚑtodosᚋgraphᚋmodelᚐAvatarFrame(ctx context.Context, sel ast.SelectionSet, v model.AvatarFrame) graphql.Marshaler {
 	return ec._AvatarFrame(ctx, sel, &v)

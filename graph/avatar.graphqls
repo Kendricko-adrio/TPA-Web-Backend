@@ -1,0 +1,9 @@
+type Avatar{
+    avatarId: Int!
+    avatarUrl: String!
+    avatarPoint: String!
+}
+
+extend type Query{
+    getPurchasableAvatar: [Avatar!]!
+}

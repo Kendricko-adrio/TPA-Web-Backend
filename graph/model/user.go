@@ -59,6 +59,8 @@ type User struct {
 	CurrFrame               string               `json:"currFrame"`
 	Point                   int                  `json:"point"`
 	MyItem                  []*MyItem            `json:"myItem" gorm:"foreignKey:UserID"`
+	OwnAvatar               []*Avatar            `json:"ownAvatar" gorm:"many2many:users_avatar"`
+	CurrAvatar              string               `json:"currAvatar"`
 	CreatedAt               time.Time            `json:"CreatedAt"`
 	UpdatedAt               time.Time            `json:"UpdatedAt"`
 	DeletedAt               *time.Time           `json:"DeletedAt"`

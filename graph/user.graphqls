@@ -47,6 +47,8 @@ type User{
     currFrame: String!
     point: Int!
     myItem: [MyItem!]!
+    ownAvatar: [Avatar!]!
+    currAvatar: String!
     CreatedAt: Time!
     UpdatedAt: Time!
     DeletedAt: Time

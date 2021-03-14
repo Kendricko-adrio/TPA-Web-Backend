@@ -6,7 +6,7 @@ type Promo{
     game: Game!
     CreatedAt: Time!
     UpdatedAt: Time!
-    DeletedAt: Time
+#    DeletedAt: Time
 }
 
 extend type Query{

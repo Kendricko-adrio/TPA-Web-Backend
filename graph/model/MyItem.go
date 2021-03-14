@@ -46,6 +46,34 @@ func SeedMyItem(){
 		ItemID:    1,
 	})
 	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    2,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    2,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    3,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    3,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    4,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    4,
+	})
+	db.Create(&MyItem{
+		UserID:    2,
+		ItemID:    5,
+	})
+	db.Create(&MyItem{
 		UserID:    3,
 		ItemID:    1,
 	})

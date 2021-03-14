@@ -39,6 +39,31 @@ func (r *mutationResolver) InsertReview(ctx context.Context, review string, help
 	return post, nil
 }
 
+func (r *mutationResolver) InsertPost(ctx context.Context, desc string, postAsset string) (*model.Post, error) {
+	user := middleware.ForContext(ctx)
+	if user == nil {
+		return nil, fmt.Errorf("access denied")
+	}
+	db, err := database.Connect()
+	if err != nil {
+		panic(err)
+	}
+	close, err := db.DB()
+	defer close.Close()
+
+	post := &model.Post{
+		UserID:          user.UserID,
+		GameID:          1,
+		PostTypeID:      1,
+		PostDescription: desc,
+		PostAsset:       postAsset,
+	}
+
+	db.Create(post)
+
+	return post, nil
+}
+
 func (r *queryResolver) GetAllPost(ctx context.Context) ([]*model.Post, error) {
 	db, err := database.Connect()
 	if err != nil {
